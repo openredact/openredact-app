@@ -9,8 +9,8 @@ pip install -r requirements-dev.txt
 ### Running the server
 
 ```
-cd backend/app
-uvicorn main:app --reload
+cd backend
+uvicorn app.main:app --reload
 ```
 
 ### Testing

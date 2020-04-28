@@ -42,4 +42,32 @@ To run the hooks:
 pre-commit run --all-files
 ```
 
+## Deployment
+
+### Run the full stack using Docker-Compose
+
+You can simply make the backend available at port 8000 and the frontend at port 80 by running:
+```
+docker-compose up
+```
+
+### Run the frontend using Docker
+
+```
+cd frontend
+docker build -t openredact-frontend .
+docker run -p 80:80 openredact-frontend
+```
+
+This will build the frontend inside a node Docker container and deploy the result in an nginx container.
+For more details about this procedure see [React in Docker with Nginx, built with multi-stage Docker builds
+, including testing](https://medium.com/@tiangolo/react-in-docker-with-nginx-built-with-multi-stage-docker-builds-including-testing-8cc49d6ec305). 
+
+### Run the backend using Docker
+
+```
+cd backend
+docker build -t openredact-backend .
+docker run -p 8000:8000 openredact-backend
+```
 

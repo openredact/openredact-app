@@ -1,0 +1,12 @@
+version: "3.3"
+services:
+  backend:
+    build: ./backend
+    image: openredact-backend
+    ports:
+      - "8000:8000"
+  frontend:
+    build: ./frontend
+    image: openredact-frontend
+    ports:
+      - "80:80"
