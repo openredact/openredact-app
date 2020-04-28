@@ -1,3 +1,19 @@
+# Development
+
+## Lint code using eslint
+
+```
+npm run lint
+```
+
+## Format Code
+
+```
+npm run format
+```
+
+# Create React App
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

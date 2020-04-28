@@ -16,6 +16,7 @@ uvicorn app.main:app --reload
 ### Testing
 
 The tests can be executed with:
+
 ```
 pytest --cov-report term --cov=app
 ```
