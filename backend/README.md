@@ -20,3 +20,7 @@ The tests can be executed with:
 ```
 pytest --cov-report term --cov=app
 ```
+
+### PyCharm Setup
+
+To have imports resolve correctly mark the backend folder as a Sources Root.
