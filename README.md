@@ -26,7 +26,8 @@ _**:warning: Disclaimer :warning::**_ This is a prototype. Do not use in product
 
 ## Development
 
-To setup development follow the instructions in [backend](backend/README.md) and [frontend](frontend/README.md).
+For development follow these instructions and then the instructions in the development documentation in the respective
+module [backend](backend/README.md) or [frontend](frontend/README.md).
 
 ### Install the pre-commit hooks
 
@@ -40,6 +41,33 @@ To run the hooks:
 ```
 pre-commit run --all-files
 ```
+
+### Install the python dependencies
+
+Install the dependencies for production using:
+
+```
+cd backend
+pip install -r requirements.txt
+```
+
+For development you will further need to install:
+
+```
+pip install -r requirements-dev.txt
+```
+
+Our own dependencies are not published on PyPI (yet). Thus, they have to be installed manually from the local file
+system (or the github repo). To install them from their checkout directories run:
+
+```
+pip install -e path/to/pii-identifier
+pip install -e path/to/expose-text
+pip install -e path/to/anonymizer
+```
+
+The `-e` flag installs the dependencies in editable more (aka setuptools develop mode). This means any changes in the
+checkout directory are directly adopted.
 
 ## Deployment
 
