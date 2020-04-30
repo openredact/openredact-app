@@ -1,10 +1,17 @@
 import React from "react";
 import "./App.css";
+import NavBar from "./NavBar";
+import ConfigMenu from "./ConfigMenu";
+import MainView from "./MainView";
 
 function App() {
-  const name = "Test";
-  const element = <h1>Hello, {name}</h1>;
-  return <div className="App">{element}</div>;
+  return (
+    <div>
+      <NavBar />
+      <ConfigMenu />
+      <MainView />
+    </div>
+  );
 }
 
 export default App;
