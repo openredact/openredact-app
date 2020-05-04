@@ -1,7 +1,7 @@
 import React from "react";
 import AnnotationView from "./AnnotationView";
 import AnonymizationView from "./AnonymizationView";
-import "./MainView.css";
+import "./MainView.sass";
 
 function MainView() {
   return (

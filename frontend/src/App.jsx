@@ -1,5 +1,5 @@
 import React from "react";
-import "./App.css";
+import "./App.sass";
 import NavBar from "./NavBar";
 import ConfigMenu from "./ConfigMenu";
 import MainView from "./MainView";
