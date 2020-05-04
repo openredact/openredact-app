@@ -3,13 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@blueprintjs/core": "^3.26.0",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "@blueprintjs/core": "^3.26.0"
   },
   "scripts": {
     "start": "./node_modules/.bin/react-scripts start",
@@ -25,11 +22,13 @@
       "airbnb",
       "plugin:jsx-a11y/recommended",
       "prettier",
-      "prettier/react"
+      "prettier/react",
+      "@blueprintjs/eslint-config"
     ],
     "plugins": [
       "jsx-a11y",
-      "react-hooks"
+      "react-hooks",
+      "@blueprintjs/blueprint"
     ],
     "rules": {
       "react-hooks/rules-of-hooks": "error",
@@ -40,12 +39,19 @@
     "last 1 Chrome version"
   ],
   "devDependencies": {
+    "@blueprintjs/eslint-config": "^0.3.0",
+    "@blueprintjs/eslint-plugin-blueprint": "^0.1.0",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.3",
-    "eslint-plugin-react-hooks": "^3.0.0",
+    "eslint-plugin-react-hooks": "^2.5.0",
+    "node-sass": "^4.14.0",
     "prettier": "^2.0.5",
+    "tslint": "^6.1.2",
     "typescript": "^3.8.3"
   }
 }
