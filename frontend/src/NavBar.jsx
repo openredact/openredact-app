@@ -1,7 +1,7 @@
 import React from "react";
 import "./NavBar.sass";
 
-function NavBar() {
+const NavBar = () => {
   return (
     <div>
       <nav className="bp3-navbar bp3-dark">
@@ -17,6 +17,6 @@ function NavBar() {
       </nav>
     </div>
   );
-}
+};
 
 export default NavBar;

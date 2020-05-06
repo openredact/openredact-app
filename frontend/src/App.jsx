@@ -4,7 +4,7 @@ import NavBar from "./NavBar";
 import ConfigMenu from "./ConfigMenu";
 import MainView from "./MainView";
 
-function App() {
+const App = () => {
   return (
     <div>
       <NavBar />
@@ -12,6 +12,6 @@ function App() {
       <MainView />
     </div>
   );
-}
+};
 
 export default App;

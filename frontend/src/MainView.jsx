@@ -3,13 +3,13 @@ import AnnotationView from "./AnnotationView";
 import AnonymizationView from "./AnonymizationView";
 import "./MainView.sass";
 
-function MainView() {
+const MainView = () => {
   return (
     <div className="main-view">
       <AnnotationView />
       <AnonymizationView />
     </div>
   );
-}
+};
 
 export default MainView;
