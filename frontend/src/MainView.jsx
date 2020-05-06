@@ -1,13 +1,13 @@
 import React from "react";
-import AnnotationView from "./AnnotationView";
-import AnonymizationView from "./AnonymizationView";
+import AnnotationControl from "./annotation/Control";
+import PreviewControl from "./preview/Control";
 import "./MainView.sass";
 
 const MainView = () => {
   return (
     <div className="main-view">
-      <AnnotationView />
-      <AnonymizationView />
+      <AnnotationControl />
+      <PreviewControl />
     </div>
   );
 };
