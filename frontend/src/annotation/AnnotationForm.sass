@@ -1,0 +1,42 @@
+@import "~@blueprintjs/core/lib/scss/variables"
+
+.annotation-mark
+  cursor: pointer
+  margin: 0 0.15em
+  padding: 0.25em 0.4em
+  font-weight: bold
+  color: $black
+  background: #ffe184
+
+  .tag
+    margin-left: 6px
+    text-transform: uppercase
+    vertical-align: middle
+    font-size: 0.675em
+    font-weight: bold
+
+  .remove
+    top: -8px
+    left: -8px
+    width: 16px
+    height: 16px
+    color: $white
+    background: $dark-gray5
+    opacity: 0
+    position: absolute
+    transition: opacity 0.1s ease
+    border-radius: 50%
+
+  &:hover
+    .remove
+      opacity: 100
+
+.annotation-header
+  margin-bottom: 1rem
+
+  button
+    > span > span
+      margin-left: 0.5rem
+
+  .tag
+    margin-right: 0.5rem

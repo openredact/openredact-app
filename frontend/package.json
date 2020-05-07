@@ -4,10 +4,14 @@
   "private": true,
   "dependencies": {
     "@blueprintjs/core": "^3.26.0",
+    "@blueprintjs/icons": "^3.16.0",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-dropzone": "^11.0.1",
-    "react-scripts": "3.4.1"
+    "react-hotkeys": "^2.0.0",
+    "react-scripts": "3.4.1",
+    "react-text-annotate": "^0.3.0"
   },
   "scripts": {
     "start": "./node_modules/.bin/react-scripts start",
