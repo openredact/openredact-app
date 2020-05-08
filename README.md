@@ -29,20 +29,7 @@ _**:warning: Disclaimer :warning::**_ This is a prototype. Do not use in product
 For development follow these instructions and then the instructions in the development documentation in the respective
 module [backend](backend/README.md) or [frontend](frontend/README.md).
 
-### Install the pre-commit hooks
-
-```
-pre-commit install
-git config --bool flake8.strict true  # Makes the commit fail if flake8 reports an error
-```
-
-To run the hooks:
-
-```
-pre-commit run --all-files
-```
-
-### Install the python dependencies
+### Install the backend dependencies
 
 Install the dependencies for production using:
 
@@ -69,7 +56,31 @@ pip install -e path/to/anonymizer
 The `-e` flag installs the dependencies in editable more (aka setuptools develop mode). This means any changes in the
 checkout directory are directly adopted.
 
+### Install the frontend dependencies
+
+```
+cd frontend
+npm install
+```
+
+### Install the pre-commit hooks
+
+`pre-commit` is a Python tool to manage our pre-commit hooks. It is installed with the Python dev dependencies.
+
+```
+pre-commit install
+git config --bool flake8.strict true  # Makes the commit fail if flake8 reports an error
+```
+
+To run the hooks:
+
+```
+pre-commit run --all-files
+```
+
 ## Deployment
+
+**Note:** Docker is currently not working because our own dependencies will not be installed yet by the backend image.
 
 ### Run the full stack using Docker-Compose
 
