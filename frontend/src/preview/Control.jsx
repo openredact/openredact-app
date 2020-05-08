@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Elevation } from "@blueprintjs/core";
+import { Button, Card, Elevation } from "@blueprintjs/core";
 import "./Control.sass";
 import PropTypes from "prop-types";
 import PreviewText from "./Text";
@@ -34,6 +34,11 @@ const PreviewControl = ({ tokens, anonymizations, whitespace }) => {
   return (
     <Card className="preview-card" elevation={Elevation.ONE}>
       <PreviewText text={text} />
+      {text !== "" && (
+        <Button className="download-button" intent="success">
+          Download
+        </Button>
+      )}
     </Card>
   );
 };

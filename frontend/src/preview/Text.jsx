@@ -3,7 +3,15 @@ import { EditableText } from "@blueprintjs/core";
 import PropTypes from "prop-types";
 
 const PreviewText = ({ text }) => {
-  return <EditableText disabled placeholder="" value={text} />;
+  return (
+    <EditableText
+      disabled
+      multiline
+      className="preview-text"
+      placeholder=""
+      value={text}
+    />
+  );
 };
 
 PreviewText.propTypes = {
