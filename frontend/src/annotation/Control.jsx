@@ -1,12 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Elevation, Icon } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import "./Control.sass";
 import PropTypes from "prop-types";
 import Dropzone from "./Dropzone";
 import AnnotationForm from "./AnnotationForm";
-
-const TAGS = ["PER", "LOC", "ORG", "MISC"];
+import API from "../api";
 
 const AnnotationControl = ({
   tokens,
@@ -15,6 +14,17 @@ const AnnotationControl = ({
   onFileDrop,
   onCancel,
 }) => {
+  const [tags, setTags] = useState([]);
+
+  useEffect(() => {
+    API.get("nlp/tags/").then((response) => {
+      setTags(response.data);
+    });
+    // .catch((error) => {
+    //   console.log(error);
+    // });
+  }, []);
+
   return (
     <Card className="annotation-card" elevation={Elevation.ONE}>
       {tokens.length === 0 && <Dropzone onFileDrop={onFileDrop} />}
@@ -23,7 +33,7 @@ const AnnotationControl = ({
           tokens={tokens}
           annotations={annotations}
           onAnnotationsChange={onAnnotationsChange}
-          tags={TAGS}
+          tags={tags}
         />
       )}
       {tokens.length > 0 && (
