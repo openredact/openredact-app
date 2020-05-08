@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Elevation, Icon } from "@blueprintjs/core";
+import { Card, Elevation, Icon, Spinner } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import "./Control.sass";
 import PropTypes from "prop-types";
@@ -13,6 +13,7 @@ const AnnotationControl = ({
   onAnnotationsChange,
   onFileDrop,
   onCancel,
+  isLoading,
 }) => {
   const [tags, setTags] = useState([]);
 
@@ -27,7 +28,10 @@ const AnnotationControl = ({
 
   return (
     <Card className="annotation-card" elevation={Elevation.ONE}>
-      {tokens.length === 0 && <Dropzone onFileDrop={onFileDrop} />}
+      {isLoading && <Spinner />}
+      {tokens.length === 0 && !isLoading && (
+        <Dropzone onFileDrop={onFileDrop} />
+      )}
       {tokens.length > 0 && (
         <AnnotationForm
           tokens={tokens}
@@ -54,6 +58,7 @@ AnnotationControl.propTypes = {
   onAnnotationsChange: PropTypes.func.isRequired,
   onFileDrop: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 export default AnnotationControl;

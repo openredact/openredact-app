@@ -9,6 +9,7 @@ const MainView = () => {
   const [whitespace, setWhitespace] = useState([]);
   const [annotations, setAnnotations] = useState([]);
   const [anonymizations, setAnonymizations] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onAnnotationsChange = (newAnnotations) => {
     setAnnotations(newAnnotations);
@@ -31,27 +32,28 @@ const MainView = () => {
   };
 
   const postFile = (files) => {
+    setIsLoading(true);
+
     const formData = new FormData();
     formData.append("file", files[0]);
-    API.post("nlp/extract-text/", formData, {
+
+    API.post("nlp/find-piis/", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
-    }).then(() => {
-      // .then((response) => {
-      // console.log(response);
-      const myAnnotations = [
-        { start: 1, end: 2, tag: "ORG" },
-        { start: 2, end: 4, tag: "PER" },
-      ];
-      setTokens(["My", "text", "needs", "annotating", "for", "NLP"]);
-      setWhitespace([true, true, true, true, true, true]);
-      setAnnotations(myAnnotations);
-      onAnnotationsChange(myAnnotations);
-    });
-    // .catch((error) => {
-    //   console.log(error);
-    // });
+    })
+      .then((response) => {
+        const myAnnotations = response.data.piis;
+        setTokens(response.data.tokens);
+        setWhitespace(response.data.whitespace);
+        setAnnotations(myAnnotations);
+        onAnnotationsChange(myAnnotations);
+
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -62,6 +64,7 @@ const MainView = () => {
         onAnnotationsChange={onAnnotationsChange}
         onFileDrop={postFile}
         onCancel={onCancel}
+        isLoading={isLoading}
       />
       <PreviewControl
         tokens={tokens}
