@@ -76,8 +76,10 @@ checkout directory are directly adopted.
 You can simply make the backend available at port 8000 and the frontend at port 80 by running:
 
 ```
-docker-compose up
+docker-compose up --build
 ```
+
+The option `--build` rebuilds containers on change.
 
 ### Run the frontend using Docker
 

@@ -7,16 +7,14 @@ import PropTypes from "prop-types";
 
 import "./AnnotationForm.sass";
 
-const AnnotationForm = ({ initialAnnotations, tokens, tags }) => {
-  const [annotations, setAnnotations] = useState(initialAnnotations);
+const AnnotationForm = ({ tokens, annotations, onAnnotationsChange, tags }) => {
   const [activeTag, setActiveTag] = useState(tags[0]);
 
   const onAnnotationRemove = (tagProps) => {
-    setAnnotations(
-      annotations.filter(
-        (item) => item.start !== tagProps.start || item.end !== tagProps.end
-      )
+    const newAnnotations = annotations.filter(
+      (item) => item.start !== tagProps.start || item.end !== tagProps.end
     );
+    onAnnotationsChange(newAnnotations);
   };
 
   const hotkeyHandlers = {
@@ -54,7 +52,7 @@ const AnnotationForm = ({ initialAnnotations, tokens, tags }) => {
         <TokenAnnotator
           tokens={tokens}
           value={annotations}
-          onChange={(newAnnotations) => setAnnotations(newAnnotations)}
+          onChange={onAnnotationsChange}
           getSpan={(span) => ({
             ...span,
             tag: activeTag,
@@ -79,8 +77,9 @@ const AnnotationForm = ({ initialAnnotations, tokens, tags }) => {
 };
 
 AnnotationForm.propTypes = {
-  initialAnnotations: PropTypes.arrayOf(PropTypes.object).isRequired,
   tokens: PropTypes.arrayOf(PropTypes.string).isRequired,
+  annotations: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onAnnotationsChange: PropTypes.func.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 

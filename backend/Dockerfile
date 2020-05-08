@@ -7,7 +7,6 @@ RUN pip install gunicorn
 
 COPY ./app /app/
 
-WORKDIR /app
-CMD ["gunicorn", "-b", "0.0.0.0:8000", "-w", "2", "-k", "uvicorn.workers.UvicornWorker", "main:app"]
+CMD ["gunicorn", "-b", "0.0.0.0:8000", "-w", "2", "-k", "uvicorn.workers.UvicornWorker", "app.main:app"]
 
 EXPOSE 8000
