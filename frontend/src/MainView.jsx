@@ -6,18 +6,26 @@ import API from "./api";
 
 const MainView = () => {
   const [tokens, setTokens] = useState([]);
+  const [whitespace, setWhitespace] = useState([]);
   const [annotations, setAnnotations] = useState([]);
   const [anonymizations, setAnonymizations] = useState([]);
 
   const onAnnotationsChange = (newAnnotations) => {
     setAnnotations(newAnnotations);
-    // query anonymizer backend with annotations and their tokens
-    // (e.g. {text: "Foo Bar", tag: "Misc"}
-    setAnonymizations([{ start: 2, end: 4, text: newAnnotations.length }]);
+
+    // TODO query anonymizer backend with annotations and their tokens
+    //  (e.g. {text: "Foo Bar", tag: "Misc"}
+    // for now replace every annotation with XXX
+    const newAnonymizations = newAnnotations.map((myAnnotation) => {
+      return { start: myAnnotation.start, end: myAnnotation.end, text: "XXX" };
+    });
+
+    setAnonymizations(newAnonymizations);
   };
 
   const onCancel = () => {
     setTokens([]);
+    setWhitespace([]);
     setAnnotations([]);
     setAnonymizations([]);
   };
@@ -37,6 +45,7 @@ const MainView = () => {
         { start: 2, end: 4, tag: "PER" },
       ];
       setTokens(["My", "text", "needs", "annotating", "for", "NLP"]);
+      setWhitespace([true, true, true, true, true, true]);
       setAnnotations(myAnnotations);
       onAnnotationsChange(myAnnotations);
     });
@@ -54,7 +63,11 @@ const MainView = () => {
         onFileDrop={postFile}
         onCancel={onCancel}
       />
-      <PreviewControl tokens={tokens} anonymizations={anonymizations} />
+      <PreviewControl
+        tokens={tokens}
+        anonymizations={anonymizations}
+        whitespace={whitespace}
+      />
     </div>
   );
 };
