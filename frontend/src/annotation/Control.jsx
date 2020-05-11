@@ -32,7 +32,7 @@ const AnnotationControl = ({
       {tokens.length === 0 && !isLoading && (
         <Dropzone onFileDrop={onFileDrop} />
       )}
-      {tokens.length > 0 && (
+      {tokens.length > 0 && tags.length > 0 && (
         <AnnotationForm
           tokens={tokens}
           annotations={annotations}
