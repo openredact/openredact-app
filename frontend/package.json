@@ -28,6 +28,7 @@
       "react-app",
       "airbnb",
       "plugin:jsx-a11y/recommended",
+      "plugin:react-hooks/recommended",
       "prettier",
       "prettier/react",
       "@blueprintjs/eslint-config"
@@ -36,11 +37,7 @@
       "jsx-a11y",
       "react-hooks",
       "@blueprintjs/blueprint"
-    ],
-    "rules": {
-      "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "warn"
-    }
+    ]
   },
   "browserslist": [
     "last 1 Chrome version"
@@ -55,7 +52,7 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.3",
-    "eslint-plugin-react-hooks": "^2.5.0",
+    "eslint-plugin-react-hooks": "^3.0.0",
     "node-sass": "^4.14.0",
     "prettier": "^2.0.5",
     "tslint": "^6.1.2",
