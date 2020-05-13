@@ -16,7 +16,7 @@ async def extract_text(file: UploadFile = File(...), anonymizations: str = Form(
 
     wrapper = BinaryWrapper(content, extension)
     for alteration in json.loads(anonymizations):
-        wrapper.add_alter(**alteration)
+        wrapper.add_alter(alteration["startChar"], alteration["endChar"], alteration["text"])
     wrapper.apply_alters()
 
     return StreamingResponse(io.BytesIO(wrapper.bytes))

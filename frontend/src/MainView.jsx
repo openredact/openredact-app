@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { saveAs } from "file-saver";
 import AnnotationControl from "./annotation/Control";
 import PreviewControl from "./preview/Control";
@@ -6,6 +6,7 @@ import "./MainView.sass";
 import API from "./api";
 
 const MainView = () => {
+  const [tokenization, setTokenization] = useState([]);
   const [tokens, setTokens] = useState([]);
   const [whitespace, setWhitespace] = useState([]);
   const [annotations, setAnnotations] = useState([]);
@@ -13,17 +14,25 @@ const MainView = () => {
   const [isLoading, setIsLoading] = useState(false);
   const fileFormData = useRef({});
 
-  const onAnnotationsChange = (newAnnotations) => {
-    setAnnotations(newAnnotations);
-
+  useEffect(() => {
     // TODO query anonymizer backend with annotations and their tokens
     //  (e.g. {text: "Foo Bar", tag: "Misc"}
     // for now replace every annotation with XXX
-    const newAnonymizations = newAnnotations.map((myAnnotation) => {
-      return { start: myAnnotation.start, end: myAnnotation.end, text: "XXX" };
+    const newAnonymizations = annotations.map((myAnnotation) => {
+      return {
+        start: myAnnotation.start,
+        end: myAnnotation.end,
+        startChar: tokenization[myAnnotation.start].start_char,
+        endChar: tokenization[myAnnotation.end - 1].end_char,
+        text: "XXX",
+      };
     });
 
     setAnonymizations(newAnonymizations);
+  }, [tokenization, annotations]);
+
+  const onAnnotationsChange = (newAnnotations) => {
+    setAnnotations(newAnnotations);
   };
 
   const onCancel = () => {
@@ -31,6 +40,7 @@ const MainView = () => {
     setWhitespace([]);
     setAnnotations([]);
     setAnonymizations([]);
+    setTokenization([]);
   };
 
   const onFileDrop = (files) => {
@@ -46,9 +56,19 @@ const MainView = () => {
       },
     })
       .then((response) => {
-        const myAnnotations = response.data.piis;
-        setTokens(response.data.tokens);
-        setWhitespace(response.data.whitespace);
+        const myTokens = response.data.tokens.map((token) => token.text);
+        setTokens(myTokens);
+        const myWhitespace = response.data.tokens.map((token) => token.has_ws);
+        setWhitespace(myWhitespace);
+        setTokenization(response.data.tokens);
+
+        const myAnnotations = response.data.piis.map((pii) => {
+          const annotation = {};
+          annotation.start = pii.start_tok;
+          annotation.end = pii.end_tok;
+          annotation.tag = pii.tag;
+          return annotation;
+        });
         setAnnotations(myAnnotations);
         onAnnotationsChange(myAnnotations);
 
