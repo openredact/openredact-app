@@ -10,6 +10,8 @@ import "./AnnotationForm.sass";
 const AnnotationForm = ({ tokens, annotations, onAnnotationsChange, tags }) => {
   const [activeTag, setActiveTag] = useState(tags[0]);
 
+  const textTokens = tokens.map((token) => token.text);
+
   const onAnnotationRemove = (tagProps) => {
     const newAnnotations = annotations.filter(
       (item) => item.start !== tagProps.start || item.end !== tagProps.end
@@ -50,7 +52,7 @@ const AnnotationForm = ({ tokens, annotations, onAnnotationsChange, tags }) => {
 
       <div className="annotation-body">
         <TokenAnnotator
-          tokens={tokens}
+          tokens={textTokens}
           value={annotations}
           onChange={onAnnotationsChange}
           getSpan={(span) => ({
@@ -77,7 +79,7 @@ const AnnotationForm = ({ tokens, annotations, onAnnotationsChange, tags }) => {
 };
 
 AnnotationForm.propTypes = {
-  tokens: PropTypes.arrayOf(PropTypes.string).isRequired,
+  tokens: PropTypes.arrayOf(PropTypes.object).isRequired,
   annotations: PropTypes.arrayOf(PropTypes.object).isRequired,
   onAnnotationsChange: PropTypes.func.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,

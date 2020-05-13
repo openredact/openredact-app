@@ -4,8 +4,8 @@ import "./Control.sass";
 import PropTypes from "prop-types";
 import PreviewText from "./Text";
 
-const PreviewControl = ({ tokens, anonymizations, whitespace, onDownload }) => {
-  const anonymize = (myTokens, myAnonymizations, myWhitespace) => {
+const PreviewControl = ({ tokens, anonymizations, onDownload }) => {
+  const anonymize = (myTokens, myAnonymizations) => {
     let skipNextTokens = 0;
     const anonymizedTokens = myTokens.map((token, idx) => {
       if (skipNextTokens > 0) {
@@ -19,17 +19,17 @@ const PreviewControl = ({ tokens, anonymizations, whitespace, onDownload }) => {
         skipNextTokens = anonymization.end - anonymization.start - 1;
         return anonymization.text;
       }
-      return token;
+      return token.text;
     });
 
     return anonymizedTokens.reduce(
       (acc, cur, idx) =>
-        acc + cur + (cur !== "" && myWhitespace[idx] ? " " : ""),
+        acc + cur + (cur !== "" && tokens[idx].has_ws ? " " : ""),
       ""
     );
   };
 
-  const text = anonymize(tokens, anonymizations, whitespace);
+  const text = anonymize(tokens, anonymizations);
 
   return (
     <Card className="preview-card" elevation={Elevation.ONE}>
@@ -48,9 +48,8 @@ const PreviewControl = ({ tokens, anonymizations, whitespace, onDownload }) => {
 };
 
 PreviewControl.propTypes = {
-  tokens: PropTypes.arrayOf(PropTypes.string).isRequired,
+  tokens: PropTypes.arrayOf(PropTypes.object).isRequired,
   anonymizations: PropTypes.arrayOf(PropTypes.object).isRequired,
-  whitespace: PropTypes.arrayOf(PropTypes.bool).isRequired,
   onDownload: PropTypes.func.isRequired,
 };
 

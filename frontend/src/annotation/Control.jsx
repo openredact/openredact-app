@@ -53,7 +53,7 @@ const AnnotationControl = ({
 };
 
 AnnotationControl.propTypes = {
-  tokens: PropTypes.arrayOf(PropTypes.string).isRequired,
+  tokens: PropTypes.arrayOf(PropTypes.object).isRequired,
   annotations: PropTypes.arrayOf(PropTypes.object).isRequired,
   onAnnotationsChange: PropTypes.func.isRequired,
   onFileDrop: PropTypes.func.isRequired,
