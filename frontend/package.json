@@ -6,6 +6,7 @@
     "@blueprintjs/core": "^3.26.0",
     "@blueprintjs/icons": "^3.16.0",
     "axios": "^0.19.2",
+    "file-saver": "^2.0.2",
     "prop-types": "^15.7.2",
     "query-string": "^6.12.1",
     "react": "^16.13.1",

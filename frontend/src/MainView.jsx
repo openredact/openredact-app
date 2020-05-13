@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import { saveAs } from "file-saver";
 import AnnotationControl from "./annotation/Control";
 import PreviewControl from "./preview/Control";
 import "./MainView.sass";
@@ -10,6 +11,7 @@ const MainView = () => {
   const [annotations, setAnnotations] = useState([]);
   const [anonymizations, setAnonymizations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const fileFormData = useRef({});
 
   const onAnnotationsChange = (newAnnotations) => {
     setAnnotations(newAnnotations);
@@ -31,11 +33,12 @@ const MainView = () => {
     setAnonymizations([]);
   };
 
-  const postFile = (files) => {
+  const onFileDrop = (files) => {
     setIsLoading(true);
 
     const formData = new FormData();
     formData.append("file", files[0]);
+    fileFormData.current = formData;
 
     API.post("nlp/find-piis/", formData, {
       headers: {
@@ -56,13 +59,31 @@ const MainView = () => {
       });
   };
 
+  const onDownload = () => {
+    const formData = fileFormData.current;
+    formData.set("anonymizations", JSON.stringify(anonymizations));
+    API.post("file/anonymize/", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      responseType: "blob",
+    })
+      .then((response) => {
+        const blob = new Blob([response.data]);
+        saveAs(blob, formData.get("file").name);
+      })
+      .catch
+      // TODO
+      ();
+  };
+
   return (
     <div className="main-view">
       <AnnotationControl
         tokens={tokens}
         annotations={annotations}
         onAnnotationsChange={onAnnotationsChange}
-        onFileDrop={postFile}
+        onFileDrop={onFileDrop}
         onCancel={onCancel}
         isLoading={isLoading}
       />
@@ -70,6 +91,7 @@ const MainView = () => {
         tokens={tokens}
         anonymizations={anonymizations}
         whitespace={whitespace}
+        onDownload={onDownload}
       />
     </div>
   );
