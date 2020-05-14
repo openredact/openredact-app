@@ -8,8 +8,10 @@ const App = () => {
   return (
     <div>
       <NavBar />
-      <ConfigMenu />
-      <MainView />
+      <div className="grid-container">
+        <ConfigMenu />
+        <MainView />
+      </div>
     </div>
   );
 };
