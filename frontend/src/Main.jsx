@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { saveAs } from "file-saver";
 import AnnotationControl from "./annotation/Control";
 import PreviewControl from "./preview/Control";
-import "./MainView.sass";
+import "./Main.sass";
 import API from "./api";
 
-const MainView = () => {
+const Main = () => {
   const [tokens, setTokens] = useState([]);
   const [annotations, setAnnotations] = useState([]);
   const [anonymizations, setAnonymizations] = useState([]);
@@ -104,4 +104,4 @@ const MainView = () => {
   );
 };
 
-export default MainView;
+export default Main;

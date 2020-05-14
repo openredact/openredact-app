@@ -2,7 +2,7 @@ import React from "react";
 import "./App.sass";
 import NavBar from "./NavBar";
 import ConfigMenu from "./ConfigMenu";
-import MainView from "./MainView";
+import Main from "./Main";
 
 const App = () => {
   return (
@@ -10,7 +10,7 @@ const App = () => {
       <NavBar />
       <div className="grid-container">
         <ConfigMenu />
-        <MainView />
+        <Main />
       </div>
     </div>
   );
