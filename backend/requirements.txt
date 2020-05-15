@@ -1,5 +1,5 @@
 fastapi==0.54.1
 uvicorn==0.11.3
 python-multipart==0.0.5
-https://github.com/openredact/expose-text/archive/master.tar.gz
-https://github.com/openredact/pii-identifier/archive/master.tar.gz
+git+ssh://git@github.com/openredact/expose-text.git#egg=expose-text
+git+ssh://git@github.com/openredact/pii-identifier.git#egg=pii-identifier
