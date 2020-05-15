@@ -20,8 +20,6 @@ RUN echo "$ssh_prv_key" > /root/.ssh/id_rsa && \
 RUN pip install git+ssh://git@github.com/openredact/expose-text.git#egg=expose-text
 RUN pip install git+ssh://git@github.com/openredact/pii-identifier.git#egg=pii-identifier
 
-WORKDIR /app
-
 # Install pypi packages
 COPY requirements.txt .
 
