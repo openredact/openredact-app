@@ -87,7 +87,14 @@ pre-commit run --all-files
 You can simply make the backend available at port 8000 and the frontend at port 80 by running:
 
 ```
+# Set your SSH keys
+export SSH_PRV_KEY="$(cat ~/.ssh/id_rsa)"
+export SSH_PUB_KEY="$(cat ~/.ssh/id_rsa.pub)"
+
 docker-compose up --build
+
+# Dev
+docker-compose up -f docker-compose.dev.yml
 ```
 
 The option `--build` rebuilds containers on change.
@@ -98,6 +105,9 @@ The option `--build` rebuilds containers on change.
 cd frontend
 docker build -t openredact-frontend .
 docker run -p 80:80 openredact-frontend
+
+# Dev build
+docker build -t openredact-frontend-dev -f Dockerfile.dev .
 ```
 
 This will build the frontend inside a node Docker container and deploy the result in an nginx container.
@@ -106,8 +116,13 @@ For more details about this procedure see [React in Docker with Nginx, built wit
 
 ### Run the backend using Docker
 
+To build the backend Docker image, you need to add SSH keys for installing dependencies from private GitHub repos.
+
 ```
 cd backend
-docker build -t openredact-backend .
+docker build -t openredact-backend \
+    --build-arg ssh_prv_key="$(cat ~/.ssh/id_rsa)" \
+    --build-arg ssh_pub_key="$(cat ~/.ssh/id_rsa.pub)" .
 docker run -p 8000:8000 openredact-backend
 ```
+
