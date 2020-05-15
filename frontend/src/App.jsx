@@ -2,14 +2,16 @@ import React from "react";
 import "./App.sass";
 import NavBar from "./NavBar";
 import ConfigMenu from "./ConfigMenu";
-import MainView from "./MainView";
+import Main from "./Main";
 
 const App = () => {
   return (
     <div>
       <NavBar />
-      <ConfigMenu />
-      <MainView />
+      <div className="grid-container">
+        <ConfigMenu />
+        <Main />
+      </div>
     </div>
   );
 };

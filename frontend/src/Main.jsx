@@ -2,14 +2,16 @@ import React, { useEffect, useRef, useState } from "react";
 import { saveAs } from "file-saver";
 import AnnotationControl from "./annotation/Control";
 import PreviewControl from "./preview/Control";
-import "./MainView.sass";
+import "./Main.sass";
 import API from "./api";
 
-const MainView = () => {
+const Main = () => {
   const [tokens, setTokens] = useState([]);
   const [annotations, setAnnotations] = useState([]);
+  const [initialAnnotations, setInitialAnnotations] = useState([]);
   const [anonymizations, setAnonymizations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [scores, setScores] = useState({});
 
   const fileFormData = useRef({});
 
@@ -29,6 +31,13 @@ const MainView = () => {
 
     setAnonymizations(newAnonymizations);
   }, [tokens, annotations]);
+
+  useEffect(() => {
+    API.post("nlp/score/", {
+      computedAnnotations: initialAnnotations,
+      goldAnnotations: annotations,
+    }).then((response) => setScores(response.data));
+  }, [annotations, initialAnnotations]);
 
   const onCancel = () => {
     setTokens([]);
@@ -59,6 +68,7 @@ const MainView = () => {
           return annotation;
         });
         setAnnotations(myAnnotations);
+        setInitialAnnotations(myAnnotations);
 
         setIsLoading(false);
       })
@@ -89,6 +99,7 @@ const MainView = () => {
     <div className="main-view">
       <AnnotationControl
         tokens={tokens}
+        scores={scores}
         annotations={annotations}
         onAnnotationsChange={setAnnotations}
         onFileDrop={onFileDrop}
@@ -104,4 +115,4 @@ const MainView = () => {
   );
 };
 
-export default MainView;
+export default Main;
