@@ -6,9 +6,11 @@ import PropTypes from "prop-types";
 import Dropzone from "./Dropzone";
 import AnnotationForm from "./AnnotationForm";
 import API from "../api";
+import Scores from "./Scores";
 
 const AnnotationControl = ({
   tokens,
+  scores,
   annotations,
   onAnnotationsChange,
   onFileDrop,
@@ -48,17 +50,25 @@ const AnnotationControl = ({
           onClick={onCancel}
         />
       )}
+      {tokens.length > 0 && Object.keys(scores).length > 0 && (
+        <Scores scores={scores} />
+      )}
     </Card>
   );
 };
 
 AnnotationControl.propTypes = {
   tokens: PropTypes.arrayOf(PropTypes.object).isRequired,
+  scores: PropTypes.objectOf(PropTypes.any),
   annotations: PropTypes.arrayOf(PropTypes.object).isRequired,
   onAnnotationsChange: PropTypes.func.isRequired,
   onFileDrop: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
+};
+
+AnnotationControl.defaultProps = {
+  scores: {},
 };
 
 export default AnnotationControl;

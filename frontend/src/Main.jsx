@@ -8,8 +8,10 @@ import API from "./api";
 const Main = () => {
   const [tokens, setTokens] = useState([]);
   const [annotations, setAnnotations] = useState([]);
+  const [initialAnnotations, setInitialAnnotations] = useState([]);
   const [anonymizations, setAnonymizations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [scores, setScores] = useState({});
 
   const fileFormData = useRef({});
 
@@ -29,6 +31,13 @@ const Main = () => {
 
     setAnonymizations(newAnonymizations);
   }, [tokens, annotations]);
+
+  useEffect(() => {
+    API.post("nlp/score/", {
+      computedAnnotations: initialAnnotations,
+      goldAnnotations: annotations,
+    }).then((response) => setScores(response.data));
+  }, [annotations, initialAnnotations]);
 
   const onCancel = () => {
     setTokens([]);
@@ -59,6 +68,7 @@ const Main = () => {
           return annotation;
         });
         setAnnotations(myAnnotations);
+        setInitialAnnotations(myAnnotations);
 
         setIsLoading(false);
       })
@@ -89,6 +99,7 @@ const Main = () => {
     <div className="main-view">
       <AnnotationControl
         tokens={tokens}
+        scores={scores}
         annotations={annotations}
         onAnnotationsChange={setAnnotations}
         onFileDrop={onFileDrop}
