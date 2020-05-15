@@ -7,8 +7,14 @@ from app.api.api import api_router
 app = FastAPI()
 
 origins = [
-    "http://localhost:3000",  # for dev server
-    "http://localhost:80",  # for docker-compose
+    # for dev server
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    # for docker-compose
+    "http://localhost",
+    "http://127.0.0.1",
+    "http://localhost:80",
+    "http://127.0.0.1:80",
 ]
 
 app.add_middleware(
