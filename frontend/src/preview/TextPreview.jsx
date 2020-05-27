@@ -2,7 +2,7 @@ import React from "react";
 import { EditableText } from "@blueprintjs/core";
 import PropTypes from "prop-types";
 
-const PreviewText = ({ text }) => {
+const TextPreview = ({ text }) => {
   return (
     <EditableText
       disabled
@@ -14,8 +14,8 @@ const PreviewText = ({ text }) => {
   );
 };
 
-PreviewText.propTypes = {
+TextPreview.propTypes = {
   text: PropTypes.string.isRequired,
 };
 
-export default PreviewText;
+export default TextPreview;

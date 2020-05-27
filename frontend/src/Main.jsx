@@ -1,9 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { saveAs } from "file-saver";
-import AnnotationControl from "./annotation/Control";
-import PreviewControl from "./preview/Control";
+import AnnotationControl from "./annotation/AnnotationControl";
+import PreviewControl from "./preview/PreviewControl";
 import "./Main.sass";
 import API from "./api";
+import Token from "./token";
+import Annotation from "./annotation";
+import Anonymization from "./anonymization";
 
 const Main = () => {
   const [tokens, setTokens] = useState([]);
@@ -20,13 +23,13 @@ const Main = () => {
     //  (e.g. {text: "Foo Bar", tag: "Misc"}
     // for now replace every annotation with XXX
     const newAnonymizations = annotations.map((myAnnotation) => {
-      return {
-        start: myAnnotation.start,
-        end: myAnnotation.end,
-        startChar: tokens[myAnnotation.start].start_char,
-        endChar: tokens[myAnnotation.end - 1].end_char,
-        text: "XXX",
-      };
+      return new Anonymization(
+        myAnnotation.start,
+        myAnnotation.end,
+        tokens[myAnnotation.start].startChar,
+        tokens[myAnnotation.end - 1].endChar,
+        "XXX"
+      );
     });
 
     setAnonymizations(newAnonymizations);
@@ -58,14 +61,20 @@ const Main = () => {
       },
     })
       .then((response) => {
-        setTokens(response.data.tokens);
+        setTokens(
+          response.data.tokens.map(
+            (token) =>
+              new Token(
+                token.start_char,
+                token.end_char,
+                token.text,
+                token.has_ws
+              )
+          )
+        );
 
         const myAnnotations = response.data.piis.map((pii) => {
-          const annotation = {};
-          annotation.start = pii.start_tok;
-          annotation.end = pii.end_tok;
-          annotation.tag = pii.tag;
-          return annotation;
+          return new Annotation(pii.start_tok, pii.end_tok, pii.tag);
         });
         setAnnotations(myAnnotations);
         setInitialAnnotations(myAnnotations);

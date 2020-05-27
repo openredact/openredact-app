@@ -12,6 +12,7 @@ const NavBar = () => {
           <button
             className="bp3-button bp3-minimal bp3-icon-help"
             type="button"
+            title="Help"
           />
         </div>
       </nav>

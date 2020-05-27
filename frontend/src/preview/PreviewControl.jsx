@@ -1,8 +1,8 @@
 import React from "react";
 import { Button, Card, Elevation } from "@blueprintjs/core";
-import "./Control.sass";
+import "./PreviewControl.sass";
 import PropTypes from "prop-types";
-import PreviewText from "./Text";
+import TextPreview from "./TextPreview";
 
 const PreviewControl = ({ tokens, anonymizations, onDownload }) => {
   const anonymize = (myTokens, myAnonymizations) => {
@@ -24,7 +24,7 @@ const PreviewControl = ({ tokens, anonymizations, onDownload }) => {
 
     return anonymizedTokens.reduce(
       (acc, cur, idx) =>
-        acc + cur + (cur !== "" && tokens[idx].has_ws ? " " : ""),
+        acc + cur + (cur !== "" && tokens[idx].hasWhitespace ? " " : ""),
       ""
     );
   };
@@ -33,7 +33,7 @@ const PreviewControl = ({ tokens, anonymizations, onDownload }) => {
 
   return (
     <Card className="preview-card" elevation={Elevation.ONE}>
-      <PreviewText text={text} />
+      <TextPreview text={text} />
       {text !== "" && (
         <Button
           className="download-button"

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, Elevation, Icon, Spinner } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
-import "./Control.sass";
+import "./AnnotationControl.sass";
 import PropTypes from "prop-types";
 import Dropzone from "./Dropzone";
 import AnnotationForm from "./AnnotationForm";
