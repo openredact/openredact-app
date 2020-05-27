@@ -3,10 +3,10 @@ import { saveAs } from "file-saver";
 import AnnotationControl from "./annotation/AnnotationControl";
 import PreviewControl from "./preview/PreviewControl";
 import "./Main.sass";
-import API from "./api";
-import Token from "./token";
-import Annotation from "./annotation";
-import Anonymization from "./anonymization";
+import API from "../api/api";
+import Token from "../js/token";
+import Annotation from "../js/annotation";
+import Anonymization from "../js/anonymization";
 
 const Main = () => {
   const [tokens, setTokens] = useState([]);

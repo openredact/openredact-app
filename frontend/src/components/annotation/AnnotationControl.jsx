@@ -5,7 +5,7 @@ import "./AnnotationControl.sass";
 import PropTypes from "prop-types";
 import Dropzone from "./Dropzone";
 import AnnotationForm from "./AnnotationForm";
-import API from "../api";
+import API from "../../api/api";
 import Scores from "./Scores";
 
 const AnnotationControl = ({
