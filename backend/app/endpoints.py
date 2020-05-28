@@ -1,5 +1,3 @@
-from typing import List
-
 from fastapi import APIRouter, File, UploadFile, Form
 from starlette.responses import StreamingResponse
 import io
@@ -7,7 +5,8 @@ import json
 import os
 from expose_text import BinaryWrapper
 import pii_identifier
-from pydantic import BaseModel
+
+from app.schemas import Annotation, Data
 
 router = APIRouter()
 
@@ -36,17 +35,6 @@ async def find_piis(file: UploadFile = File(...)):
     recognizers = pii_identifier.core.all_recognizers[0:3]
     res = pii_identifier.find_piis(wrapper.text, recognizers=recognizers, aggregation_strategy="merge")
     return {"piis": res["piis"], "tokens": res["tokens"]}
-
-
-class Annotation(BaseModel):
-    start: int
-    end: int
-    tag: str
-
-
-class Data(BaseModel):
-    computedAnnotations: List[Annotation]
-    goldAnnotations: List[Annotation]
 
 
 def _create_pii(annot: Annotation):
