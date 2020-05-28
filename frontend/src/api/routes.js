@@ -8,7 +8,7 @@ const API = axios.create({
 });
 
 function findPiis(formData) {
-  return API.post("nlp/find-piis/", formData, {
+  return API.post("find-piis", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
@@ -16,15 +16,15 @@ function findPiis(formData) {
 }
 
 function computeScores(payload) {
-  return API.post("nlp/score/", payload);
+  return API.post("score", payload);
 }
 
 function fetchTags() {
-  return API.get("nlp/tags/");
+  return API.get("tags");
 }
 
 function anonymizeFile(formData) {
-  return API.post("file/anonymize/", formData, {
+  return API.post("anonymize", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
