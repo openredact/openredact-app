@@ -125,4 +125,3 @@ docker build -t openredact-backend \
     --build-arg ssh_pub_key="$(cat ~/.ssh/id_rsa.pub)" .
 docker run -p 8000:8000 openredact-backend
 ```
-

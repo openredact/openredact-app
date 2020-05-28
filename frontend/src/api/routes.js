@@ -7,30 +7,29 @@ const API = axios.create({
   paramsSerializer: queryString.stringify,
 });
 
-export default {
-  nlp: {
-    findPiis(formData) {
-      return API.post("nlp/find-piis/", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+function findPiis(formData) {
+  return API.post("nlp/find-piis/", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
     },
-    computeScores(payload) {
-      return API.post("nlp/score/", payload);
+  });
+}
+
+function computeScores(payload) {
+  return API.post("nlp/score/", payload);
+}
+
+function fetchTags() {
+  return API.get("nlp/tags/");
+}
+
+function anonymizeFile(formData) {
+  return API.post("file/anonymize/", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
     },
-    fetchTags() {
-      return API.get("nlp/tags/");
-    },
-  },
-  anonymizer: {
-    anonymizeFile(formData) {
-      return API.post("file/anonymize/", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        responseType: "blob",
-      });
-    },
-  },
-};
+    responseType: "blob",
+  });
+}
+
+export { findPiis, computeScores, fetchTags, anonymizeFile };

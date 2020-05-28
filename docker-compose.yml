@@ -2,8 +2,8 @@ version: "3.3"
 services:
   backend:
     build:
-       context: ./backend
-       args:
+      context: ./backend
+      args:
         ssh_prv_key: $SSH_PRV_KEY
         ssh_pub_key: $SSH_PUB_KEY
     image: openredact-backend

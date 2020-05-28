@@ -1,9 +1,9 @@
 version: "3.3"
 services:
   backend:
-    build: 
-       context: ./backend
-       args:
+    build:
+      context: ./backend
+      args:
         ssh_prv_key: $SSH_PRV_KEY
         ssh_pub_key: $SSH_PUB_KEY
     image: openredact-backend
@@ -12,9 +12,9 @@ services:
     volumes:
       - "./backend/app:/app"
   frontend-dev:
-    build: 
-       context: ./frontend
-       dockerfile: Dockerfile.dev
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
     image: openredact-frontend-dev
     command: npm run start
     links:

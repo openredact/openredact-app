@@ -3,7 +3,7 @@ import { saveAs } from "file-saver";
 import AnnotationControl from "./annotation/AnnotationControl";
 import PreviewControl from "./preview/PreviewControl";
 import "./Main.sass";
-import Routes from "../api/routes";
+import { anonymizeFile, computeScores, findPiis } from "../api/routes";
 import Token from "../js/token";
 import Annotation from "../js/annotation";
 import Anonymization from "../js/anonymization";
@@ -36,12 +36,12 @@ const Main = () => {
   }, [tokens, annotations]);
 
   useEffect(() => {
-    Routes.nlp
-      .computeScores({
-        computedAnnotations: initialAnnotations,
-        goldAnnotations: annotations,
-      })
-      .then((response) => setScores(response.data));
+    if (annotations.length === 0) return;
+
+    computeScores({
+      computedAnnotations: initialAnnotations,
+      goldAnnotations: annotations,
+    }).then((response) => setScores(response.data));
   }, [annotations, initialAnnotations]);
 
   const onCancel = () => {
@@ -57,8 +57,7 @@ const Main = () => {
     formData.append("file", files[0]);
     fileFormData.current = formData;
 
-    Routes.nlp
-      .findPiis(formData)
+    findPiis(formData)
       .then((response) => {
         setTokens(
           response.data.tokens.map(
@@ -88,8 +87,7 @@ const Main = () => {
   const onDownload = () => {
     const formData = fileFormData.current;
     formData.set("anonymizations", JSON.stringify(anonymizations));
-    Routes.anonymizer
-      .anonymizeFile(formData)
+    anonymizeFile(formData)
       .then((response) => {
         const blob = new Blob([response.data]);
         saveAs(blob, formData.get("file").name);
