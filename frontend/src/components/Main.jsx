@@ -3,7 +3,7 @@ import { saveAs } from "file-saver";
 import AnnotationControl from "./annotation/AnnotationControl";
 import PreviewControl from "./preview/PreviewControl";
 import "./Main.sass";
-import API from "../api/api";
+import Routes from "../api/routes";
 import Token from "../js/token";
 import Annotation from "../js/annotation";
 import Anonymization from "../js/anonymization";
@@ -36,10 +36,12 @@ const Main = () => {
   }, [tokens, annotations]);
 
   useEffect(() => {
-    API.post("nlp/score/", {
-      computedAnnotations: initialAnnotations,
-      goldAnnotations: annotations,
-    }).then((response) => setScores(response.data));
+    Routes.nlp
+      .computeScores({
+        computedAnnotations: initialAnnotations,
+        goldAnnotations: annotations,
+      })
+      .then((response) => setScores(response.data));
   }, [annotations, initialAnnotations]);
 
   const onCancel = () => {
@@ -55,11 +57,8 @@ const Main = () => {
     formData.append("file", files[0]);
     fileFormData.current = formData;
 
-    API.post("nlp/find-piis/", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
+    Routes.nlp
+      .findPiis(formData)
       .then((response) => {
         setTokens(
           response.data.tokens.map(
@@ -89,12 +88,8 @@ const Main = () => {
   const onDownload = () => {
     const formData = fileFormData.current;
     formData.set("anonymizations", JSON.stringify(anonymizations));
-    API.post("file/anonymize/", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      responseType: "blob",
-    })
+    Routes.anonymizer
+      .anonymizeFile(formData)
       .then((response) => {
         const blob = new Blob([response.data]);
         saveAs(blob, formData.get("file").name);

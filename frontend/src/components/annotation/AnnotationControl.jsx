@@ -5,7 +5,7 @@ import "./AnnotationControl.sass";
 import PropTypes from "prop-types";
 import Dropzone from "./Dropzone";
 import AnnotationForm from "./AnnotationForm";
-import API from "../../api/api";
+import Routes from "../../api/routes";
 import Scores from "./Scores";
 
 const AnnotationControl = ({
@@ -20,7 +20,7 @@ const AnnotationControl = ({
   const [tags, setTags] = useState([]);
 
   useEffect(() => {
-    API.get("nlp/tags/").then((response) => {
+    Routes.nlp.fetchTags().then((response) => {
       setTags(response.data);
     });
     // .catch((error) => {
