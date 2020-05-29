@@ -8,7 +8,9 @@ Semi-automatical data anonymization for German documents
 
 [![MIT license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg?style=flat-square)](https://github.com/ambv/black)
-[![Code style: prettier]](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+[![Code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+![Frontend Tests](https://github.com/openredact/openredact-app/workflows/Frontend%20Tests/badge.svg?branch=master)
+![Backend Tests](https://github.com/openredact/openredact-app/workflows/Backend%20Tests/badge.svg?branch=master)
 
 ## Description
 
