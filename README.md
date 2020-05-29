@@ -125,3 +125,10 @@ docker build -t openredact-backend \
     --build-arg ssh_pub_key="$(cat ~/.ssh/id_rsa.pub)" .
 docker run -p 8000:8000 openredact-backend
 ```
+
+## API Documentation
+
+Documentation of the API is available at the endpoints `/docs` ([Swagger UI](https://swagger.io/tools/swagger-ui/))
+and `/redocs` ([ReDoc](https://redocly.github.io/redoc/)), e.g. http://127.0.0.1:8000/redoc.
+
+The OpenAPI specification can be found here: http://127.0.0.1:8000/openapi.json

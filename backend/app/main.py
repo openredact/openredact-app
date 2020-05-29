@@ -4,7 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.endpoints import router
 
-app = FastAPI()
+app = FastAPI(title="OpenRedact API", description="Anonymize German documents using automatic PII detection", version="0.1.0",)
+
 
 origins = [
     # for dev server
@@ -20,11 +21,6 @@ origins = [
 app.add_middleware(
     CORSMiddleware, allow_origins=origins, allow_credentials=True, allow_methods=["*"], allow_headers=["*"],
 )
-
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
 
 
 app.include_router(router, prefix="/api")
