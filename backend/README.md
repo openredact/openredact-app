@@ -1,8 +1,24 @@
 # OpenRedact Backend
 
-## Development
+## Usage
 
 Before you begin, make sure you are in the backend directory.
+
+### Install the backend dependencies
+
+Install the dependencies for production using:
+
+```
+pip install -r requirements.txt
+```
+
+### Running the server
+
+```
+uvicorn app.main:app --reload
+```
+
+## Development
 
 ### Install dev requirements
 
@@ -10,15 +26,18 @@ Before you begin, make sure you are in the backend directory.
 pip install -r requirements-dev.txt
 ```
 
+To install our own dependencies in editable more (aka setuptools develop mode) use the `-e` flag.
+This adopts any changes in the local checked out projects immediately.
+
+```
+pip install -e path/to/pii-identifier
+pip install -e path/to/expose-text
+pip install -e path/to/anonymizer
+```
+
 ### PyCharm Setup
 
 To have imports resolve correctly mark the backend folder as a Sources Root.
-
-### Running the server
-
-```
-uvicorn app.main:app --reload
-```
 
 ### Testing
 

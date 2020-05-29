@@ -18,9 +18,11 @@ _**:warning: Disclaimer :warning::**_ This is a prototype. Do not use in product
 
 ## Backend Requirements
 
+- Python 3.7+
+
 ## Frontend Requirements
 
-- Node.js (with `npm`).
+- Node.js 12+ (with `npm`).
 
 ## Usage
 
@@ -29,39 +31,7 @@ _**:warning: Disclaimer :warning::**_ This is a prototype. Do not use in product
 For development follow these instructions and then the instructions in the development documentation in the respective
 module [backend](backend/README.md) or [frontend](frontend/README.md).
 
-### Install the backend dependencies
-
-Install the dependencies for production using:
-
-```
-cd backend
-pip install -r requirements.txt
-```
-
-For development you will further need to install:
-
-```
-pip install -r requirements-dev.txt
-```
-
-Our own dependencies are not published on PyPI (yet). Thus, they have to be installed manually from the local file
-system (or the github repo). To install them from their checkout directories run:
-
-```
-pip install -e path/to/pii-identifier
-pip install -e path/to/expose-text
-pip install -e path/to/anonymizer
-```
-
-The `-e` flag installs the dependencies in editable more (aka setuptools develop mode). This means any changes in the
-checkout directory are directly adopted.
-
-### Install the frontend dependencies
-
-```
-cd frontend
-npm install
-```
+After backend (and frontend) are set up make sure to install the pre-commit hooks as explained below.
 
 ### Install the pre-commit hooks
 
