@@ -72,13 +72,6 @@ async def find_piis(file: UploadFile = File(...)):
     return {"piis": [asdict(pii) for pii in res["piis"]], "tokens": res["tokens"]}
 
 
-def _create_pii(annot: Annotation):
-    """Only to be used for scoring."""
-    # annotation start and end are token based indices; in the context of scoring the actual value is not
-    # important though, so we can pretend they are character based
-    return pii_identifier.Pii(start_char=annot.start, end_char=annot.end, tag=annot.tag)
-
-
 @router.post(
     "/score",
     summary="Compute scores",
@@ -86,6 +79,11 @@ def _create_pii(annot: Annotation):
     response_model=EvaluationResponse,
 )
 async def score(data: AnnotationsForEvaluation):
+    def _create_pii(annot: Annotation):
+        # annotation start and end are token based indices; in the context of scoring the actual value is not
+        # important though, so we can pretend they are character based
+        return pii_identifier.Pii(start_char=annot.start, end_char=annot.end, tag=annot.tag)
+
     gold = [_create_pii(annot) for annot in data.gold_annotations]
     piis = [_create_pii(annot) for annot in data.computed_annotations]
     return pii_identifier.evaluate(piis, gold)
