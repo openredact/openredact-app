@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./NavBar.sass";
+import PolyglotContext from "../js/polyglotContext";
 
 const NavBar = () => {
+  const { t } = useContext(PolyglotContext);
+
   return (
     <div>
       <nav className="bp3-navbar bp3-dark">
@@ -12,7 +15,7 @@ const NavBar = () => {
           <button
             className="bp3-button bp3-minimal bp3-icon-help"
             type="button"
-            title="Help"
+            title={t("help")}
           />
         </div>
       </nav>
