@@ -1,30 +1,42 @@
 from typing import List
-from pydantic import BaseModel, Field
-from pydantic.dataclasses import dataclass
+from pydantic import BaseModel
 
 
-class Annotation(BaseModel):
+def to_camel_case(snake_case):
+    pascal_case = snake_case.title().replace("_", "")
+    return pascal_case[0].lower() + pascal_case[1:]
+
+
+class CamelBaseModel(BaseModel):
+    """This base model automatically defines a camelCase public representation to be used by API clients."""
+
+    class Config:
+        alias_generator = to_camel_case
+        allow_population_by_field_name = True
+
+
+class Annotation(CamelBaseModel):
     start: int
     end: int
     tag: str
 
 
-class AnnotationsForEvaluation(BaseModel):
-    computed_annotations: List[Annotation] = Field(..., alias="computedAnnotations")
-    gold_annotations: List[Annotation] = Field(..., alias="goldAnnotations")
+class AnnotationsForEvaluation(CamelBaseModel):
+    computed_annotations: List[Annotation]
+    gold_annotations: List[Annotation]
 
 
-class Scores(BaseModel):
+class Scores(CamelBaseModel):
     f1: float
     f2: float
     precision: float
     recall: float
-    true_positives: float  # = Field(..., alias='truePositives')
-    false_positives: float  # = Field(..., alias='falsePositives')
-    false_negatives: float  # = Field(..., alias='falseNegatives')
+    true_positives: float
+    false_positives: float
+    false_negatives: float
 
 
-class EvaluationResponse(BaseModel):
+class EvaluationResponse(CamelBaseModel):
     total: Scores
     PER: Scores = None
     LOC: Scores = None
@@ -34,12 +46,7 @@ class EvaluationResponse(BaseModel):
     # TODO continue list
 
 
-class ORMConfig:
-    orm_mode = True
-
-
-@dataclass(config=ORMConfig)  # Pii is a dataclass (not a dict)
-class Pii(BaseModel):
+class Pii(CamelBaseModel):
     start_char: int
     end_char: int
     tag: str
@@ -50,13 +57,17 @@ class Pii(BaseModel):
     end_tok: int
 
 
-class Token(BaseModel):
+class Token(CamelBaseModel):
     text: str
     has_ws: bool
     start_char: int
     end_char: int
 
 
-class FindPiisResponse(BaseModel):
+class FindPiisResponse(CamelBaseModel):
     piis: List[Pii]
     tokens: List[Token]
+
+
+class ErrorMessage(BaseModel):
+    detail: str

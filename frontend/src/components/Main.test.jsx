@@ -29,10 +29,10 @@ it("loads and displays the file as well as anonymization preview", async () => {
     data: {
       tokens: [
         {
-          start_char: 8,
-          end_char: 15,
+          startChar: 8,
+          endChar: 15,
           text: "Germany",
-          has_ws: true,
+          hasWs: true,
         },
       ],
     },

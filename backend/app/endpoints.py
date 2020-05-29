@@ -1,21 +1,17 @@
+from dataclasses import asdict
 from typing import List
 
-from fastapi import APIRouter, File, UploadFile, Form
+from fastapi import APIRouter, File, UploadFile, Form, HTTPException
 from starlette.responses import StreamingResponse
 import io
 import json
 import os
-from expose_text import BinaryWrapper
+from expose_text import BinaryWrapper, UnsupportedFormat
 import pii_identifier
 
-from app.schemas import Annotation, AnnotationsForEvaluation, EvaluationResponse, FindPiisResponse
+from app.schemas import Annotation, AnnotationsForEvaluation, EvaluationResponse, FindPiisResponse, ErrorMessage
 
 router = APIRouter()
-
-
-class AnonimizationResponse(StreamingResponse):
-    # workaround to show media type in docs
-    media_type = "application/octet-stream"
 
 
 @router.post(
@@ -23,7 +19,7 @@ class AnonimizationResponse(StreamingResponse):
     summary="Anonymize file",
     description="Anonymize the given file by replacing the text passages specified in anonymizations. The character indices "
     "in anonymizations refer to the file's plain text representation.",
-    response_class=AnonimizationResponse,
+    responses={200: {"content": {"application/octet-stream": {}}}, 400: {"model": ErrorMessage}},
 )
 async def anonymize(
     file: UploadFile = File(...),
@@ -37,7 +33,11 @@ async def anonymize(
     content = await file.read()
     await file.close()
 
-    wrapper = BinaryWrapper(content, extension)
+    try:
+        wrapper = BinaryWrapper(content, extension)
+    except UnsupportedFormat:
+        raise HTTPException(status_code=400, detail="Unsupported File Format")
+
     for alteration in json.loads(anonymizations):
         wrapper.add_alter(alteration["startChar"], alteration["endChar"], alteration["text"])
     wrapper.apply_alters()
@@ -55,16 +55,21 @@ async def anonymize(
     description="Find personally identifiable information in the given file. The character and token indices refer to the "
     "file's plain text representation.",
     response_model=FindPiisResponse,
+    responses={400: {"model": ErrorMessage}},
 )
 async def find_piis(file: UploadFile = File(...)):
     _, extension = os.path.splitext(file.filename)
     content = await file.read()
     await file.close()
-    wrapper = BinaryWrapper(content, extension)
+
+    try:
+        wrapper = BinaryWrapper(content, extension)
+    except UnsupportedFormat:
+        raise HTTPException(status_code=400, detail="Unsupported File Format")
 
     recognizers = pii_identifier.core.all_recognizers[0:3]
     res = pii_identifier.find_piis(wrapper.text, recognizers=recognizers, aggregation_strategy="merge")
-    return {"piis": res["piis"], "tokens": res["tokens"]}
+    return {"piis": [asdict(pii) for pii in res["piis"]], "tokens": res["tokens"]}
 
 
 def _create_pii(annot: Annotation):

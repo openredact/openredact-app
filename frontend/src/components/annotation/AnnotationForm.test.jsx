@@ -7,10 +7,10 @@ it("shows a token", () => {
     <AnnotationForm
       tokens={[
         {
-          start_char: 0,
-          end_char: 7,
+          startChar: 0,
+          endChar: 7,
           text: "MyToken",
-          has_ws: false,
+          hasWs: false,
         },
       ]}
       annotations={[]}

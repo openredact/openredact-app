@@ -62,17 +62,12 @@ const Main = () => {
         setTokens(
           response.data.tokens.map(
             (token) =>
-              new Token(
-                token.start_char,
-                token.end_char,
-                token.text,
-                token.has_ws
-              )
+              new Token(token.startChar, token.endChar, token.text, token.hasWs)
           )
         );
 
         const myAnnotations = response.data.piis.map((pii) => {
-          return new Annotation(pii.start_tok, pii.end_tok, pii.tag);
+          return new Annotation(pii.startTok, pii.endTok, pii.tag);
         });
         setAnnotations(myAnnotations);
         setInitialAnnotations(myAnnotations);
