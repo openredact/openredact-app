@@ -1,4 +1,4 @@
-name: Test Frontend
+name: Test_Frontend
 
 on: [push, pull_request]
 

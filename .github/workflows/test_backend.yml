@@ -1,4 +1,4 @@
-name: Test Backend
+name: Test_Backend
 
 on: [push, pull_request]
 
