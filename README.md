@@ -1,6 +1,6 @@
 # OpenRedact
 
-Semi-automatical data anonymization for German documents
+Semi-automatic data anonymization for German documents
 
 ---
 
@@ -37,7 +37,10 @@ After backend (and frontend) are set up make sure to install the pre-commit hook
 
 ### Install the pre-commit hooks
 
-`pre-commit` is a Python tool to manage our pre-commit hooks. It is installed with the Python dev dependencies.
+`pre-commit` is a Python tool to manage git pre-commit hooks. It is installed with the Python dev dependencies.
+Run the following code to install pre-commit hooks for formatting and linting Python and JavaScript code
+(black, flake8, prettier and eslint). The tests being slower than formatters and linters are run by CI, so don't
+forget to run them manually before committing.
 
 ```
 pre-commit install
