@@ -9,7 +9,7 @@ class Annotation(BaseModel):
     tag: str
 
 
-class Data(BaseModel):
+class AnnotationsForEvaluation(BaseModel):
     computed_annotations: List[Annotation] = Field(..., alias="computedAnnotations")
     gold_annotations: List[Annotation] = Field(..., alias="goldAnnotations")
 
