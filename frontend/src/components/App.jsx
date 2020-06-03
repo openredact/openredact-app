@@ -1,18 +1,17 @@
 import React from "react";
 import "./App.sass";
-import Polyglot from "node-polyglot";
 import NavBar from "./NavBar";
 import ConfigMenu from "./ConfigMenu";
 import Main from "./Main";
-import de from "../translations/de";
 import PolyglotContext from "../js/polyglotContext";
-
-const polyglot = new Polyglot({ phrases: de, locale: "de" });
+import createPolyglotForNavigatorLanguage from "../translations/utils";
 
 const App = () => {
+  const polyglot = createPolyglotForNavigatorLanguage();
+
   return (
     <PolyglotContext.Provider
-      value={{ t: (key, options) => polyglot.t(key, options) }}
+      value={(key, options) => polyglot.t(key, options)}
     >
       <NavBar />
       <div className="grid-container">

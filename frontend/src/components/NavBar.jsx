@@ -3,7 +3,7 @@ import "./NavBar.sass";
 import PolyglotContext from "../js/polyglotContext";
 
 const NavBar = () => {
-  const { t } = useContext(PolyglotContext);
+  const t = useContext(PolyglotContext);
 
   return (
     <div>
@@ -15,7 +15,7 @@ const NavBar = () => {
           <button
             className="bp3-button bp3-minimal bp3-icon-help"
             type="button"
-            title={t("help")}
+            title={t("nav.help")}
           />
         </div>
       </nav>

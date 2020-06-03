@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button, Card, Elevation } from "@blueprintjs/core";
 import "./PreviewControl.sass";
 import PropTypes from "prop-types";
 import TextPreview from "./TextPreview";
+import PolyglotContext from "../../js/polyglotContext";
 
 const PreviewControl = ({ tokens, anonymizations, onDownload }) => {
+  const t = useContext(PolyglotContext);
+
   const anonymize = (myTokens, myAnonymizations) => {
     let skipNextTokens = 0;
     const anonymizedTokens = myTokens.map((token, idx) => {
@@ -40,7 +43,7 @@ const PreviewControl = ({ tokens, anonymizations, onDownload }) => {
           intent="success"
           onClick={onDownload}
         >
-          Download
+          {t("preview.download")}
         </Button>
       )}
     </Card>

@@ -1,25 +1,35 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React from "react";
+import React, { useContext } from "react";
 import { useDropzone } from "react-dropzone";
 import { Button } from "@blueprintjs/core";
 import "./Dropzone.sass";
 import PropTypes from "prop-types";
+import PolyglotContext from "../../js/polyglotContext";
+
+const ACCEPTED_FORMATS = [".txt", ".pdf", ".html"];
 
 const Dropzone = ({ onFileDrop }) => {
+  const t = useContext(PolyglotContext);
+
   const { getRootProps, getInputProps, open } = useDropzone({
-    accept: ".txt, .pdf, .html",
+    accept: ACCEPTED_FORMATS.join(","),
     noClick: true,
     noKeyboard: true,
     multiple: false,
     onDropAccepted: onFileDrop,
   });
 
+  const computeFormatString = () => {
+    // prettier-ignore
+    return `${ACCEPTED_FORMATS.slice(0, -1).join(", ")}, ${t("annotation.or")} ${ACCEPTED_FORMATS.slice(-1)}`;
+  };
+
   return (
     <div {...getRootProps({ className: "dropzone" })}>
       <input {...getInputProps()} />
-      <p>Drop a .txt, .html, or .pdf document here.</p>
+      <p>{t("annotation.drop", { formats: computeFormatString() })}</p>
       <Button type="button" onClick={open}>
-        Browse your computer
+        {t("annotation.browse")}
       </Button>
     </div>
   );
