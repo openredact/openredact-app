@@ -1,6 +1,10 @@
 import React from "react";
 import { render } from "@testing-library/react";
+import { fetchTags } from "../api/routes";
 import App from "./App";
+
+jest.mock("../api/routes");
+fetchTags.mockResolvedValue({});
 
 it("renders", () => {
   render(<App />);

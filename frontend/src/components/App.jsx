@@ -4,9 +4,11 @@ import NavBar from "./NavBar";
 import ConfigMenu from "./ConfigMenu";
 import Main from "./Main";
 import PolyglotContext from "../js/polyglotContext";
-import polyglot from "../translations/utils";
+import { polyglot, updateLocale } from "../translations/utils";
 
 const App = () => {
+  updateLocale(polyglot);
+
   return (
     <PolyglotContext.Provider
       value={(key, options) => polyglot.t(key, options)}

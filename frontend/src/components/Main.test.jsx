@@ -11,10 +11,14 @@ import { anonymizeFile, fetchTags, findPiis } from "../api/routes";
 
 jest.mock("../api/routes");
 
-it("shows an upload button", () => {
-  // tags are fetched when the component is mounted
-  fetchTags.mockResolvedValue({ data: ["STATE"] });
+// tags are fetched when the component is mounted
+fetchTags.mockResolvedValue({ data: ["STATE"] });
 
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
+it("shows an upload button", () => {
   const { getByRole } = render(<Main />);
   const help = getByRole("button", { name: /browse/i });
 
@@ -23,8 +27,6 @@ it("shows an upload button", () => {
 });
 
 it("loads and displays the file as well as anonymization preview", async () => {
-  // mock endpoints
-  fetchTags.mockResolvedValue({ data: ["STATE"] });
   findPiis.mockResolvedValue({
     data: {
       tokens: [
@@ -56,7 +58,7 @@ it("loads and displays the file as well as anonymization preview", async () => {
   fireEvent(dropZone, fileDropEvent);
 
   await waitForElement(() => screen.getByRole("button", { name: /download/i }));
-  expect(fetchTags).toHaveBeenCalled();
+  expect(fetchTags).toHaveBeenCalledTimes(1);
   expect(findPiis).toHaveBeenCalledTimes(1);
   expect(screen.getAllByText("Germany")).toHaveLength(2);
 });
