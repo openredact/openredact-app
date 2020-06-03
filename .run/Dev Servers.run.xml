@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Dev Servers" type="CompoundRunConfigurationType">
+    <toRun name="Backend Dev Server" type="PythonConfigurationType" />
+    <toRun name="Frontend Dev Server" type="js.build_tools.npm" />
+    <method v="2" />
+  </configuration>
+</component>
