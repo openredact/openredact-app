@@ -15,4 +15,6 @@ const createPolyglotForNavigatorLanguage = () => {
   return new Polyglot({ phrases, locale });
 };
 
-export default createPolyglotForNavigatorLanguage;
+const polyglot = createPolyglotForNavigatorLanguage();
+
+export default polyglot;

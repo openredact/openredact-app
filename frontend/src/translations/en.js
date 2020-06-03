@@ -7,6 +7,9 @@ export default {
     or: "or",
     score: "score",
   },
+  app: {
+    network_error_toast: "The server is not available.",
+  },
   main: {
     anonymize_file_failed_toast: "Creating the anonymized file failed.",
     computing_scores_failed_toast:

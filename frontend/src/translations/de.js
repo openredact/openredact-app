@@ -7,6 +7,9 @@ export default {
     or: "oder",
     score: "Maß",
   },
+  app: {
+    network_error_toast: "Der Server ist nicht erreichbar.",
+  },
   main: {
     anonymize_file_failed_toast:
       "Das Erstellen der anonymisierten Datei ist fehlgeschlagen.",
