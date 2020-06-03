@@ -1,7 +1,8 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Lint, format and test project" type="CompoundRunConfigurationType">
-    <toRun name="Backend Dev Server" type="PythonConfigurationType" />
-    <toRun name="Frontend Dev Server" type="js.build_tools.npm" />
+    <toRun name="Backend Tests" type="tests" />
+    <toRun name="Frontend Tests" type="JavaScriptTestRunnerJest" />
+    <toRun name="Pre-commit Hooks" type="PythonConfigurationType" />
     <method v="2" />
   </configuration>
 </component>
