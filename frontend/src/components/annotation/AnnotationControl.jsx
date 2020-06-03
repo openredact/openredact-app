@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Card, Elevation, Icon, Spinner } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import "./AnnotationControl.sass";
@@ -7,6 +7,8 @@ import Dropzone from "./Dropzone";
 import AnnotationForm from "./AnnotationForm";
 import { fetchTags } from "../../api/routes";
 import Scores from "./Scores";
+import AppToaster from "../../js/toaster";
+import PolyglotContext from "../../js/polyglotContext";
 
 const AnnotationControl = ({
   tokens,
@@ -17,16 +19,22 @@ const AnnotationControl = ({
   onCancel,
   isLoading,
 }) => {
+  const t = useContext(PolyglotContext);
+
   const [tags, setTags] = useState([]);
 
   useEffect(() => {
-    fetchTags().then((response) => {
-      setTags(response.data);
-    });
-    // .catch((error) => {
-    //   console.log(error);
-    // });
-  }, []);
+    fetchTags()
+      .then((response) => {
+        setTags(response.data);
+      })
+      .catch(() => {
+        AppToaster.show({
+          message: t("annotation.fetching_tags_failed_toast"),
+          intent: "danger",
+        });
+      });
+  }, [t]);
 
   return (
     <Card className="annotation-card" elevation={Elevation.ONE}>

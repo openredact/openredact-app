@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { saveAs } from "file-saver";
 import AnnotationControl from "./annotation/AnnotationControl";
 import PreviewControl from "./preview/PreviewControl";
@@ -7,11 +7,15 @@ import { anonymizeFile, computeScores, findPiis } from "../api/routes";
 import Token from "../js/token";
 import Annotation from "../js/annotation";
 import Anonymization from "../js/anonymization";
+import AppToaster from "../js/toaster";
+import PolyglotContext from "../js/polyglotContext";
 
 const Main = () => {
+  const t = useContext(PolyglotContext);
+
   const [tokens, setTokens] = useState([]);
   const [annotations, setAnnotations] = useState([]);
-  const [initialAnnotations, setInitialAnnotations] = useState([]);
+  const [initialAnnotations, setInitialAnnotations] = useState(null);
   const [anonymizations, setAnonymizations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [scores, setScores] = useState({});
@@ -36,13 +40,20 @@ const Main = () => {
   }, [tokens, annotations]);
 
   useEffect(() => {
-    if (annotations.length === 0) return;
+    if (annotations.length === 0 || initialAnnotations === null) return;
 
     computeScores({
       computedAnnotations: initialAnnotations,
       goldAnnotations: annotations,
-    }).then((response) => setScores(response.data));
-  }, [annotations, initialAnnotations]);
+    })
+      .then((response) => setScores(response.data))
+      .catch(() => {
+        AppToaster.show({
+          message: t("main.computing_scores_failed_toast"),
+          intent: "danger",
+        });
+      });
+  }, [t, annotations, initialAnnotations]);
 
   const onCancel = () => {
     setTokens([]);
@@ -75,6 +86,10 @@ const Main = () => {
         setIsLoading(false);
       })
       .catch(() => {
+        AppToaster.show({
+          message: t("main.find_piis_failed_toast"),
+          intent: "danger",
+        });
         setIsLoading(false);
       });
   };
@@ -87,9 +102,12 @@ const Main = () => {
         const blob = new Blob([response.data]);
         saveAs(blob, formData.get("file").name);
       })
-      .catch
-      // TODO
-      ();
+      .catch(() => {
+        AppToaster.show({
+          message: t("main.anonymize_file_failed_toast"),
+          intent: "danger",
+        });
+      });
   };
 
   return (
