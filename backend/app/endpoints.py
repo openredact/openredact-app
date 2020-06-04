@@ -15,13 +15,13 @@ router = APIRouter()
 
 
 @router.post(
-    "/anonymize",
+    "/anonymize-file",
     summary="Anonymize file",
     description="Anonymize the given file by replacing the text passages specified in anonymizations. The character indices "
     "in anonymizations refer to the file's plain text representation.",
     responses={200: {"content": {"application/octet-stream": {}}}, 400: {"model": ErrorMessage}},
 )
-async def anonymize(
+async def anonymize_file(
     file: UploadFile = File(...),
     anonymizations: str = Form(
         ...,

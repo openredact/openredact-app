@@ -41,7 +41,7 @@ function fetchTags() {
 }
 
 function anonymizeFile(formData) {
-  return API.post("anonymize", formData, {
+  return API.post("anonymize-file", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
