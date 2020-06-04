@@ -8,7 +8,8 @@ def to_camel_case(snake_case):
 
 
 class CamelBaseModel(BaseModel):
-    """This base model automatically defines a camelCase public representation to be used by API clients."""
+    # This base model automatically defines a camelCase public representation that is used by API clients.
+    # Note: docstrings are automatically used as description for OpenAPI models (and they are inherited)
 
     class Config:
         alias_generator = to_camel_case
