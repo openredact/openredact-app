@@ -1,5 +1,7 @@
 @import "~@blueprintjs/core/lib/scss/variables"
 
+$config-width: 15vw
+
 .grid-container
   display: grid
-  grid: calc(100vh - #{$pt-navbar-height}) / 15vw 85vw
+  grid: calc(100vh - #{$pt-navbar-height}) / $config-width 100vw-$config-width

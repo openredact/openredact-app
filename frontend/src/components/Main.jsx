@@ -9,6 +9,7 @@ import Annotation from "../js/annotation";
 import Anonymization from "../js/anonymization";
 import AppToaster from "../js/toaster";
 import PolyglotContext from "../js/polyglotContext";
+import SeparatorArrow from "./SeparatorArrow";
 
 const Main = () => {
   const t = useContext(PolyglotContext);
@@ -126,6 +127,7 @@ const Main = () => {
         anonymizations={anonymizations}
         onDownload={onDownload}
       />
+      <SeparatorArrow />
     </div>
   );
 };
