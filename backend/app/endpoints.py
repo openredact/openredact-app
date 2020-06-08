@@ -8,10 +8,37 @@ import json
 import os
 from expose_text import BinaryWrapper, UnsupportedFormat
 import pii_identifier
+from anonymizer import AnonymizerConfig, Anonymizer, Pii
 
-from app.schemas import Annotation, AnnotationsForEvaluation, EvaluationResponse, FindPiisResponse, ErrorMessage
+from app.schemas import (
+    Annotation,
+    AnnotationsForEvaluation,
+    EvaluationResponse,
+    FindPiisResponse,
+    ErrorMessage,
+    AnonymizedPiisResponse,
+    AnonymizedPii,
+)
 
 router = APIRouter()
+
+
+@router.post(
+    "/anonymize",
+    summary="Anonymize PIIs",
+    description="Anonymize the given PIIs by replacing their text content according to the provided config.",
+    response_model=AnonymizedPiisResponse,
+    responses={400: {"model": ErrorMessage}},
+)
+async def anonymize(piis: List[Pii], config: AnonymizerConfig):
+    anonymizer = Anonymizer(config)
+    anonymized_piis = [AnonymizedPii(text=pii.text, id=pii.id) for pii in anonymizer.anonymize(piis) if pii.modified]
+
+    if len(anonymized_piis) != len(piis):
+        # one or more piis were not flagged as `modified`
+        raise HTTPException(status_code=400, detail="Invalid Config")
+
+    return AnonymizedPiisResponse(anonymized_piis=anonymized_piis)
 
 
 @router.post(
@@ -69,7 +96,7 @@ async def find_piis(file: UploadFile = File(...)):
 
     recognizers = pii_identifier.core.all_recognizers[0:3]
     res = pii_identifier.find_piis(wrapper.text, recognizers=recognizers, aggregation_strategy="merge")
-    return {"piis": [asdict(pii) for pii in res["piis"]], "tokens": res["tokens"]}
+    return FindPiisResponse(piis=[asdict(pii) for pii in res["piis"]], tokens=res["tokens"])
 
 
 @router.post(
