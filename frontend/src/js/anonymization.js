@@ -1,5 +1,5 @@
 class Anonymization {
-  constructor(start, end, startChar, endChar, text) {
+  constructor({ start, end, startChar, endChar, text }) {
     this.start = start;
     this.end = end;
     this.startChar = startChar;

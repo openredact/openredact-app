@@ -13,6 +13,8 @@ export default {
   main: {
     anonymize_file_failed_toast:
       "Das Erstellen der anonymisierten Datei ist fehlgeschlagen.",
+    anonymizing_piis_failed_toast:
+      "Das Anonymisieren der personenbezogenen Daten ist fehlgeschlagen.",
     computing_scores_failed_toast:
       "Die Berechnung statistischer Maße für die automatische Identifizierung persönlicher Daten ist fehlgeschlagen.",
     find_piis_failed_toast: "Die Verarbeitung der Datei ist fehlgeschlagen.",

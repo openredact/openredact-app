@@ -49,4 +49,8 @@ function anonymizeFile(formData) {
   });
 }
 
-export { findPiis, computeScores, fetchTags, anonymizeFile };
+function anonymizePiis(payload) {
+  return API.post("anonymize", payload);
+}
+
+export { findPiis, computeScores, fetchTags, anonymizeFile, anonymizePiis };

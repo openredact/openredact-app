@@ -12,6 +12,7 @@ export default {
   },
   main: {
     anonymize_file_failed_toast: "Creating the anonymized file failed.",
+    anonymizing_piis_failed_toast: "Anonymizing the personal data failed.",
     computing_scores_failed_toast:
       "Computing statistical measures for the automatic identification of personal data failed.",
     find_piis_failed_toast: "Processing of the document failed.",

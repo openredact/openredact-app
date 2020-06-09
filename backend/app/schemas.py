@@ -72,7 +72,7 @@ class FindPiisResponse(CamelBaseModel):
 
 class AnonymizedPii(CamelBaseModel):
     text: str
-    id: int
+    id: str
 
 
 class AnonymizedPiisResponse(CamelBaseModel):

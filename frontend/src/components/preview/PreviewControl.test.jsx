@@ -12,7 +12,15 @@ it("renders text preview", () => {
     new Token(11, 15, "Khan", false),
     new Token(15, 16, ".", false),
   ];
-  const anonymizations = [new Anonymization(3, 4, 11, 15, "XXXX")];
+  const anonymizations = [
+    new Anonymization({
+      start: 3,
+      end: 4,
+      startChar: 11,
+      endChar: 15,
+      text: "XXXX",
+    }),
+  ];
   const anonymizedText = "My name is XXXX.";
   const { getByText } = render(
     <PreviewControl

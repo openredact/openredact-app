@@ -3,7 +3,12 @@ import { saveAs } from "file-saver";
 import AnnotationControl from "./annotation/AnnotationControl";
 import PreviewControl from "./preview/PreviewControl";
 import "./Main.sass";
-import { anonymizeFile, computeScores, findPiis } from "../api/routes";
+import {
+  anonymizeFile,
+  computeScores,
+  findPiis,
+  anonymizePiis,
+} from "../api/routes";
 import Token from "../js/token";
 import Annotation from "../js/annotation";
 import Anonymization from "../js/anonymization";
@@ -24,21 +29,51 @@ const Main = () => {
   const fileFormData = useRef({});
 
   useEffect(() => {
-    // TODO query anonymizer backend with annotations and their tokens
-    //  (e.g. {text: "Foo Bar", tag: "Misc"}
-    // for now replace every annotation with XXX
-    const newAnonymizations = annotations.map((myAnnotation) => {
-      return new Anonymization(
-        myAnnotation.start,
-        myAnnotation.end,
-        tokens[myAnnotation.start].startChar,
-        tokens[myAnnotation.end - 1].endChar,
-        "XXX"
-      );
+    if (annotations.length === 0) return;
+
+    const positionsMap = new Map(
+      annotations.map((annotation) => {
+        return [
+          annotation.id,
+          {
+            start: annotation.start,
+            end: annotation.end,
+            startChar: tokens[annotation.start].startChar,
+            endChar: tokens[annotation.end - 1].endChar,
+          },
+        ];
+      })
+    );
+    const piis = annotations.map((annotation) => {
+      return { tag: annotation.tag, text: annotation.text, id: annotation.id };
     });
 
-    setAnonymizations(newAnonymizations);
-  }, [tokens, annotations]);
+    anonymizePiis({
+      piis,
+      config: {
+        defaultMechanism: { mechanism: "suppression" },
+        mechanismsByTag: {},
+      },
+    })
+      .then((response) => {
+        const { anonymizedPiis } = response.data;
+
+        const newAnonymizations = anonymizedPiis.map((anonymizedPii) => {
+          return new Anonymization({
+            ...positionsMap.get(anonymizedPii.id),
+            text: anonymizedPii.text,
+          });
+        });
+
+        setAnonymizations(newAnonymizations);
+      })
+      .catch(() => {
+        AppToaster.show({
+          message: t("main.anonymizing_piis_failed_toast"),
+          intent: "danger",
+        });
+      });
+  }, [t, tokens, annotations]);
 
   useEffect(() => {
     if (annotations.length === 0 || initialAnnotations === null) return;
@@ -79,7 +114,7 @@ const Main = () => {
         );
 
         const myAnnotations = response.data.piis.map((pii) => {
-          return new Annotation(pii.startTok, pii.endTok, pii.tag);
+          return new Annotation(pii.startTok, pii.endTok, pii.tag, pii.text);
         });
         setAnnotations(myAnnotations);
         setInitialAnnotations(myAnnotations);
@@ -111,13 +146,33 @@ const Main = () => {
       });
   };
 
+  const onAnnotationsChange = (modifiedAnnotations) => {
+    const newAnnotations = modifiedAnnotations.map((item) => {
+      if (item instanceof Annotation) {
+        return item;
+      }
+
+      const text = tokens
+        .slice(item.start, item.end)
+        .reduce(
+          (acc, cur, idx) =>
+            acc +
+            cur.text +
+            (item.start + idx + 1 < item.end && cur.hasWhitespace ? " " : ""),
+          ""
+        );
+      return new Annotation(item.start, item.end, item.tag, text);
+    });
+    setAnnotations(newAnnotations);
+  };
+
   return (
     <div className="main-view">
       <AnnotationControl
         tokens={tokens}
         scores={scores}
         annotations={annotations}
-        onAnnotationsChange={setAnnotations}
+        onAnnotationsChange={onAnnotationsChange}
         onFileDrop={onFileDrop}
         onCancel={onCancel}
         isLoading={isLoading}
