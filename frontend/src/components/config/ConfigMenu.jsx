@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Card, Divider, Label } from "@blueprintjs/core";
 import "./ConfigMenu.sass";
 import PropTypes from "prop-types";
 import Item from "./Item";
 import MechanismConfig from "./MechanismConfig";
+import useLocalStorage from "../../js/useLocalStorage";
 
 const ConfigMenu = ({ tags }) => {
-  const [config, setConfig] = useState({
+  const [config, setConfig] = useLocalStorage("anonymizationConfig", {
     defaultMechanism: { mechanism: "suppression" },
     mechanismsByTag: {},
   });
@@ -19,7 +20,7 @@ const ConfigMenu = ({ tags }) => {
         setConfig(clone);
       }
     });
-  }, [tags, config]);
+  }, [tags, config, setConfig]);
 
   const updateConfig = (newMechanism, tag) => {
     if (tag == null) {
