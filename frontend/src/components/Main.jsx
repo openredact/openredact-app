@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { saveAs } from "file-saver";
+import PropTypes from "prop-types";
 import AnnotationControl from "./annotation/AnnotationControl";
 import PreviewControl from "./preview/PreviewControl";
 import "./Main.sass";
@@ -16,7 +17,7 @@ import AppToaster from "../js/toaster";
 import PolyglotContext from "../js/polyglotContext";
 import SeparatorArrow from "./SeparatorArrow";
 
-const Main = () => {
+const Main = ({ tags }) => {
   const t = useContext(PolyglotContext);
 
   const [tokens, setTokens] = useState([]);
@@ -176,6 +177,7 @@ const Main = () => {
         onFileDrop={onFileDrop}
         onCancel={onCancel}
         isLoading={isLoading}
+        tags={tags}
       />
       <PreviewControl
         tokens={tokens}
@@ -185,6 +187,10 @@ const Main = () => {
       <SeparatorArrow />
     </div>
   );
+};
+
+Main.propTypes = {
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default Main;

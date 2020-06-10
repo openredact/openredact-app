@@ -3,5 +3,5 @@ import { render } from "@testing-library/react";
 import ConfigMenu from "./ConfigMenu";
 
 it("renders", () => {
-  render(<ConfigMenu />);
+  render(<ConfigMenu tags={["PER"]} />);
 });

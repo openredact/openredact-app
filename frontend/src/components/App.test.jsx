@@ -4,10 +4,15 @@ import { fetchTags } from "../api/routes";
 import App from "./App";
 
 jest.mock("../api/routes");
-fetchTags.mockResolvedValue({});
+fetchTags.mockResolvedValue({ data: ["PER"] });
+
+afterEach(() => {
+  jest.clearAllMocks();
+});
 
 it("renders", () => {
   render(<App />);
+  expect(fetchTags).toHaveBeenCalledTimes(1);
 });
 
 it("shows translations in the correct language", () => {
@@ -21,4 +26,5 @@ it("shows translations in the correct language", () => {
   const { getByTitle } = render(<App />);
   const help = getByTitle(/Hilfe/);
   expect(help).toBeInTheDocument();
+  expect(fetchTags).toHaveBeenCalledTimes(1);
 });

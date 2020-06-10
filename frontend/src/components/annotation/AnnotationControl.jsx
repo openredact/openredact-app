@@ -1,14 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import { Card, Elevation, Icon, Spinner } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import "./AnnotationControl.sass";
 import PropTypes from "prop-types";
 import Dropzone from "./Dropzone";
 import AnnotationForm from "./AnnotationForm";
-import { fetchTags } from "../../api/routes";
 import Scores from "./Scores";
-import AppToaster from "../../js/toaster";
-import PolyglotContext from "../../js/polyglotContext";
 
 const AnnotationControl = ({
   tokens,
@@ -18,24 +15,8 @@ const AnnotationControl = ({
   onFileDrop,
   onCancel,
   isLoading,
+  tags,
 }) => {
-  const t = useContext(PolyglotContext);
-
-  const [tags, setTags] = useState([]);
-
-  useEffect(() => {
-    fetchTags()
-      .then((response) => {
-        setTags(response.data);
-      })
-      .catch(() => {
-        AppToaster.show({
-          message: t("annotation.fetching_tags_failed_toast"),
-          intent: "danger",
-        });
-      });
-  }, [t]);
-
   return (
     <Card className="annotation-card" elevation={Elevation.ONE}>
       {isLoading && <Spinner />}
@@ -73,6 +54,7 @@ AnnotationControl.propTypes = {
   onFileDrop: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 AnnotationControl.defaultProps = {
