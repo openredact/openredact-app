@@ -2,26 +2,30 @@ import React from "react";
 import PropTypes from "prop-types";
 import SuppressionMechanism from "./SuppressionMechanism";
 
-const MechanismConfig = ({ mechanismConfig, updateConfig, tag }) => {
+const MechanismConfig = ({ mechanismConfig, updateMechanismConfig }) => {
   let mechanismComponent;
   switch (mechanismConfig.mechanism) {
     case "suppression":
-      mechanismComponent = <SuppressionMechanism />;
+      mechanismComponent = (
+        <SuppressionMechanism
+          mechanismConfig={mechanismConfig}
+          updateMechanismConfig={updateMechanismConfig}
+        />
+      );
       break;
     default:
       mechanismComponent = <div />;
   }
 
   const onSelect = (event) => {
-    if (tag != null) updateConfig({ mechanism: event.target.value }, tag);
-    else updateConfig({ mechanism: event.target.value });
+    updateMechanismConfig({ mechanism: event.target.value });
   };
 
   return (
     <div>
       <select
         value={mechanismConfig.mechanism}
-        onBlur={() => {}}
+        onBlur={() => {}} // TODO handle blur
         onChange={onSelect}
       >
         <option value="none">Do not anonymize</option>
@@ -37,12 +41,7 @@ const MechanismConfig = ({ mechanismConfig, updateConfig, tag }) => {
 
 MechanismConfig.propTypes = {
   mechanismConfig: PropTypes.objectOf(PropTypes.any).isRequired,
-  updateConfig: PropTypes.func.isRequired,
-  tag: PropTypes.string,
-};
-
-MechanismConfig.defaultProps = {
-  tag: null,
+  updateMechanismConfig: PropTypes.func.isRequired,
 };
 
 export default MechanismConfig;

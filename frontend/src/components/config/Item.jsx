@@ -4,13 +4,16 @@ import { Label } from "@blueprintjs/core";
 import MechanismConfig from "./MechanismConfig";
 
 const Item = ({ mechanismConfig, updateConfig, tag }) => {
+  const updateMechanismConfig = (myTag) => (mechanism) => {
+    updateConfig(mechanism, myTag);
+  };
+
   return (
     <Label>
       {tag}
       <MechanismConfig
         mechanismConfig={mechanismConfig}
-        updateConfig={updateConfig}
-        tag={tag}
+        updateMechanismConfig={updateMechanismConfig(tag)}
       />
     </Label>
   );

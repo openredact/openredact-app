@@ -22,7 +22,7 @@ const ConfigMenu = ({ tags }) => {
     });
   }, [tags, config, setConfig]);
 
-  const updateConfig = (newMechanism, tag) => {
+  const updateConfig = (newMechanism, tag = null) => {
     if (tag == null) {
       // update default
       setConfig({ ...config, defaultMechanism: newMechanism });
@@ -50,7 +50,7 @@ const ConfigMenu = ({ tags }) => {
         Default
         <MechanismConfig
           mechanismConfig={config.defaultMechanism}
-          updateConfig={updateConfig}
+          updateMechanismConfig={updateConfig}
         />
       </Label>
 
