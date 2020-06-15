@@ -20,7 +20,10 @@ const SuppressionMechanism = ({ mechanismConfig, updateMechanismConfig }) => {
   };
 
   const onUpdateCustomLength = (_, valueAsString) => {
-    updateMechanismConfig({ ...myMechanismConfig, valueAsString });
+    updateMechanismConfig({
+      ...myMechanismConfig,
+      customLength: valueAsString,
+    });
   };
 
   return (

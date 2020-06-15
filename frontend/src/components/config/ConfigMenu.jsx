@@ -11,6 +11,15 @@ const ConfigMenu = ({ tags }) => {
     defaultMechanism: { mechanism: "suppression" },
     mechanismsByTag: {},
   });
+  const [configHistory, setConfigHistory] = useLocalStorage(
+    "anonymizationConfigHistory",
+    {
+      suppression: {},
+      generalization: {},
+      pseudonymization: {},
+      stateful: {},
+    }
+  );
 
   useEffect(() => {
     tags.forEach((tag) => {
@@ -22,23 +31,58 @@ const ConfigMenu = ({ tags }) => {
     });
   }, [tags, config, setConfig]);
 
+  const updateConfigHistory = (newMechanism, tag) => {
+    if (newMechanism.mechanism === "none") {
+      return;
+    }
+    const historyClone = { ...configHistory };
+    historyClone[newMechanism.mechanism][tag] = newMechanism;
+    setConfigHistory(historyClone);
+  };
+
   const updateConfig = (newMechanism, tag = null) => {
     if (tag == null) {
       // update default
       setConfig({ ...config, defaultMechanism: newMechanism });
+      if (Object.keys(newMechanism).length > 1)
+        updateConfigHistory(newMechanism, "default");
+      return;
     }
 
     // update mechanism for tag
-    const clone = { ...config };
-    clone.mechanismsByTag[tag] = newMechanism;
-    setConfig(clone);
+    const configClone = { ...config };
+    configClone.mechanismsByTag[tag] = newMechanism;
+    setConfig(configClone);
+    if (Object.keys(newMechanism).length > 1)
+      updateConfigHistory(newMechanism, tag);
+  };
+
+  const configHistoryForTag = (tag) => (mechanism) => {
+    return configHistory[mechanism][tag];
+  };
+
+  const augmentWithHistory = (tag, selectedMechanism) => {
+    if (selectedMechanism.mechanism === "none") return selectedMechanism;
+
+    const hist = configHistoryForTag(tag)(selectedMechanism.mechanism);
+
+    if (Object.keys(selectedMechanism).length <= 1 && hist) {
+      // TODO extract function
+      return hist;
+    }
+
+    return selectedMechanism;
   };
 
   const listItems = Object.entries(config.mechanismsByTag).map(
     ([key, value]) => {
       return (
         <li key={key}>
-          <Item tag={key} mechanismConfig={value} updateConfig={updateConfig} />
+          <Item
+            tag={key}
+            mechanismConfig={augmentWithHistory(key, value)}
+            updateMechanismConfig={(mechanism) => updateConfig(mechanism, key)}
+          />
         </li>
       );
     }
@@ -49,7 +93,10 @@ const ConfigMenu = ({ tags }) => {
       <Label>
         Default
         <MechanismConfig
-          mechanismConfig={config.defaultMechanism}
+          mechanismConfig={augmentWithHistory(
+            "default",
+            config.defaultMechanism
+          )}
           updateMechanismConfig={updateConfig}
         />
       </Label>
