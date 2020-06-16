@@ -7,6 +7,18 @@ export default {
     or: "or",
     score: "score",
   },
+  anonymization: {
+    do_not_anonymize: "Do not anonymize",
+    default: "Default",
+    generalization: { name: "Generalization" },
+    pseudonymization: { name: "Pseudonymization" },
+    stateful: { name: "Stateful" },
+    suppression: {
+      name: "Suppression",
+      custom_length: "Custom length",
+      suppression_char: "Replace with",
+    },
+  },
   app: {
     network_error_toast: "The server is not available.",
   },
@@ -22,5 +34,12 @@ export default {
   },
   preview: {
     download: "Download",
+  },
+  tags: {
+    loc: "Locations",
+    misc: "Miscellaneous",
+    org: "Organizations",
+    per: "Persons",
+    state: "States",
   },
 };

@@ -7,6 +7,18 @@ export default {
     or: "oder",
     score: "Maß",
   },
+  anonymization: {
+    do_not_anonymize: "Nicht anonymisieren",
+    default: "Default",
+    generalization: { name: "Generalisierung" },
+    pseudonymization: { name: "Pseudonymisierung" },
+    stateful: { name: "Zustandsbehaftet" },
+    suppression: {
+      name: "Schwärzen",
+      custom_length: "Benutzerdefinierte Länge",
+      suppression_char: "Ersetzen mit",
+    },
+  },
   app: {
     network_error_toast: "Der Server ist nicht erreichbar.",
   },
@@ -24,5 +36,12 @@ export default {
   },
   preview: {
     download: "Herunterladen",
+  },
+  tags: {
+    loc: "Orte",
+    misc: "Andere",
+    org: "Organisationen",
+    per: "Personen",
+    state: "Staaten",
   },
 };

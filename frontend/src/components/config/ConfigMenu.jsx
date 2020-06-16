@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Card, Divider, Label } from "@blueprintjs/core";
 import "./ConfigMenu.sass";
 import PropTypes from "prop-types";
 import Item from "./Item";
 import MechanismConfig from "./MechanismConfig";
 import useLocalStorage from "../../js/useLocalStorage";
+import PolyglotContext from "../../js/polyglotContext";
 
 function hasProperty(object, property) {
   return Object.prototype.hasOwnProperty.call(object, property);
@@ -19,6 +20,8 @@ function hasConfigurations(mechanism) {
 }
 
 const ConfigMenu = ({ tags }) => {
+  const t = useContext(PolyglotContext);
+
   const [config, setConfig] = useLocalStorage("anonymizationConfig", {
     defaultMechanism: { mechanism: "suppression" },
     mechanismsByTag: {},
@@ -83,8 +86,9 @@ const ConfigMenu = ({ tags }) => {
     return selectedMechanism;
   };
 
-  const listItems = Object.entries(config.mechanismsByTag).map(
-    ([key, value]) => {
+  const listItems = Object.entries(config.mechanismsByTag)
+    .sort()
+    .map(([key, value]) => {
       return (
         <li key={key}>
           <Item
@@ -94,13 +98,12 @@ const ConfigMenu = ({ tags }) => {
           />
         </li>
       );
-    }
-  );
+    });
 
   return (
     <Card className="config-menu">
       <Label>
-        Default
+        {t("anonymization.default")}
         <MechanismConfig
           mechanismConfig={addCachedChoices("default", config.defaultMechanism)}
           updateMechanismConfig={updateConfig}

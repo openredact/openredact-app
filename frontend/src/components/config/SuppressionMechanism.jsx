@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { InputGroup, Label, NumericInput } from "@blueprintjs/core";
+import PolyglotContext from "../../js/polyglotContext";
 
 function isNotConfigured(myMechanismConfig) {
   return Object.keys(myMechanismConfig).length <= 1;
 }
 
 const SuppressionMechanism = ({ mechanismConfig, updateMechanismConfig }) => {
+  const t = useContext(PolyglotContext);
+
   let myMechanismConfig = mechanismConfig;
   if (isNotConfigured(myMechanismConfig)) {
     myMechanismConfig = {
@@ -33,14 +36,14 @@ const SuppressionMechanism = ({ mechanismConfig, updateMechanismConfig }) => {
   return (
     <div>
       <Label>
-        SuppressionChar
+        {t("anonymization.suppression.suppression_char")}
         <InputGroup
           value={myMechanismConfig.suppressionChar}
           onChange={onUpdateSuppressionChar}
         />
       </Label>
       <Label>
-        CustomLength
+        {t("anonymization.suppression.custom_length")}
         <NumericInput
           min={1}
           minorStepSize={1}
