@@ -1,20 +1,18 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from "react";
 import PropTypes from "prop-types";
 import SuppressionMechanism from "./SuppressionMechanism";
 
 const MechanismConfig = ({ mechanismConfig, updateMechanismConfig }) => {
+  const props = { mechanismConfig, updateMechanismConfig };
+
   let mechanismComponent;
   switch (mechanismConfig.mechanism) {
     case "suppression":
-      mechanismComponent = (
-        <SuppressionMechanism
-          mechanismConfig={mechanismConfig}
-          updateMechanismConfig={updateMechanismConfig}
-        />
-      );
+      mechanismComponent = <SuppressionMechanism {...props} />;
       break;
     default:
-      mechanismComponent = <div />;
+      mechanismComponent = null;
   }
 
   const onSelect = (event) => {
@@ -23,11 +21,8 @@ const MechanismConfig = ({ mechanismConfig, updateMechanismConfig }) => {
 
   return (
     <div>
-      <select
-        value={mechanismConfig.mechanism}
-        onBlur={() => {}} // TODO handle blur
-        onChange={onSelect}
-      >
+      {/* eslint-disable-next-line jsx-a11y/no-onchange */}
+      <select value={mechanismConfig.mechanism} onChange={onSelect}>
         <option value="none">Do not anonymize</option>
         <option value="suppression">Suppression</option>
         <option value="generalization">Generalization</option>

@@ -2,9 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import { InputGroup, Label, NumericInput } from "@blueprintjs/core";
 
+function isNotConfigured(myMechanismConfig) {
+  return Object.keys(myMechanismConfig).length <= 1;
+}
+
 const SuppressionMechanism = ({ mechanismConfig, updateMechanismConfig }) => {
   let myMechanismConfig = mechanismConfig;
-  if (Object.keys(myMechanismConfig).length <= 1) {
+  if (isNotConfigured(myMechanismConfig)) {
     myMechanismConfig = {
       ...myMechanismConfig,
       suppressionChar: "X",
