@@ -6,18 +6,7 @@ import Item from "./Item";
 import MechanismConfig from "./MechanismConfig";
 import useLocalStorage from "../../js/useLocalStorage";
 import PolyglotContext from "../../js/polyglotContext";
-
-function hasProperty(object, property) {
-  return Object.prototype.hasOwnProperty.call(object, property);
-}
-
-function hasConfigurations(mechanism) {
-  /**
-   * Each mechanism has the property mechanism (with values "generalization", "suppression", ...).
-   * Any other property of a mechanism is its configuration (e.g. `suppressionChar`).
-   */
-  return Object.keys(mechanism).length > 1;
-}
+import { hasConfigurations, hasProperty } from "../../js/anonymizationConfig";
 
 const ConfigMenu = ({ tags }) => {
   const t = useContext(PolyglotContext);

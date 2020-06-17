@@ -10,8 +10,12 @@ export default {
   anonymization: {
     do_not_anonymize: "Nicht anonymisieren",
     default: "Default",
-    generalization: { name: "Generalisierung" },
-    pseudonymization: { name: "Pseudonymisierung" },
+    generalization: { name: "Generalisierung", replacement: "Ersetzen mit" },
+    pseudonymization: {
+      name: "Pseudonymisierung",
+      format_string: "Formatierungs String",
+      initial_counter_value: "Initialer Wert",
+    },
     stateful: { name: "Zustandsbehaftet" },
     suppression: {
       name: "Schwärzen",

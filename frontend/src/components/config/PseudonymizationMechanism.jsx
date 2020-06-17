@@ -4,57 +4,60 @@ import { InputGroup, Label, NumericInput } from "@blueprintjs/core";
 import PolyglotContext from "../../js/polyglotContext";
 import { hasConfigurations } from "../../js/anonymizationConfig";
 
-const SuppressionMechanism = ({ mechanismConfig, updateMechanismConfig }) => {
+const PseudonymizationMechanism = ({
+  mechanismConfig,
+  updateMechanismConfig,
+}) => {
   const t = useContext(PolyglotContext);
 
   let myMechanismConfig = mechanismConfig;
   if (!hasConfigurations(myMechanismConfig)) {
     myMechanismConfig = {
       ...myMechanismConfig,
-      suppressionChar: "X",
-      customLength: "",
+      formatString: "{}",
+      initialCounterValue: "",
     };
   }
 
-  const onUpdateSuppressionChar = (event) => {
+  const onUpdateFormatString = (event) => {
     updateMechanismConfig({
       ...myMechanismConfig,
-      suppressionChar: event.target.value,
+      formatString: event.target.value,
     });
   };
 
-  const onUpdateCustomLength = (_, valueAsString) => {
+  const onUpdateInitialCounterValue = (_, valueAsString) => {
     updateMechanismConfig({
       ...myMechanismConfig,
-      customLength: valueAsString,
+      initialCounterValue: valueAsString,
     });
   };
 
   return (
     <div>
       <Label>
-        {t("anonymization.suppression.suppression_char")}
+        {t("anonymization.pseudonymization.format_string")}*
         <InputGroup
-          value={myMechanismConfig.suppressionChar}
-          onChange={onUpdateSuppressionChar}
+          value={myMechanismConfig.formatString}
+          onChange={onUpdateFormatString}
         />
       </Label>
       <Label>
-        {t("anonymization.suppression.custom_length")}
+        {t("anonymization.pseudonymization.initial_counter_value")}
         <NumericInput
           min={1}
           minorStepSize={1}
-          value={myMechanismConfig.customLength}
-          onValueChange={onUpdateCustomLength}
+          value={myMechanismConfig.initialCounterValue}
+          onValueChange={onUpdateInitialCounterValue}
         />
       </Label>
     </div>
   );
 };
 
-SuppressionMechanism.propTypes = {
+PseudonymizationMechanism.propTypes = {
   mechanismConfig: PropTypes.objectOf(PropTypes.any).isRequired,
   updateMechanismConfig: PropTypes.func.isRequired,
 };
 
-export default SuppressionMechanism;
+export default PseudonymizationMechanism;

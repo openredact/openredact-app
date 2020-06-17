@@ -1,8 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
-import SuppressionMechanism from "./SuppressionMechanism";
 import PolyglotContext from "../../js/polyglotContext";
+import SuppressionMechanism from "./SuppressionMechanism";
+import PseudonymizationMechanism from "./PseudonymizationMechanism";
+import GeneralizationMechanism from "./GeneralizationMechanism";
 
 const MechanismConfig = ({ mechanismConfig, updateMechanismConfig }) => {
   const t = useContext(PolyglotContext);
@@ -11,9 +13,16 @@ const MechanismConfig = ({ mechanismConfig, updateMechanismConfig }) => {
 
   let mechanismComponent;
   switch (mechanismConfig.mechanism) {
+    case "generalization":
+      mechanismComponent = <GeneralizationMechanism {...props} />;
+      break;
+    case "pseudonymization":
+      mechanismComponent = <PseudonymizationMechanism {...props} />;
+      break;
     case "suppression":
       mechanismComponent = <SuppressionMechanism {...props} />;
       break;
+
     default:
       mechanismComponent = null;
   }
