@@ -15,7 +15,7 @@ const PseudonymizationMechanism = ({
     myMechanismConfig = {
       ...myMechanismConfig,
       formatString: "{}",
-      initialCounterValue: "",
+      initialCounterValue: 1,
     };
   }
 
@@ -26,10 +26,10 @@ const PseudonymizationMechanism = ({
     });
   };
 
-  const onUpdateInitialCounterValue = (_, valueAsString) => {
+  const onUpdateInitialCounterValue = (valueAsInt) => {
     updateMechanismConfig({
       ...myMechanismConfig,
-      initialCounterValue: valueAsString,
+      initialCounterValue: valueAsInt,
     });
   };
 

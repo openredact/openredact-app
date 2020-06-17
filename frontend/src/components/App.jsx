@@ -7,6 +7,7 @@ import PolyglotContext from "../js/polyglotContext";
 import { polyglot, updateLocale } from "../translations/utils";
 import { fetchTags } from "../api/routes";
 import AppToaster from "../js/toaster";
+import useLocalStorage from "../js/useLocalStorage";
 
 const App = () => {
   updateLocale(polyglot);
@@ -14,6 +15,13 @@ const App = () => {
   const t = useContext(PolyglotContext);
 
   const [tags, setTags] = useState([]);
+  const [anonymizationConfig, setAnonymizationConfig] = useLocalStorage(
+    "anonymizationConfig",
+    {
+      defaultMechanism: { mechanism: "suppression" },
+      mechanismsByTag: {},
+    }
+  );
 
   useEffect(() => {
     fetchTags()
@@ -34,8 +42,12 @@ const App = () => {
     >
       <NavBar />
       <div className="grid-container">
-        <ConfigMenu tags={tags} />
-        <Main tags={tags} />
+        <ConfigMenu
+          tags={tags}
+          config={anonymizationConfig}
+          setConfig={setAnonymizationConfig}
+        />
+        <Main tags={tags} anonymizationConfig={anonymizationConfig} />
       </div>
     </PolyglotContext.Provider>
   );

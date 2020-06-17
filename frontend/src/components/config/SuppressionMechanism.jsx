@@ -12,7 +12,7 @@ const SuppressionMechanism = ({ mechanismConfig, updateMechanismConfig }) => {
     myMechanismConfig = {
       ...myMechanismConfig,
       suppressionChar: "X",
-      customLength: "",
+      customLength: 1,
     };
   }
 
@@ -23,10 +23,10 @@ const SuppressionMechanism = ({ mechanismConfig, updateMechanismConfig }) => {
     });
   };
 
-  const onUpdateCustomLength = (_, valueAsString) => {
+  const onUpdateCustomLength = (valueAsInt) => {
     updateMechanismConfig({
       ...myMechanismConfig,
-      customLength: valueAsString,
+      customLength: valueAsInt,
     });
   };
 

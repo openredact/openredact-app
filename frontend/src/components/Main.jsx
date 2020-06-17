@@ -17,7 +17,7 @@ import AppToaster from "../js/toaster";
 import PolyglotContext from "../js/polyglotContext";
 import SeparatorArrow from "./SeparatorArrow";
 
-const Main = ({ tags }) => {
+const Main = ({ tags, anonymizationConfig }) => {
   const t = useContext(PolyglotContext);
 
   const [tokens, setTokens] = useState([]);
@@ -51,10 +51,7 @@ const Main = ({ tags }) => {
 
     anonymizePiis({
       piis,
-      config: {
-        defaultMechanism: { mechanism: "suppression" },
-        mechanismsByTag: {},
-      },
+      config: anonymizationConfig,
     })
       .then((response) => {
         const { anonymizedPiis } = response.data;
@@ -74,7 +71,7 @@ const Main = ({ tags }) => {
           intent: "danger",
         });
       });
-  }, [t, tokens, annotations]);
+  }, [t, tokens, annotations, anonymizationConfig]);
 
   useEffect(() => {
     if (annotations.length === 0 || initialAnnotations === null) return;
@@ -191,6 +188,7 @@ const Main = ({ tags }) => {
 
 Main.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  anonymizationConfig: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default Main;

@@ -8,13 +8,9 @@ import useLocalStorage from "../../js/useLocalStorage";
 import PolyglotContext from "../../js/polyglotContext";
 import { hasConfigurations, hasProperty } from "../../js/anonymizationConfig";
 
-const ConfigMenu = ({ tags }) => {
+const ConfigMenu = ({ tags, config, setConfig }) => {
   const t = useContext(PolyglotContext);
 
-  const [config, setConfig] = useLocalStorage("anonymizationConfig", {
-    defaultMechanism: { mechanism: "suppression" },
-    mechanismsByTag: {},
-  });
   const [configHistory, setConfigHistory] = useLocalStorage(
     "anonymizationConfigHistory",
     {
@@ -107,6 +103,8 @@ const ConfigMenu = ({ tags }) => {
 
 ConfigMenu.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  config: PropTypes.objectOf(PropTypes.any).isRequired,
+  setConfig: PropTypes.func.isRequired,
 };
 
 export default ConfigMenu;
