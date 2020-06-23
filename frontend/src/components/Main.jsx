@@ -30,33 +30,42 @@ const Main = ({ tags, anonymizationConfig }) => {
   const fileFormData = useRef({});
 
   useEffect(() => {
+    function createPositionsMap() {
+      return new Map(
+        annotations.map((annotation) => {
+          return [
+            annotation.id,
+            {
+              start: annotation.start,
+              end: annotation.end,
+              startChar: tokens[annotation.start].startChar,
+              endChar: tokens[annotation.end - 1].endChar,
+            },
+          ];
+        })
+      );
+    }
+
+    function computeTagsToNotAnonymize() {
+      const tagsToNotAnonymize = [];
+      Object.entries(anonymizationConfig.mechanismsByTag).forEach((item) => {
+        const tag = item[0];
+        const mechanism = item[1];
+        if (mechanism.mechanism === "none") {
+          tagsToNotAnonymize.push(tag);
+        }
+      });
+      return tagsToNotAnonymize;
+    }
+
     if (annotations.length === 0) return;
 
-    const positionsMap = new Map(
-      annotations.map((annotation) => {
-        return [
-          annotation.id,
-          {
-            start: annotation.start,
-            end: annotation.end,
-            startChar: tokens[annotation.start].startChar,
-            endChar: tokens[annotation.end - 1].endChar,
-          },
-        ];
-      })
-    );
+    const positionsMap = createPositionsMap();
     const piis = annotations.map((annotation) => {
       return { tag: annotation.tag, text: annotation.text, id: annotation.id };
     });
 
-    const tagsToNotAnonymize = [];
-    Object.entries(anonymizationConfig.mechanismsByTag).forEach((item) => {
-      const tag = item[0];
-      const mechanism = item[1];
-      if (mechanism.mechanism === "none") {
-        tagsToNotAnonymize.push(tag);
-      }
-    });
+    const tagsToNotAnonymize = computeTagsToNotAnonymize();
 
     const configForBackend = JSON.parse(JSON.stringify(anonymizationConfig)); // deep clone
     tagsToNotAnonymize.forEach(
