@@ -30,7 +30,7 @@ const Main = ({ tags, anonymizationConfig }) => {
   const fileFormData = useRef({});
 
   useEffect(() => {
-    function createPositionsMap() {
+    const createPositionsMap = () => {
       return new Map(
         annotations.map((annotation) => {
           return [
@@ -44,9 +44,9 @@ const Main = ({ tags, anonymizationConfig }) => {
           ];
         })
       );
-    }
+    };
 
-    function computeTagsToNotAnonymize() {
+    const computeTagsToNotAnonymize = () => {
       const tagsToNotAnonymize = [];
       Object.entries(anonymizationConfig.mechanismsByTag).forEach((item) => {
         const tag = item[0];
@@ -56,7 +56,7 @@ const Main = ({ tags, anonymizationConfig }) => {
         }
       });
       return tagsToNotAnonymize;
-    }
+    };
 
     if (annotations.length === 0) return;
 
@@ -71,6 +71,10 @@ const Main = ({ tags, anonymizationConfig }) => {
     tagsToNotAnonymize.forEach(
       (tag) => delete configForBackend.mechanismsByTag[tag]
     );
+
+    if (anonymizationConfig.defaultMechanism.mechanism === "none") {
+      delete configForBackend.defaultMechanism;
+    }
 
     const piisToAnonymize = piis.filter(
       (pii) => !tagsToNotAnonymize.includes(pii.tag)
