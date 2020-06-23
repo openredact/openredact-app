@@ -41,7 +41,7 @@ const ConfigMenu = ({ tags, config, setConfig }) => {
     const configClone = { ...config };
     let loadedFromHistory = false;
 
-    const isUnconfiguredAndHasHistory = (mechanismConfig, tag) => {
+    const isNotConfiguredAndHasHistory = (mechanismConfig, tag) => {
       return (
         mechanismConfig.mechanism !== "none" &&
         !hasConfigurations(mechanismConfig) &&
@@ -49,7 +49,7 @@ const ConfigMenu = ({ tags, config, setConfig }) => {
       );
     };
 
-    if (isUnconfiguredAndHasHistory(config.defaultMechanism, "default")) {
+    if (isNotConfiguredAndHasHistory(config.defaultMechanism, "default")) {
       loadedFromHistory = true;
       configClone.defaultMechanism = getConfigHistoryForTag("default")(
         config.defaultMechanism.mechanism
@@ -57,7 +57,7 @@ const ConfigMenu = ({ tags, config, setConfig }) => {
     }
 
     Object.entries(config.mechanismsByTag).forEach(([tag, mechanismConfig]) => {
-      if (isUnconfiguredAndHasHistory(mechanismConfig, tag)) {
+      if (isNotConfiguredAndHasHistory(mechanismConfig, tag)) {
         loadedFromHistory = true;
         configClone.mechanismsByTag[tag] = getConfigHistoryForTag(tag)(
           mechanismConfig.mechanism
