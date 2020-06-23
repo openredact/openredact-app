@@ -18,8 +18,9 @@ export default {
     },
     stateful: { name: "Zustandsbehaftet" },
     suppression: {
+      as_original: "wie im Original",
       name: "Schwärzen",
-      custom_length: "Benutzerdefinierte Länge",
+      custom_length: "Länge",
       suppression_char: "Ersetzen mit",
     },
   },

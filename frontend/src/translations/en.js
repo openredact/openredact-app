@@ -18,8 +18,9 @@ export default {
     },
     stateful: { name: "Stateful" },
     suppression: {
+      as_original: "as original",
       name: "Suppression",
-      custom_length: "Custom length",
+      custom_length: "Length",
       suppression_char: "Replace with",
     },
   },

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { InputGroup, Label, NumericInput } from "@blueprintjs/core";
 import PolyglotContext from "../../js/polyglotContext";
@@ -7,26 +7,50 @@ import { hasConfigurations } from "../../js/anonymizationConfig";
 const SuppressionMechanism = ({ mechanismConfig, updateMechanismConfig }) => {
   const t = useContext(PolyglotContext);
 
-  let myMechanismConfig = mechanismConfig;
-  if (!hasConfigurations(myMechanismConfig)) {
-    myMechanismConfig = {
-      ...myMechanismConfig,
-      suppressionChar: "X",
-      customLength: 1,
-    };
-  }
+  const [isValid, setIsValid] = useState(true);
+
+  useEffect(() => {
+    if (!hasConfigurations(mechanismConfig)) {
+      updateMechanismConfig({
+        ...mechanismConfig,
+        suppressionChar: "X",
+      });
+    }
+  });
 
   const onUpdateSuppressionChar = (event) => {
     updateMechanismConfig({
-      ...myMechanismConfig,
+      ...mechanismConfig,
       suppressionChar: event.target.value,
     });
   };
 
-  const onUpdateCustomLength = (valueAsInt) => {
+  const isValidCustomLength = (customLength) => {
+    return (
+      customLength === undefined ||
+      (customLength !== "" &&
+        Number.isInteger(customLength) &&
+        customLength >= 1)
+    );
+  };
+
+  const onUpdateCustomLength = (valueAsNumber, valueAsString) => {
+    if (valueAsString === "" || Number.isNaN(valueAsNumber)) {
+      const clone = { ...mechanismConfig };
+      delete clone.customLength;
+      updateMechanismConfig(clone);
+      return;
+    }
+
+    if (!isValidCustomLength(valueAsNumber)) {
+      setIsValid(false);
+      return;
+    }
+
+    setIsValid(true);
     updateMechanismConfig({
-      ...myMechanismConfig,
-      customLength: valueAsInt,
+      ...mechanismConfig,
+      customLength: valueAsNumber,
     });
   };
 
@@ -35,7 +59,11 @@ const SuppressionMechanism = ({ mechanismConfig, updateMechanismConfig }) => {
       <Label>
         {t("anonymization.suppression.suppression_char")}
         <InputGroup
-          value={myMechanismConfig.suppressionChar}
+          value={
+            mechanismConfig.suppressionChar !== undefined
+              ? mechanismConfig.suppressionChar
+              : ""
+          }
           onChange={onUpdateSuppressionChar}
         />
       </Label>
@@ -44,8 +72,14 @@ const SuppressionMechanism = ({ mechanismConfig, updateMechanismConfig }) => {
         <NumericInput
           min={1}
           minorStepSize={1}
-          value={myMechanismConfig.customLength}
+          value={
+            mechanismConfig.customLength !== undefined
+              ? mechanismConfig.customLength
+              : ""
+          }
           onValueChange={onUpdateCustomLength}
+          placeholder={t("anonymization.suppression.as_original")}
+          intent={isValid ? "default" : "danger"}
         />
       </Label>
     </div>
