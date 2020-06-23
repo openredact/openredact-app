@@ -22,6 +22,7 @@ const ConfigMenu = ({ tags, config, setConfig }) => {
   );
 
   useEffect(() => {
+    // initialize mechanism configs
     tags.forEach((tag) => {
       if (!hasProperty(config.mechanismsByTag, tag)) {
         const clone = { ...config };
@@ -30,6 +31,44 @@ const ConfigMenu = ({ tags, config, setConfig }) => {
       }
     });
   }, [tags, config, setConfig]);
+
+  useEffect(() => {
+    // set config from history if possible
+    const getConfigHistoryForTag = (tag) => (mechanism) => {
+      return configHistory[mechanism][tag];
+    };
+
+    const configClone = { ...config };
+    let loadedFromHistory = false;
+
+    const isUnconfiguredAndHasHistory = (mechanismConfig, tag) => {
+      return (
+        mechanismConfig.mechanism !== "none" &&
+        !hasConfigurations(mechanismConfig) &&
+        getConfigHistoryForTag(tag)(mechanismConfig.mechanism)
+      );
+    };
+
+    if (isUnconfiguredAndHasHistory(config.defaultMechanism, "default")) {
+      loadedFromHistory = true;
+      configClone.defaultMechanism = getConfigHistoryForTag("default")(
+        config.defaultMechanism.mechanism
+      );
+    }
+
+    Object.entries(config.mechanismsByTag).forEach(([tag, mechanismConfig]) => {
+      if (isUnconfiguredAndHasHistory(mechanismConfig, tag)) {
+        loadedFromHistory = true;
+        configClone.mechanismsByTag[tag] = getConfigHistoryForTag(tag)(
+          mechanismConfig.mechanism
+        );
+      }
+    });
+
+    if (loadedFromHistory) {
+      setConfig(configClone);
+    }
+  }, [config, setConfig, configHistory]);
 
   const updateConfigHistoryIfConfigured = (newMechanism, tag) => {
     if (newMechanism.mechanism === "none" || !hasConfigurations(newMechanism)) {
@@ -42,7 +81,6 @@ const ConfigMenu = ({ tags, config, setConfig }) => {
 
   const updateConfig = (newMechanism, tag = null) => {
     if (tag == null) {
-      // update default
       setConfig({ ...config, defaultMechanism: newMechanism });
       updateConfigHistoryIfConfigured(newMechanism, "default");
       return;
@@ -55,31 +93,15 @@ const ConfigMenu = ({ tags, config, setConfig }) => {
     updateConfigHistoryIfConfigured(newMechanism, tag);
   };
 
-  const getConfigHistoryForTag = (tag) => (mechanism) => {
-    return configHistory[mechanism][tag];
-  };
-
-  const addCachedChoices = (tag, selectedMechanism) => {
-    if (
-      selectedMechanism.mechanism !== "none" &&
-      !hasConfigurations(selectedMechanism) &&
-      getConfigHistoryForTag(tag)(selectedMechanism.mechanism)
-    ) {
-      return getConfigHistoryForTag(tag)(selectedMechanism.mechanism);
-    }
-
-    return selectedMechanism;
-  };
-
   const listItems = Object.entries(config.mechanismsByTag)
     .sort()
-    .map(([key, value]) => {
+    .map(([tag, mechanismConfig]) => {
       return (
-        <li key={key}>
+        <li key={tag}>
           <Item
-            tag={key}
-            mechanismConfig={addCachedChoices(key, value)}
-            updateMechanismConfig={(mechanism) => updateConfig(mechanism, key)}
+            tag={tag}
+            mechanismConfig={mechanismConfig}
+            updateMechanismConfig={(mechanism) => updateConfig(mechanism, tag)}
           />
         </li>
       );
@@ -90,7 +112,7 @@ const ConfigMenu = ({ tags, config, setConfig }) => {
       <Label>
         {t("anonymization.default")}
         <MechanismConfig
-          mechanismConfig={addCachedChoices("default", config.defaultMechanism)}
+          mechanismConfig={config.defaultMechanism}
           updateMechanismConfig={updateConfig}
         />
       </Label>
