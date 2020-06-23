@@ -25,6 +25,10 @@ it("shows an upload button", () => {
 });
 
 it("loads and displays the file as well as preview of the anonymization", async () => {
+  const anonymizationConfig = {
+    defaultMechanism: { mechanism: "suppression" },
+    mechanismsByTag: {},
+  };
   findPiis.mockResolvedValue({
     data: {
       piis: [
@@ -53,7 +57,9 @@ it("loads and displays the file as well as preview of the anonymization", async 
   computeScores.mockResolvedValue({ data: {} });
   uuidv4.mockReturnValue("1");
 
-  const { getByText } = render(<Main tags={["STATE"]} />);
+  const { getByText } = render(
+    <Main tags={["STATE"]} anonymizationConfig={anonymizationConfig} />
+  );
 
   // fire a drop event - this will be easier in @testing-library/jest-dom 5.x, see
   // https://testing-library.com/docs/dom-testing-library/api-events#fireeventeventname

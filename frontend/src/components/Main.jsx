@@ -49,9 +49,27 @@ const Main = ({ tags, anonymizationConfig }) => {
       return { tag: annotation.tag, text: annotation.text, id: annotation.id };
     });
 
+    const tagsToNotAnonymize = [];
+    Object.entries(anonymizationConfig.mechanismsByTag).forEach((item) => {
+      const tag = item[0];
+      const mechanism = item[1];
+      if (mechanism.mechanism === "none") {
+        tagsToNotAnonymize.push(tag);
+      }
+    });
+
+    const configForBackend = JSON.parse(JSON.stringify(anonymizationConfig)); // deep clone
+    tagsToNotAnonymize.forEach(
+      (tag) => delete configForBackend.mechanismsByTag[tag]
+    );
+
+    const piisToAnonymize = piis.filter(
+      (pii) => !tagsToNotAnonymize.includes(pii.tag)
+    );
+
     anonymizePiis({
-      piis,
-      config: anonymizationConfig,
+      piis: piisToAnonymize,
+      config: configForBackend,
     })
       .then((response) => {
         const { anonymizedPiis } = response.data;
