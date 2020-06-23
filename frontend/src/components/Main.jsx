@@ -67,13 +67,13 @@ const Main = ({ tags, anonymizationConfig }) => {
 
     const tagsToNotAnonymize = computeTagsToNotAnonymize();
 
-    const configForBackend = JSON.parse(JSON.stringify(anonymizationConfig)); // deep clone
+    const configForRequest = JSON.parse(JSON.stringify(anonymizationConfig)); // deep clone
     tagsToNotAnonymize.forEach(
-      (tag) => delete configForBackend.mechanismsByTag[tag]
+      (tag) => delete configForRequest.mechanismsByTag[tag]
     );
 
     if (anonymizationConfig.defaultMechanism.mechanism === "none") {
-      delete configForBackend.defaultMechanism;
+      delete configForRequest.defaultMechanism;
     }
 
     const piisToAnonymize = piis.filter(
@@ -82,7 +82,7 @@ const Main = ({ tags, anonymizationConfig }) => {
 
     anonymizePiis({
       piis: piisToAnonymize,
-      config: configForBackend,
+      config: configForRequest,
     })
       .then((response) => {
         const { anonymizedPiis } = response.data;
