@@ -7,7 +7,7 @@ import { hasConfigurations } from "../../js/anonymizationConfig";
 const SuppressionMechanism = ({ mechanismConfig, updateMechanismConfig }) => {
   const t = useContext(PolyglotContext);
 
-  const [isValid, setIsValid] = useState(true);
+  const [customLengthValid, setCustomLengthValid] = useState(true);
 
   useEffect(() => {
     if (!hasConfigurations(mechanismConfig)) {
@@ -18,14 +18,14 @@ const SuppressionMechanism = ({ mechanismConfig, updateMechanismConfig }) => {
     }
   });
 
-  const onUpdateSuppressionChar = (event) => {
+  const onUpdateSuppressionChar = (value) => {
     updateMechanismConfig({
       ...mechanismConfig,
-      suppressionChar: event.target.value,
+      suppressionChar: value,
     });
   };
 
-  const isValidCustomLength = (customLength) => {
+  const validateCustomLength = (customLength) => {
     return (
       customLength === undefined ||
       (customLength !== "" &&
@@ -42,29 +42,27 @@ const SuppressionMechanism = ({ mechanismConfig, updateMechanismConfig }) => {
       return;
     }
 
-    if (!isValidCustomLength(valueAsNumber)) {
-      setIsValid(false);
+    if (!validateCustomLength(valueAsNumber)) {
+      setCustomLengthValid(false);
       return;
     }
 
-    setIsValid(true);
+    setCustomLengthValid(true);
     updateMechanismConfig({
       ...mechanismConfig,
       customLength: valueAsNumber,
     });
   };
 
+  if (!hasConfigurations(mechanismConfig)) return null;
+
   return (
     <div>
       <Label>
         {t("anonymization.suppression.suppression_char")}
         <InputGroup
-          value={
-            mechanismConfig.suppressionChar !== undefined
-              ? mechanismConfig.suppressionChar
-              : ""
-          }
-          onChange={onUpdateSuppressionChar}
+          value={mechanismConfig.suppressionChar}
+          onChange={(event) => onUpdateSuppressionChar(event.target.value)}
         />
       </Label>
       <Label>
@@ -79,7 +77,7 @@ const SuppressionMechanism = ({ mechanismConfig, updateMechanismConfig }) => {
           }
           onValueChange={onUpdateCustomLength}
           placeholder={t("anonymization.suppression.as_original")}
-          intent={isValid ? "default" : "danger"}
+          intent={customLengthValid ? "default" : "danger"}
         />
       </Label>
     </div>

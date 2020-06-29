@@ -13,7 +13,8 @@ export default {
     generalization: { name: "Generalisierung", replacement: "Ersetzen mit" },
     pseudonymization: {
       name: "Pseudonymisierung",
-      format_string: "Formatierungs String",
+      format_string: "Ersetzen mit",
+      format_string_tooltip: "Benutze {} als Platzhalter",
       initial_counter_value: "Initialer Wert",
     },
     stateful: { name: "Zustandsbehaftet" },

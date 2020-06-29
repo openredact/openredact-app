@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { InputGroup, Label, NumericInput } from "@blueprintjs/core";
+import { InputGroup, Label, NumericInput, Tooltip } from "@blueprintjs/core";
 import PolyglotContext from "../../js/polyglotContext";
 import { hasConfigurations } from "../../js/anonymizationConfig";
 
@@ -10,45 +10,78 @@ const PseudonymizationMechanism = ({
 }) => {
   const t = useContext(PolyglotContext);
 
-  let myMechanismConfig = mechanismConfig;
-  if (!hasConfigurations(myMechanismConfig)) {
-    myMechanismConfig = {
-      ...myMechanismConfig,
-      formatString: "{}",
-      initialCounterValue: 1,
-    };
-  }
+  const [formatStringValid, setFormatStringValid] = useState(true);
+  const [initialCounterValid, setInitialCounterValid] = useState(true);
 
-  const onUpdateFormatString = (event) => {
+  useEffect(() => {
+    if (!hasConfigurations(mechanismConfig)) {
+      updateMechanismConfig({
+        ...mechanismConfig,
+        formatString: "{}",
+        initialCounterValue: 1,
+      });
+    }
+  });
+
+  const validateFormatString = (string) => {
+    const regex = RegExp("^[^{}]*{}[^{}]*$");
+    return regex.test(string);
+  };
+
+  const onUpdateFormatString = (value) => {
+    if (!validateFormatString(value)) {
+      setFormatStringValid(false);
+    } else {
+      setFormatStringValid(true);
+    }
+
     updateMechanismConfig({
-      ...myMechanismConfig,
-      formatString: event.target.value,
+      ...mechanismConfig,
+      formatString: value,
     });
   };
 
-  const onUpdateInitialCounterValue = (valueAsInt) => {
+  const validateInitialCounterValue = (initialCounterValue) => {
+    return Number.isInteger(initialCounterValue) && initialCounterValue >= 1;
+  };
+
+  const onUpdateInitialCounterValue = (valueAsNumber) => {
+    if (!validateInitialCounterValue(valueAsNumber)) {
+      setInitialCounterValid(false);
+      return;
+    }
+
+    setInitialCounterValid(true);
     updateMechanismConfig({
-      ...myMechanismConfig,
-      initialCounterValue: valueAsInt,
+      ...mechanismConfig,
+      initialCounterValue: valueAsNumber,
     });
   };
+
+  if (!hasConfigurations(mechanismConfig)) return null;
 
   return (
     <div>
       <Label>
-        {t("anonymization.pseudonymization.format_string")}*
-        <InputGroup
-          value={myMechanismConfig.formatString}
-          onChange={onUpdateFormatString}
-        />
+        {t("anonymization.pseudonymization.format_string")}
+        <Tooltip
+          content={t("anonymization.pseudonymization.format_string_tooltip")}
+        >
+          <InputGroup
+            value={mechanismConfig.formatString}
+            onChange={(event) => onUpdateFormatString(event.target.value)}
+            intent={formatStringValid ? "default" : "danger"}
+          />
+        </Tooltip>
       </Label>
       <Label>
         {t("anonymization.pseudonymization.initial_counter_value")}
         <NumericInput
           min={1}
           minorStepSize={1}
-          value={myMechanismConfig.initialCounterValue}
+          value={mechanismConfig.initialCounterValue}
           onValueChange={onUpdateInitialCounterValue}
+          intent={initialCounterValid ? "default" : "danger"}
         />
       </Label>
     </div>

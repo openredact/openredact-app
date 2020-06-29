@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import PropTypes from "prop-types";
 import { InputGroup, Label } from "@blueprintjs/core";
 import PolyglotContext from "../../js/polyglotContext";
@@ -10,28 +10,29 @@ const GeneralizationMechanism = ({
 }) => {
   const t = useContext(PolyglotContext);
 
-  let myMechanismConfig = mechanismConfig;
-  if (!hasConfigurations(myMechanismConfig)) {
-    myMechanismConfig = {
-      ...myMechanismConfig,
-      replacement: "<>",
-    };
-  }
+  useEffect(() => {
+    if (!hasConfigurations(mechanismConfig)) {
+      updateMechanismConfig({
+        ...mechanismConfig,
+        replacement: "<>",
+      });
+    }
+  });
 
-  const onUpdateReplacement = (event) => {
+  const onUpdateReplacement = (value) => {
     updateMechanismConfig({
-      ...myMechanismConfig,
-      replacement: event.target.value,
+      ...mechanismConfig,
+      replacement: value,
     });
   };
 
   return (
     <div>
       <Label>
-        {t("anonymization.generalization.replacement")}*
+        {t("anonymization.generalization.replacement")}
         <InputGroup
-          value={myMechanismConfig.replacement}
-          onChange={onUpdateReplacement}
+          value={mechanismConfig.replacement}
+          onChange={(event) => onUpdateReplacement(event.target.value)}
         />
       </Label>
     </div>
