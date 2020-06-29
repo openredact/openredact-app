@@ -71,6 +71,7 @@ const PseudonymizationMechanism = ({
             value={mechanismConfig.formatString}
             onChange={(event) => onUpdateFormatString(event.target.value)}
             intent={formatStringValid ? "default" : "danger"}
+            fill
           />
         </Tooltip>
       </Label>
@@ -82,6 +83,7 @@ const PseudonymizationMechanism = ({
           value={mechanismConfig.initialCounterValue}
           onValueChange={onUpdateInitialCounterValue}
           intent={initialCounterValid ? "default" : "danger"}
+          fill
         />
       </Label>
     </div>

@@ -32,11 +32,11 @@ const MechanismConfig = ({ mechanismConfig, updateMechanismConfig, tag }) => {
   };
 
   return (
-    <div>
+    <div className="mechanism">
       {/* eslint-disable-next-line jsx-a11y/no-onchange */}
       <select value={mechanismConfig.mechanism} onChange={onSelect}>
         {tag !== "default" && (
-          <option value="useDefault">{t("anonymization.default")}</option>
+          <option value="useDefault">{t("anonymization.use_default")}</option>
         )}
         {tag !== "default" && (
           <option value="none">{t("anonymization.do_not_anonymize")}</option>

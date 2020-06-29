@@ -33,6 +33,7 @@ const GeneralizationMechanism = ({
         <InputGroup
           value={mechanismConfig.replacement}
           onChange={(event) => onUpdateReplacement(event.target.value)}
+          fill
         />
       </Label>
     </div>

@@ -10,6 +10,7 @@ export default {
   anonymization: {
     do_not_anonymize: "Nicht anonymisieren",
     default: "Default",
+    use_default: "Default benutzen",
     generalization: { name: "Generalisierung", replacement: "Ersetzen mit" },
     pseudonymization: {
       name: "Pseudonymisierung",

@@ -63,6 +63,7 @@ const SuppressionMechanism = ({ mechanismConfig, updateMechanismConfig }) => {
         <InputGroup
           value={mechanismConfig.suppressionChar}
           onChange={(event) => onUpdateSuppressionChar(event.target.value)}
+          fill
         />
       </Label>
       <Label>
@@ -78,6 +79,7 @@ const SuppressionMechanism = ({ mechanismConfig, updateMechanismConfig }) => {
           onValueChange={onUpdateCustomLength}
           placeholder={t("anonymization.suppression.as_original")}
           intent={customLengthValid ? "default" : "danger"}
+          fill
         />
       </Label>
     </div>
