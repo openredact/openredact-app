@@ -7,7 +7,7 @@ it("renders", () => {
     <ConfigMenu
       tags={["PER"]}
       config={{
-        defaultMechanism: { mechanism: "suppression" },
+        defaultMechanism: { mechanism: "suppression", suppressionChar: "X" },
         mechanismsByTag: {},
       }}
       setConfig={() => {}}
