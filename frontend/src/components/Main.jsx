@@ -46,16 +46,20 @@ const Main = ({ tags, anonymizationConfig }) => {
       );
     };
 
-    const computeTagsToNotAnonymize = () => {
+    const computeTagsToNotAnonymizeAndDefaults = () => {
       const tagsToNotAnonymize = [];
+      const tagsAnonymizedWithDefault = [];
       Object.entries(anonymizationConfig.mechanismsByTag).forEach((item) => {
         const tag = item[0];
         const mechanism = item[1];
         if (mechanism.mechanism === "none") {
           tagsToNotAnonymize.push(tag);
         }
+        if (mechanism.mechanism === "useDefault") {
+          tagsAnonymizedWithDefault.push(tag);
+        }
       });
-      return tagsToNotAnonymize;
+      return [tagsToNotAnonymize, tagsAnonymizedWithDefault];
     };
 
     if (annotations.length === 0) return;
@@ -65,10 +69,16 @@ const Main = ({ tags, anonymizationConfig }) => {
       return { tag: annotation.tag, text: annotation.text, id: annotation.id };
     });
 
-    const tagsToNotAnonymize = computeTagsToNotAnonymize();
+    const [
+      tagsToNotAnonymize,
+      tagsAnonymizedWithDefault,
+    ] = computeTagsToNotAnonymizeAndDefaults();
 
     const configForRequest = JSON.parse(JSON.stringify(anonymizationConfig)); // deep clone
     tagsToNotAnonymize.forEach(
+      (tag) => delete configForRequest.mechanismsByTag[tag]
+    );
+    tagsAnonymizedWithDefault.forEach(
       (tag) => delete configForRequest.mechanismsByTag[tag]
     );
 

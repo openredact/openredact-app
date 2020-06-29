@@ -26,7 +26,7 @@ const ConfigMenu = ({ tags, config, setConfig }) => {
     tags.forEach((tag) => {
       if (!hasProperty(config.mechanismsByTag, tag)) {
         const clone = { ...config };
-        clone.mechanismsByTag[tag] = { mechanism: "none" };
+        clone.mechanismsByTag[tag] = { mechanism: "useDefault" };
         setConfig(clone);
       }
     });
@@ -44,6 +44,7 @@ const ConfigMenu = ({ tags, config, setConfig }) => {
     const isNotConfiguredAndHasHistory = (mechanismConfig, tag) => {
       return (
         mechanismConfig.mechanism !== "none" &&
+        mechanismConfig.mechanism !== "useDefault" &&
         !hasConfigurations(mechanismConfig) &&
         getConfigHistoryForTag(tag)(mechanismConfig.mechanism)
       );
@@ -114,6 +115,7 @@ const ConfigMenu = ({ tags, config, setConfig }) => {
         <MechanismConfig
           mechanismConfig={config.defaultMechanism}
           updateMechanismConfig={updateConfig}
+          tag="default"
         />
       </Label>
 

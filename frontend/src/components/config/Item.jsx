@@ -13,6 +13,7 @@ const Item = ({ mechanismConfig, updateMechanismConfig, tag }) => {
       <MechanismConfig
         mechanismConfig={mechanismConfig}
         updateMechanismConfig={updateMechanismConfig}
+        tag={tag}
       />
     </Label>
   );
