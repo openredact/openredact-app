@@ -16,7 +16,9 @@ Semi-automatic data anonymization for German documents
 
 ...
 
-_**:warning: Disclaimer :warning::**_ This is a prototype. Do not use in production.
+_**:warning: Disclaimer :warning::**_ This is a prototype. Do not use for anything critical.
+
+_**:warning: Note :warning::**_ This tool focuses on the text content. Metadata will not be anonymized.
 
 ## Backend Requirements
 
