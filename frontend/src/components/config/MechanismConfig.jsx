@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
+import { HTMLSelect } from "@blueprintjs/core";
 import PolyglotContext from "../../js/polyglotContext";
 import SuppressionMechanism from "./SuppressionMechanism";
 import PseudonymizationMechanism from "./PseudonymizationMechanism";
@@ -34,7 +35,7 @@ const MechanismConfig = ({ mechanismConfig, updateMechanismConfig, tag }) => {
   return (
     <div className="mechanism">
       {/* eslint-disable-next-line jsx-a11y/no-onchange */}
-      <select value={mechanismConfig.mechanism} onChange={onSelect}>
+      <HTMLSelect value={mechanismConfig.mechanism} onChange={onSelect}>
         {tag !== "default" && (
           <option value="useDefault">{t("anonymization.use_default")}</option>
         )}
@@ -50,7 +51,7 @@ const MechanismConfig = ({ mechanismConfig, updateMechanismConfig, tag }) => {
         <option value="suppression">
           {t("anonymization.suppression.name")}
         </option>
-      </select>
+      </HTMLSelect>
       {mechanismComponent}
     </div>
   );
