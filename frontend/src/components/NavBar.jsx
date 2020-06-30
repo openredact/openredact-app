@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import "./NavBar.sass";
 import PolyglotContext from "../js/polyglotContext";
+import { ReactComponent as LogoSvg } from "../logo.svg";
 
 const NavBar = () => {
   const t = useContext(PolyglotContext);
@@ -9,7 +10,10 @@ const NavBar = () => {
     <div>
       <nav className="bp3-navbar bp3-dark">
         <div className="bp3-navbar-group bp3-align-left">
-          <div className="bp3-navbar-heading">OpenRedact</div>
+          <LogoSvg className="logo" />
+          <div className="bp3-navbar-heading heading">
+            OPEN<b>REDACT</b>
+          </div>
         </div>
         <div className="bp3-navbar-group bp3-align-right">
           <button
