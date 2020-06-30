@@ -30,6 +30,8 @@ export default {
   },
   app: {
     network_error_toast: "The server is not available.",
+    rendering_error: "Unexpected Error",
+    rendering_error_action: "Please try reloading the page.",
   },
   main: {
     anonymize_file_failed_toast: "Creating the anonymized file failed.",

@@ -31,6 +31,8 @@ export default {
   },
   app: {
     network_error_toast: "Der Server ist nicht erreichbar.",
+    rendering_error: "Unerwarteter Fehler",
+    rendering_error_action: "Bitte versuche die Seite erneut zu laden.",
   },
   main: {
     anonymize_file_failed_toast:

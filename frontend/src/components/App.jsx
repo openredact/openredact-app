@@ -8,6 +8,7 @@ import { polyglot, updateLocale } from "../translations/utils";
 import { fetchTags } from "../api/routes";
 import AppToaster from "../js/toaster";
 import useLocalStorage from "../js/useLocalStorage";
+import ErrorBoundary from "./ErrorBoundary";
 
 const App = () => {
   updateLocale(polyglot);
@@ -42,12 +43,16 @@ const App = () => {
     >
       <NavBar />
       <div className="grid-container">
-        <ConfigMenu
-          tags={tags}
-          config={anonymizationConfig}
-          setConfig={setAnonymizationConfig}
-        />
-        <Main tags={tags} anonymizationConfig={anonymizationConfig} />
+        <ErrorBoundary>
+          <ConfigMenu
+            tags={tags}
+            config={anonymizationConfig}
+            setConfig={setAnonymizationConfig}
+          />
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <Main tags={tags} anonymizationConfig={anonymizationConfig} />
+        </ErrorBoundary>
       </div>
     </PolyglotContext.Provider>
   );
