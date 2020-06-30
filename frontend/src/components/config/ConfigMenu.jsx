@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Card, Divider, Label } from "@blueprintjs/core";
+import { Card, Divider, FormGroup } from "@blueprintjs/core";
 import "./ConfigMenu.sass";
 import PropTypes from "prop-types";
 import Item from "./Item";
@@ -110,14 +110,16 @@ const ConfigMenu = ({ tags, config, setConfig }) => {
 
   return (
     <Card className="config-menu">
-      <Label>
-        {t("anonymization.default")}
+      <FormGroup
+        label={t("anonymization.default")}
+        labelFor="default-mechanism-config"
+      >
         <MechanismConfig
           mechanismConfig={config.defaultMechanism}
           updateMechanismConfig={updateConfig}
           tag="default"
         />
-      </Label>
+      </FormGroup>
 
       <Divider />
       <ul>{listItems}</ul>
