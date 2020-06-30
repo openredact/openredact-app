@@ -15,8 +15,9 @@ export default {
     pseudonymization: {
       name: "Pseudonymisierung",
       format_string: "Ersetzen mit",
-      format_string_tooltip: "Benutze {} als Platzhalter",
+      format_string_hint: "benutze {} einmal als Platzhalter",
       initial_counter_value: "Initialer Wert",
+      initial_counter_value_hint: "gib eine Zahl größer 0 sein",
     },
     stateful: { name: "Zustandsbehaftet" },
     suppression: {
@@ -24,6 +25,8 @@ export default {
       name: "Schwärzen",
       custom_length: "Länge",
       suppression_char: "Ersetzen mit",
+      custom_length_hint:
+        "lasse das Feld leer oder gib eine Zahl größer 0 sein",
     },
   },
   app: {

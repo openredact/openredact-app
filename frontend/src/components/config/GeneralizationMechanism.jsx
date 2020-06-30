@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import PropTypes from "prop-types";
-import { InputGroup, Label } from "@blueprintjs/core";
+import { InputGroup, FormGroup } from "@blueprintjs/core";
 import PolyglotContext from "../../js/polyglotContext";
 import { hasConfigurations } from "../../js/anonymizationConfig";
 
@@ -28,14 +28,17 @@ const GeneralizationMechanism = ({
 
   return (
     <div>
-      <Label>
-        {t("anonymization.generalization.replacement")}
+      <FormGroup
+        label={t("anonymization.generalization.replacement")}
+        labelFor="replacement-input"
+      >
         <InputGroup
+          id="replacement-input"
           value={mechanismConfig.replacement}
           onChange={(event) => onUpdateReplacement(event.target.value)}
           fill
         />
-      </Label>
+      </FormGroup>
     </div>
   );
 };

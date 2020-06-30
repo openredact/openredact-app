@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { InputGroup, Label, NumericInput } from "@blueprintjs/core";
+import { InputGroup, FormGroup, NumericInput } from "@blueprintjs/core";
 import PolyglotContext from "../../js/polyglotContext";
 import { hasConfigurations } from "../../js/anonymizationConfig";
 
@@ -36,6 +36,7 @@ const SuppressionMechanism = ({ mechanismConfig, updateMechanismConfig }) => {
 
   const onUpdateCustomLength = (valueAsNumber, valueAsString) => {
     if (valueAsString === "" || Number.isNaN(valueAsNumber)) {
+      if (valueAsString === "") setCustomLengthValid(true);
       const clone = { ...mechanismConfig };
       delete clone.customLength;
       updateMechanismConfig(clone);
@@ -58,17 +59,29 @@ const SuppressionMechanism = ({ mechanismConfig, updateMechanismConfig }) => {
 
   return (
     <div>
-      <Label>
-        {t("anonymization.suppression.suppression_char")}
+      <FormGroup
+        label={t("anonymization.suppression.suppression_char")}
+        labelFor="suppression-char-input"
+      >
         <InputGroup
+          id="suppression-char-input"
           value={mechanismConfig.suppressionChar}
           onChange={(event) => onUpdateSuppressionChar(event.target.value)}
           fill
         />
-      </Label>
-      <Label>
-        {t("anonymization.suppression.custom_length")}
+      </FormGroup>
+      <FormGroup
+        label={t("anonymization.suppression.custom_length")}
+        labelFor="custom-length-input"
+        helperText={
+          customLengthValid
+            ? undefined
+            : t("anonymization.suppression.custom_length_hint")
+        }
+        intent={customLengthValid ? "default" : "danger"}
+      >
         <NumericInput
+          id="custom-length-input"
           min={1}
           minorStepSize={1}
           value={
@@ -81,7 +94,7 @@ const SuppressionMechanism = ({ mechanismConfig, updateMechanismConfig }) => {
           intent={customLengthValid ? "default" : "danger"}
           fill
         />
-      </Label>
+      </FormGroup>
     </div>
   );
 };

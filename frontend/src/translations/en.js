@@ -15,14 +15,16 @@ export default {
     pseudonymization: {
       name: "Pseudonymization",
       format_string: "Replace with",
-      format_string_tooltip: "use {} as placeholder",
+      format_string_hint: "use {} once as placeholder",
       initial_counter_value: "Initial value",
+      initial_counter_value_hint: "enter a number larger than 0",
     },
     stateful: { name: "Stateful" },
     suppression: {
       as_original: "as original",
       name: "Suppression",
       custom_length: "Length",
+      custom_length_hint: "leave empty or enter a number larger than 0",
       suppression_char: "Replace with",
     },
   },

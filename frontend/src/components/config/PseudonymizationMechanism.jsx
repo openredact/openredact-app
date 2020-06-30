@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { InputGroup, Label, NumericInput, Tooltip } from "@blueprintjs/core";
+import { FormGroup, InputGroup, NumericInput } from "@blueprintjs/core";
 import PolyglotContext from "../../js/polyglotContext";
 import { hasConfigurations } from "../../js/anonymizationConfig";
 
@@ -62,22 +62,36 @@ const PseudonymizationMechanism = ({
 
   return (
     <div>
-      <Label>
-        {t("anonymization.pseudonymization.format_string")}
-        <Tooltip
-          content={t("anonymization.pseudonymization.format_string_tooltip")}
-        >
-          <InputGroup
-            value={mechanismConfig.formatString}
-            onChange={(event) => onUpdateFormatString(event.target.value)}
-            intent={formatStringValid ? "default" : "danger"}
-            fill
-          />
-        </Tooltip>
-      </Label>
-      <Label>
-        {t("anonymization.pseudonymization.initial_counter_value")}
+      <FormGroup
+        label={t("anonymization.pseudonymization.format_string")}
+        helperText={
+          formatStringValid
+            ? undefined
+            : t("anonymization.pseudonymization.format_string_hint")
+        }
+        intent={formatStringValid ? "default" : "danger"}
+        labelFor="format-string-input"
+      >
+        <InputGroup
+          id="format-string-input"
+          value={mechanismConfig.formatString}
+          onChange={(event) => onUpdateFormatString(event.target.value)}
+          intent={formatStringValid ? "default" : "danger"}
+          fill
+        />
+      </FormGroup>
+      <FormGroup
+        label={t("anonymization.pseudonymization.initial_counter_value")}
+        labelFor="initial-counter-value-input"
+        helperText={
+          initialCounterValid
+            ? undefined
+            : t("anonymization.pseudonymization.initial_counter_value_hint")
+        }
+        intent={initialCounterValid ? "default" : "danger"}
+      >
         <NumericInput
+          id="initial-counter-value-input"
           min={1}
           minorStepSize={1}
           value={mechanismConfig.initialCounterValue}
@@ -85,7 +99,7 @@ const PseudonymizationMechanism = ({
           intent={initialCounterValid ? "default" : "danger"}
           fill
         />
-      </Label>
+      </FormGroup>
     </div>
   );
 };
