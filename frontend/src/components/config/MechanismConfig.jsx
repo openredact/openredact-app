@@ -34,7 +34,6 @@ const MechanismConfig = ({ mechanismConfig, updateMechanismConfig, tag }) => {
 
   return (
     <div className="mechanism">
-      {/* eslint-disable-next-line jsx-a11y/no-onchange */}
       <HTMLSelect
         value={mechanismConfig.mechanism}
         onChange={onSelect}

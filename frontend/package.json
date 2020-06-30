@@ -40,7 +40,10 @@
       "jsx-a11y",
       "react-hooks",
       "@blueprintjs/blueprint"
-    ]
+    ],
+    "rules": {
+      "jsx-a11y/no-onchange": "off"
+    }
   },
   "browserslist": [
     "last 1 Chrome version"
