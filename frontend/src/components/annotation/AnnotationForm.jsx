@@ -1,14 +1,16 @@
-import React, { useState } from "react";
-import { Button, Icon, Tag } from "@blueprintjs/core";
+import React, { useContext, useState } from "react";
+import { Button, Icon, Tag, Tooltip } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import { TokenAnnotator } from "react-text-annotate";
 import { GlobalHotKeys } from "react-hotkeys";
 import PropTypes from "prop-types";
 
 import "./AnnotationForm.sass";
+import PolyglotContext from "../../js/polyglotContext";
 
 const AnnotationForm = ({ tokens, annotations, onAnnotationsChange, tags }) => {
   const [activeTag, setActiveTag] = useState(tags[0]);
+  const t = useContext(PolyglotContext);
 
   const textTokens = tokens.map((token) => token.text);
 
@@ -38,15 +40,20 @@ const AnnotationForm = ({ tokens, annotations, onAnnotationsChange, tags }) => {
 
       <div className="annotation-header">
         {tags.map((tag, index) => (
-          <Button
-            className="tag"
-            key={tag}
-            active={activeTag === tag}
-            onClick={() => setActiveTag(tag)}
+          <Tooltip
+            content={t(`annotation.tag.${tag.toLowerCase()}`)}
+            hoverOpenDelay={500}
           >
-            {tag}
-            <Tag>{index + 1}</Tag>
-          </Button>
+            <Button
+              className="tag"
+              key={tag}
+              active={activeTag === tag}
+              onClick={() => setActiveTag(tag)}
+            >
+              {tag}
+              <Tag>{index + 1}</Tag>
+            </Button>
+          </Tooltip>
         ))}
       </div>
 
