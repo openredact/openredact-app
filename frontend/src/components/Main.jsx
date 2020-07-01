@@ -134,6 +134,7 @@ const Main = ({ tags, anonymizationConfig }) => {
     setTokens([]);
     setAnnotations([]);
     setAnonymizations([]);
+    document.title = "OpenRedact";
   };
 
   const onFileDrop = (files) => {
@@ -159,6 +160,9 @@ const Main = ({ tags, anonymizationConfig }) => {
         setInitialAnnotations(myAnnotations);
 
         setIsLoading(false);
+        document.title = `OpenRedact - ${
+          fileFormData.current.get("file").name
+        }`;
       })
       .catch(() => {
         AppToaster.show({
