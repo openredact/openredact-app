@@ -4,15 +4,12 @@ import NavBar from "./NavBar";
 import AnonymizationConfigMenu from "./anonymizationConfig/AnonymizationConfigMenu";
 import Main from "./Main";
 import PolyglotContext from "../js/polyglotContext";
-import { polyglot, updateLocale } from "../translations/utils";
 import { fetchTags } from "../api/routes";
 import AppToaster from "../js/toaster";
 import useLocalStorage from "../js/useLocalStorage";
 import ErrorBoundary from "./ErrorBoundary";
 
 const App = () => {
-  updateLocale(polyglot);
-
   const t = useContext(PolyglotContext);
 
   const [tags, setTags] = useState([]);
@@ -38,9 +35,7 @@ const App = () => {
   }, [t]);
 
   return (
-    <PolyglotContext.Provider
-      value={(key, options) => polyglot.t(key, options)}
-    >
+    <div>
       <NavBar />
       <div className="grid-container">
         <ErrorBoundary>
@@ -54,7 +49,7 @@ const App = () => {
           <Main tags={tags} anonymizationConfig={anonymizationConfig} />
         </ErrorBoundary>
       </div>
-    </PolyglotContext.Provider>
+    </div>
   );
 };
 

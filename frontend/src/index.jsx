@@ -2,13 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { FocusStyleManager } from "@blueprintjs/core";
 import "./index.css";
-import App from "./components/App";
+import LocalizationWrapper from "./components/LocalizationWrapper";
 
 FocusStyleManager.onlyShowFocusOnTabs();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <LocalizationWrapper />
   </React.StrictMode>,
   document.getElementById("root")
 );
