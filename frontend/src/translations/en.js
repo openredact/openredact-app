@@ -64,6 +64,7 @@ export default {
   },
   nav: {
     help: "Help",
+    settings: "Settings",
   },
   preview: {
     download: "Download",
