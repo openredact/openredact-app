@@ -5,7 +5,7 @@ import "./AnnotationControl.sass";
 import PropTypes from "prop-types";
 import Dropzone from "./Dropzone";
 import AnnotationForm from "./AnnotationForm";
-import Scores from "./Scores";
+import ScoresDialog from "./ScoresDialog";
 
 const AnnotationControl = ({
   tokens,
@@ -40,7 +40,7 @@ const AnnotationControl = ({
         />
       )}
       {tokens.length > 0 && Object.keys(scores).length > 0 && (
-        <Scores scores={scores} />
+        <ScoresDialog scores={scores} />
       )}
     </Card>
   );

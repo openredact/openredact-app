@@ -4,8 +4,30 @@ export default {
     drop: "Ziehe eine %{formats} Datei hierhin.",
     fetching_tags_failed_toast:
       "Das Laden der Klassennamen für die manuelle Annotation ist fehlgeschlagen.",
+    metric: {
+      f1: "F1-Maß",
+      f2: "F2-Maß",
+      falseNegatives: "Falsch Negativ",
+      falsePositives: "Falsch Positiv",
+      precision: "Genauigkeit",
+      recall: "Trefferquote",
+      truePositives: "Richtig Positiv",
+    },
+    na: "n.a.",
     or: "oder",
-    score: "Maß",
+    scores: "Metriken",
+    scores_description:
+      "Die folgenden Metriken bewerten die automatische Erkennung von personenbezogenen Daten im Vergleich zu Ihren manuellen Anpassungen.",
+    scores_note:
+      "Beachten Sie, dass die Aussagekraft der Metriken von Ihren Anpassungen abhängt.",
+    tag: {
+      loc: "Ort",
+      misc: "Sonstige",
+      org: "Organisation",
+      per: "Person",
+      state: "Staat",
+      total: "Total",
+    },
   },
   anonymization: {
     do_not_anonymize: "Nicht anonymisieren",

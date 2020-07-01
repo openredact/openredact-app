@@ -1,24 +1,35 @@
 import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
-import "./Scores.sass";
-import { Dialog, Pre } from "@blueprintjs/core";
+import "./ScoresDialog.sass";
+import { Dialog, Classes } from "@blueprintjs/core";
 import PolyglotContext from "../../js/polyglotContext";
+import ScoresTable from "./ScoresTable";
 
-const Scores = ({ scores }) => {
+const ScoresDialog = ({ scores }) => {
   const t = useContext(PolyglotContext);
 
   const [showDialog, setShowDialog] = useState(false);
+
   return (
     <div>
       <Dialog
         onClose={() => setShowDialog(false)}
         isOpen={showDialog}
-        title="Scores"
+        icon="predictive-analysis"
+        title={t("annotation.scores")}
         canOutsideClickClose
         canEscapeKeyClose
         isCloseButtonShown
+        className="dialog"
       >
-        <Pre className="score-dialog">{JSON.stringify(scores, null, 2)}</Pre>
+        <div className={Classes.DIALOG_BODY}>
+          <p>
+            {t("annotation.scores_description")}
+            <br />
+            {t("annotation.scores_note")}
+          </p>
+          <ScoresTable scores={scores} />
+        </div>
       </Dialog>
       <div
         role="button"
@@ -29,14 +40,14 @@ const Scores = ({ scores }) => {
           if (e.keyCode === 13) setShowDialog(true);
         }}
       >
-        F2-{t("annotation.score")}: {scores.total.f2.toFixed(2)}
+        {t("annotation.scores")}
       </div>
     </div>
   );
 };
 
-Scores.propTypes = {
+ScoresDialog.propTypes = {
   scores: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
-export default Scores;
+export default ScoresDialog;

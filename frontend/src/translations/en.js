@@ -4,8 +4,30 @@ export default {
     drop: "Drop a %{formats} document here.",
     fetching_tags_failed_toast:
       "Loading the categories for manual annotation failed.",
+    metric: {
+      f1: "F1-Score",
+      f2: "F2-Score",
+      falseNegatives: "False Negatives",
+      falsePositives: "False Positives",
+      precision: "Precision",
+      recall: "Recall",
+      truePositives: "True Positives",
+    },
+    na: "n/a",
     or: "or",
-    score: "score",
+    scores: "Scores",
+    scores_description:
+      "The following metrics evaluate the automatic detection of personal data on the basis of your manual corrections.",
+    scores_note:
+      "Note that the metrics can only be as accurate as your corrections.",
+    tag: {
+      loc: "Location",
+      misc: "Miscellaneous",
+      org: "Organization",
+      per: "Person",
+      state: "State",
+      total: "Total",
+    },
   },
   anonymization: {
     do_not_anonymize: "Do not anonymize",
