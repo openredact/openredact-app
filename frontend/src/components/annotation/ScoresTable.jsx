@@ -26,16 +26,18 @@ const ScoresTable = ({ scores }) => {
 
   const tableHeader = (
     <tr>
-      {[<td />].concat(
-        [...metrics].map((item) => <th>{t(`annotation.metric.${item}`)}</th>)
+      {[<td key="0" />].concat(
+        [...metrics].map((item) => (
+          <th key={item}>{t(`annotation.metric.${item}`)}</th>
+        ))
       )}
     </tr>
   );
   const tableBody = Object.keys(scores).map((tag) => (
-    <tr>
+    <tr key={tag}>
       <th>{t(`annotation.tag.${tag}`)}</th>
       {[...metrics].map((metricName) => (
-        <td>
+        <td key={metricName}>
           {tableValues.has(`${tag}-${metricName}`)
             ? tableValues.get(`${tag}-${metricName}`)
             : t("annotation.na")}
