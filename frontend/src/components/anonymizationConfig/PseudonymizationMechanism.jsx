@@ -13,8 +13,10 @@ const PseudonymizationMechanism = ({
   const [formatStringValid, setFormatStringValid] = useState(true);
   const [initialCounterValid, setInitialCounterValid] = useState(true);
 
+  const isConfigured = hasConfigurations(mechanismConfig);
+
   useEffect(() => {
-    if (!hasConfigurations(mechanismConfig)) {
+    if (!isConfigured) {
       updateMechanismConfig({
         ...mechanismConfig,
         formatString: "{}",
@@ -58,7 +60,7 @@ const PseudonymizationMechanism = ({
     });
   };
 
-  if (!hasConfigurations(mechanismConfig)) return null;
+  if (!isConfigured) return null;
 
   return (
     <div>

@@ -10,8 +10,10 @@ const GeneralizationMechanism = ({
 }) => {
   const t = useContext(PolyglotContext);
 
+  const isConfigured = hasConfigurations(mechanismConfig);
+
   useEffect(() => {
-    if (!hasConfigurations(mechanismConfig)) {
+    if (!isConfigured) {
       updateMechanismConfig({
         ...mechanismConfig,
         replacement: "<>",
@@ -25,6 +27,8 @@ const GeneralizationMechanism = ({
       replacement: value,
     });
   };
+
+  if (!isConfigured) return null;
 
   return (
     <div>

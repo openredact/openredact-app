@@ -22,24 +22,21 @@ const AnonymizationConfigMenu = ({ tags, config, setConfig }) => {
   );
 
   useEffect(() => {
+    const configClone = { ...config };
+    let changed = false;
+
     // initialize mechanism configs
     tags.forEach((tag) => {
       if (!hasProperty(config.mechanismsByTag, tag)) {
-        const clone = { ...config };
-        clone.mechanismsByTag[tag] = { mechanism: "useDefault" };
-        setConfig(clone);
+        configClone.mechanismsByTag[tag] = { mechanism: "useDefault" };
+        changed = true;
       }
     });
-  }, [tags, config, setConfig]);
 
-  useEffect(() => {
     // set config from history if possible
     const getConfigHistoryForTag = (tag) => (mechanism) => {
       return configHistory[mechanism][tag];
     };
-
-    const configClone = { ...config };
-    let loadedFromHistory = false;
 
     const isNotConfiguredAndHasHistory = (mechanismConfig, tag) => {
       return (
@@ -51,7 +48,7 @@ const AnonymizationConfigMenu = ({ tags, config, setConfig }) => {
     };
 
     if (isNotConfiguredAndHasHistory(config.defaultMechanism, "default")) {
-      loadedFromHistory = true;
+      changed = true;
       configClone.defaultMechanism = getConfigHistoryForTag("default")(
         config.defaultMechanism.mechanism
       );
@@ -59,17 +56,17 @@ const AnonymizationConfigMenu = ({ tags, config, setConfig }) => {
 
     Object.entries(config.mechanismsByTag).forEach(([tag, mechanismConfig]) => {
       if (isNotConfiguredAndHasHistory(mechanismConfig, tag)) {
-        loadedFromHistory = true;
+        changed = true;
         configClone.mechanismsByTag[tag] = getConfigHistoryForTag(tag)(
           mechanismConfig.mechanism
         );
       }
     });
 
-    if (loadedFromHistory) {
+    if (changed) {
       setConfig(configClone);
     }
-  }, [config, setConfig, configHistory]);
+  }, [tags, config, setConfig, configHistory]);
 
   const updateConfigHistoryIfConfigured = (newMechanism, tag) => {
     if (newMechanism.mechanism === "none" || !hasConfigurations(newMechanism)) {

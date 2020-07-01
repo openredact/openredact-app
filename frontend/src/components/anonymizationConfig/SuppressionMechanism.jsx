@@ -9,8 +9,10 @@ const SuppressionMechanism = ({ mechanismConfig, updateMechanismConfig }) => {
 
   const [customLengthValid, setCustomLengthValid] = useState(true);
 
+  const isConfigured = hasConfigurations(mechanismConfig);
+
   useEffect(() => {
-    if (!hasConfigurations(mechanismConfig)) {
+    if (!isConfigured) {
       updateMechanismConfig({
         ...mechanismConfig,
         suppressionChar: "X",
@@ -55,7 +57,7 @@ const SuppressionMechanism = ({ mechanismConfig, updateMechanismConfig }) => {
     });
   };
 
-  if (!hasConfigurations(mechanismConfig)) return null;
+  if (!isConfigured) return null;
 
   return (
     <div>
