@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./App.sass";
 import NavBar from "./NavBar";
-import ConfigMenu from "./config/ConfigMenu";
+import AnonymizationConfigMenu from "./anonymizationConfig/AnonymizationConfigMenu";
 import Main from "./Main";
 import PolyglotContext from "../js/polyglotContext";
 import { polyglot, updateLocale } from "../translations/utils";
@@ -44,7 +44,7 @@ const App = () => {
       <NavBar />
       <div className="grid-container">
         <ErrorBoundary>
-          <ConfigMenu
+          <AnonymizationConfigMenu
             tags={tags}
             config={anonymizationConfig}
             setConfig={setAnonymizationConfig}

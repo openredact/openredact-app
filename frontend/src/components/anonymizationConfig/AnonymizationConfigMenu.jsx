@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Card, Divider, FormGroup } from "@blueprintjs/core";
-import "./ConfigMenu.sass";
+import "./AnonymizationConfigMenu.sass";
 import PropTypes from "prop-types";
 import Item from "./Item";
 import MechanismConfig from "./MechanismConfig";
@@ -8,7 +8,7 @@ import useLocalStorage from "../../js/useLocalStorage";
 import PolyglotContext from "../../js/polyglotContext";
 import { hasConfigurations, hasProperty } from "../../js/anonymizationConfig";
 
-const ConfigMenu = ({ tags, config, setConfig }) => {
+const AnonymizationConfigMenu = ({ tags, config, setConfig }) => {
   const t = useContext(PolyglotContext);
 
   const [configHistory, setConfigHistory] = useLocalStorage(
@@ -127,10 +127,10 @@ const ConfigMenu = ({ tags, config, setConfig }) => {
   );
 };
 
-ConfigMenu.propTypes = {
+AnonymizationConfigMenu.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   config: PropTypes.objectOf(PropTypes.any).isRequired,
   setConfig: PropTypes.func.isRequired,
 };
 
-export default ConfigMenu;
+export default AnonymizationConfigMenu;

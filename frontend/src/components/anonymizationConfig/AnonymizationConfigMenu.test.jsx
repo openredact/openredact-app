@@ -1,10 +1,10 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import ConfigMenu from "./ConfigMenu";
+import AnonymizationConfigMenu from "./AnonymizationConfigMenu";
 
 it("renders", () => {
   render(
-    <ConfigMenu
+    <AnonymizationConfigMenu
       tags={["PER"]}
       config={{
         defaultMechanism: { mechanism: "suppression", suppressionChar: "X" },
