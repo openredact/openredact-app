@@ -4,7 +4,11 @@ import { InputGroup, FormGroup, NumericInput } from "@blueprintjs/core";
 import PolyglotContext from "../../js/polyglotContext";
 import { hasConfigurations } from "../../js/anonymizationConfig";
 
-const SuppressionMechanism = ({ mechanismConfig, updateMechanismConfig }) => {
+const SuppressionMechanism = ({
+  mechanismConfig,
+  updateMechanismConfig,
+  tag,
+}) => {
   const t = useContext(PolyglotContext);
 
   const [customLengthValid, setCustomLengthValid] = useState(true);
@@ -63,10 +67,10 @@ const SuppressionMechanism = ({ mechanismConfig, updateMechanismConfig }) => {
     <div>
       <FormGroup
         label={t("anonymization.suppression.suppression_char")}
-        labelFor="suppression-char-input"
+        labelFor={`${tag}-suppression-char-input`}
       >
         <InputGroup
-          id="suppression-char-input"
+          id={`${tag}-suppression-char-input`}
           value={mechanismConfig.suppressionChar}
           onChange={(event) => onUpdateSuppressionChar(event.target.value)}
           fill
@@ -74,7 +78,7 @@ const SuppressionMechanism = ({ mechanismConfig, updateMechanismConfig }) => {
       </FormGroup>
       <FormGroup
         label={t("anonymization.suppression.custom_length")}
-        labelFor="custom-length-input"
+        labelFor={`${tag}-custom-length-input`}
         helperText={
           customLengthValid
             ? undefined
@@ -83,7 +87,7 @@ const SuppressionMechanism = ({ mechanismConfig, updateMechanismConfig }) => {
         intent={customLengthValid ? "default" : "danger"}
       >
         <NumericInput
-          id="custom-length-input"
+          id={`${tag}-custom-length-input`}
           min={1}
           minorStepSize={1}
           value={
@@ -104,6 +108,7 @@ const SuppressionMechanism = ({ mechanismConfig, updateMechanismConfig }) => {
 SuppressionMechanism.propTypes = {
   mechanismConfig: PropTypes.objectOf(PropTypes.any).isRequired,
   updateMechanismConfig: PropTypes.func.isRequired,
+  tag: PropTypes.string.isRequired,
 };
 
 export default SuppressionMechanism;

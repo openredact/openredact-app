@@ -7,6 +7,7 @@ import { hasConfigurations } from "../../js/anonymizationConfig";
 const GeneralizationMechanism = ({
   mechanismConfig,
   updateMechanismConfig,
+  tag,
 }) => {
   const t = useContext(PolyglotContext);
 
@@ -34,10 +35,10 @@ const GeneralizationMechanism = ({
     <div>
       <FormGroup
         label={t("anonymization.generalization.replacement")}
-        labelFor="replacement-input"
+        labelFor={`${tag}-replacement-input`}
       >
         <InputGroup
-          id="replacement-input"
+          id={`${tag}-replacement-input`}
           value={mechanismConfig.replacement}
           onChange={(event) => onUpdateReplacement(event.target.value)}
           fill
@@ -50,6 +51,7 @@ const GeneralizationMechanism = ({
 GeneralizationMechanism.propTypes = {
   mechanismConfig: PropTypes.objectOf(PropTypes.any).isRequired,
   updateMechanismConfig: PropTypes.func.isRequired,
+  tag: PropTypes.string.isRequired,
 };
 
 export default GeneralizationMechanism;

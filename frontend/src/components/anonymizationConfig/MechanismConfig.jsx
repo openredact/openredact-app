@@ -10,7 +10,7 @@ import GeneralizationMechanism from "./GeneralizationMechanism";
 const MechanismConfig = ({ mechanismConfig, updateMechanismConfig, tag }) => {
   const t = useContext(PolyglotContext);
 
-  const props = { mechanismConfig, updateMechanismConfig };
+  const props = { mechanismConfig, updateMechanismConfig, tag };
 
   let mechanismComponent;
   switch (mechanismConfig.mechanism) {
