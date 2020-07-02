@@ -31,15 +31,10 @@
       "airbnb",
       "plugin:jsx-a11y/recommended",
       "plugin:react-hooks/recommended",
+      "plugin:@blueprintjs/recommended",
       "prettier",
       "prettier/react",
-      "react-app",
-      "@blueprintjs/eslint-config"
-    ],
-    "plugins": [
-      "jsx-a11y",
-      "react-hooks",
-      "@blueprintjs/blueprint"
+      "react-app"
     ],
     "rules": {
       "jsx-a11y/no-onchange": "off"
@@ -49,8 +44,7 @@
     "last 1 Chrome version"
   ],
   "devDependencies": {
-    "@blueprintjs/eslint-config": "^0.3.0",
-    "@blueprintjs/eslint-plugin-blueprint": "^0.1.0",
+    "@blueprintjs/eslint-plugin": "^0.2.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
