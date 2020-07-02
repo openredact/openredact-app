@@ -28,9 +28,9 @@ const MechanismConfig = ({ mechanismConfig, updateMechanismConfig, tag }) => {
       mechanismComponent = null;
   }
 
-  const onSelect = (event) => {
+  function onSelect(event) {
     updateMechanismConfig({ mechanism: event.target.value });
-  };
+  }
 
   return (
     <div className="mechanism">

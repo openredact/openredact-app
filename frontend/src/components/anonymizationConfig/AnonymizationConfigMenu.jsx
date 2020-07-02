@@ -40,13 +40,13 @@ const AnonymizationConfigMenu = ({ tags, config, setConfig }) => {
     if (changed) setConfig(configClone);
   }, [tags, config, setConfig]);
 
-  const updateConfigHistory = (mechanismConfig, tag) => {
+  function updateConfigHistory(mechanismConfig, tag) {
     const historyClone = { ...configHistory };
     historyClone[mechanismConfig.mechanism][tag] = mechanismConfig;
     setConfigHistory(historyClone);
-  };
+  }
 
-  const updateConfig = (mechanismConfig, tag = "default") => {
+  function updateConfig(mechanismConfig, tag = "default") {
     const mechanismName = mechanismConfig.mechanism;
     let myMechanismConfig = mechanismConfig;
     if (
@@ -71,7 +71,7 @@ const AnonymizationConfigMenu = ({ tags, config, setConfig }) => {
 
     if (isConfigured(mechanismConfig))
       updateConfigHistory(mechanismConfig, tag);
-  };
+  }
 
   const listItems = Object.entries(config.mechanismsByTag)
     .sort()

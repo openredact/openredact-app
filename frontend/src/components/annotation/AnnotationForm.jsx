@@ -14,13 +14,6 @@ const AnnotationForm = ({ tokens, annotations, onAnnotationsChange, tags }) => {
 
   const textTokens = tokens.map((token) => token.text);
 
-  const onAnnotationRemove = (tagProps) => {
-    const newAnnotations = annotations.filter(
-      (item) => item.start !== tagProps.start || item.end !== tagProps.end
-    );
-    onAnnotationsChange(newAnnotations);
-  };
-
   const hotkeyHandlers = {
     selectTag: (event) => {
       const tagIndex = parseInt(event.key, 10);
@@ -33,6 +26,13 @@ const AnnotationForm = ({ tokens, annotations, onAnnotationsChange, tags }) => {
   const hotkeys = {
     selectTag: [...Array(tags.length).keys()].map((key) => String(key + 1)),
   };
+
+  function onAnnotationRemove(tagProps) {
+    const newAnnotations = annotations.filter(
+      (item) => item.start !== tagProps.start || item.end !== tagProps.end
+    );
+    onAnnotationsChange(newAnnotations);
+  }
 
   return (
     <div>

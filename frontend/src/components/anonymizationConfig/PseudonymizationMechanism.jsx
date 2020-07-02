@@ -13,12 +13,12 @@ const PseudonymizationMechanism = ({
   const [formatStringValid, setFormatStringValid] = useState(true);
   const [initialCounterValid, setInitialCounterValid] = useState(true);
 
-  const validateFormatString = (string) => {
+  function validateFormatString(string) {
     const regex = RegExp("^[^{}]*{}[^{}]*$");
     return regex.test(string);
-  };
+  }
 
-  const onUpdateFormatString = (value) => {
+  function onUpdateFormatString(value) {
     if (!validateFormatString(value)) {
       setFormatStringValid(false);
     } else {
@@ -29,13 +29,13 @@ const PseudonymizationMechanism = ({
       ...mechanismConfig,
       formatString: value,
     });
-  };
+  }
 
-  const validateInitialCounterValue = (initialCounterValue) => {
+  function validateInitialCounterValue(initialCounterValue) {
     return Number.isInteger(initialCounterValue) && initialCounterValue >= 1;
-  };
+  }
 
-  const onUpdateInitialCounterValue = (valueAsNumber) => {
+  function onUpdateInitialCounterValue(valueAsNumber) {
     if (!validateInitialCounterValue(valueAsNumber)) {
       setInitialCounterValid(false);
       return;
@@ -46,7 +46,7 @@ const PseudonymizationMechanism = ({
       ...mechanismConfig,
       initialCounterValue: valueAsNumber,
     });
-  };
+  }
 
   return (
     <div>

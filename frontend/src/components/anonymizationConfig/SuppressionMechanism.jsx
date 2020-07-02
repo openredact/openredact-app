@@ -12,23 +12,23 @@ const SuppressionMechanism = ({
 
   const [customLengthValid, setCustomLengthValid] = useState(true);
 
-  const onUpdateSuppressionChar = (value) => {
+  function onUpdateSuppressionChar(value) {
     updateMechanismConfig({
       ...mechanismConfig,
       suppressionChar: value,
     });
-  };
+  }
 
-  const validateCustomLength = (customLength) => {
+  function validateCustomLength(customLength) {
     return (
       customLength === undefined ||
       (customLength !== "" &&
         Number.isInteger(customLength) &&
         customLength >= 1)
     );
-  };
+  }
 
-  const onUpdateCustomLength = (valueAsNumber, valueAsString) => {
+  function onUpdateCustomLength(valueAsNumber, valueAsString) {
     if (valueAsString === "" || Number.isNaN(valueAsNumber)) {
       if (valueAsString === "") setCustomLengthValid(true);
       const clone = { ...mechanismConfig };
@@ -47,7 +47,7 @@ const SuppressionMechanism = ({
       ...mechanismConfig,
       customLength: valueAsNumber,
     });
-  };
+  }
 
   return (
     <div>

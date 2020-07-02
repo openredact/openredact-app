@@ -19,10 +19,10 @@ const Dropzone = ({ onFileDrop }) => {
     onDropAccepted: onFileDrop,
   });
 
-  const computeFormatString = () => {
+  function computeFormatString() {
     // prettier-ignore
     return `${ACCEPTED_FORMATS.slice(0, -1).join(", ")}, ${t("annotation.or")} ${ACCEPTED_FORMATS.slice(-1)}`;
-  };
+  }
 
   return (
     <div {...getRootProps({ className: "dropzone" })}>

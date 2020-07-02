@@ -108,14 +108,14 @@ const Main = ({ tags, anonymizationConfig }) => {
       });
   }, [t, tokens, annotations, anonymizationConfig]);
 
-  const onCancel = () => {
+  function onCancel() {
     setTokens([]);
     setAnnotations([]);
     setAnonymizations([]);
     document.title = "OpenRedact";
-  };
+  }
 
-  const onFileDrop = (files) => {
+  function onFileDrop(files) {
     setIsLoading(true);
 
     const formData = new FormData();
@@ -149,9 +149,9 @@ const Main = ({ tags, anonymizationConfig }) => {
         });
         setIsLoading(false);
       });
-  };
+  }
 
-  const onDownload = () => {
+  function onDownload() {
     const formData = fileFormData.current;
     formData.set("anonymizations", JSON.stringify(anonymizations));
     anonymizeFile(formData)
@@ -165,9 +165,9 @@ const Main = ({ tags, anonymizationConfig }) => {
           intent: "danger",
         });
       });
-  };
+  }
 
-  const onAnnotationsChange = (modifiedAnnotations) => {
+  function onAnnotationsChange(modifiedAnnotations) {
     const newAnnotations = modifiedAnnotations.map((item) => {
       if (item instanceof Annotation) {
         return item;
@@ -185,7 +185,7 @@ const Main = ({ tags, anonymizationConfig }) => {
       return new Annotation(item.start, item.end, item.tag, text);
     });
     setAnnotations(newAnnotations);
-  };
+  }
 
   return (
     <div className="main-view">

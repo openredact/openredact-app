@@ -10,12 +10,12 @@ const GeneralizationMechanism = ({
 }) => {
   const t = useContext(PolyglotContext);
 
-  const onUpdateReplacement = (value) => {
+  function onUpdateReplacement(value) {
     updateMechanismConfig({
       ...mechanismConfig,
       replacement: value,
     });
-  };
+  }
 
   return (
     <div>

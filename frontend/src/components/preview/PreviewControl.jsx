@@ -8,7 +8,7 @@ import PolyglotContext from "../../js/polyglotContext";
 const PreviewControl = ({ tokens, anonymizations, onDownload }) => {
   const t = useContext(PolyglotContext);
 
-  const anonymize = (myTokens, myAnonymizations) => {
+  function anonymize(myTokens, myAnonymizations) {
     let skipNextTokens = 0;
     const anonymizedTokens = myTokens.map((token, idx) => {
       if (skipNextTokens > 0) {
@@ -30,7 +30,7 @@ const PreviewControl = ({ tokens, anonymizations, onDownload }) => {
         acc + cur + (cur !== "" && tokens[idx].hasWhitespace ? " " : ""),
       ""
     );
-  };
+  }
 
   const text = anonymize(tokens, anonymizations);
 
