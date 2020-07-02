@@ -28,12 +28,12 @@
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
       "airbnb",
       "plugin:jsx-a11y/recommended",
       "plugin:react-hooks/recommended",
       "prettier",
       "prettier/react",
+      "react-app",
       "@blueprintjs/eslint-config"
     ],
     "plugins": [
