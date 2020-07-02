@@ -10,7 +10,7 @@ import ScoresDialog from "./ScoresDialog";
 const AnnotationControl = ({
   tokens,
   annotations,
-  initialAnnotations,
+  computedAnnotations,
   onAnnotationsChange,
   onFileDrop,
   onCancel,
@@ -39,10 +39,10 @@ const AnnotationControl = ({
           onClick={onCancel}
         />
       )}
-      {(annotations.length > 0 || initialAnnotations.length > 0) && (
+      {(annotations.length > 0 || computedAnnotations.length > 0) && (
         <ScoresDialog
           annotations={annotations}
-          goldAnnotations={initialAnnotations}
+          goldAnnotations={computedAnnotations}
         />
       )}
     </Card>
@@ -52,7 +52,7 @@ const AnnotationControl = ({
 AnnotationControl.propTypes = {
   tokens: PropTypes.arrayOf(PropTypes.object).isRequired,
   annotations: PropTypes.arrayOf(PropTypes.object).isRequired,
-  initialAnnotations: PropTypes.arrayOf(PropTypes.object).isRequired,
+  computedAnnotations: PropTypes.arrayOf(PropTypes.object).isRequired,
   onAnnotationsChange: PropTypes.func.isRequired,
   onFileDrop: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,

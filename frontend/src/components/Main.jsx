@@ -17,7 +17,7 @@ const Main = ({ tags, anonymizationConfig }) => {
 
   const [tokens, setTokens] = useState([]);
   const [annotations, setAnnotations] = useState([]);
-  const [initialAnnotations, setInitialAnnotations] = useState([]);
+  const [computedAnnotations, setComputedAnnotations] = useState([]);
   const [anonymizations, setAnonymizations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -135,7 +135,7 @@ const Main = ({ tags, anonymizationConfig }) => {
           return new Annotation(pii.startTok, pii.endTok, pii.tag, pii.text);
         });
         setAnnotations(myAnnotations);
-        setInitialAnnotations(myAnnotations);
+        setComputedAnnotations(myAnnotations);
 
         setIsLoading(false);
         document.title = `OpenRedact - ${
@@ -192,7 +192,7 @@ const Main = ({ tags, anonymizationConfig }) => {
       <AnnotationControl
         tokens={tokens}
         annotations={annotations}
-        initialAnnotations={initialAnnotations}
+        computedAnnotations={computedAnnotations}
         onAnnotationsChange={onAnnotationsChange}
         onFileDrop={onFileDrop}
         onCancel={onCancel}
