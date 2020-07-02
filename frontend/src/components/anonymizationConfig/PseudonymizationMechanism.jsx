@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { FormGroup, InputGroup, NumericInput } from "@blueprintjs/core";
 import PolyglotContext from "../../js/polyglotContext";
-import { hasConfigurations } from "../../js/anonymizationConfig";
 
 const PseudonymizationMechanism = ({
   mechanismConfig,
@@ -13,18 +12,6 @@ const PseudonymizationMechanism = ({
 
   const [formatStringValid, setFormatStringValid] = useState(true);
   const [initialCounterValid, setInitialCounterValid] = useState(true);
-
-  const isConfigured = hasConfigurations(mechanismConfig);
-
-  useEffect(() => {
-    if (!isConfigured) {
-      updateMechanismConfig({
-        ...mechanismConfig,
-        formatString: "{}",
-        initialCounterValue: 1,
-      });
-    }
-  });
 
   const validateFormatString = (string) => {
     const regex = RegExp("^[^{}]*{}[^{}]*$");
@@ -60,8 +47,6 @@ const PseudonymizationMechanism = ({
       initialCounterValue: valueAsNumber,
     });
   };
-
-  if (!isConfigured) return null;
 
   return (
     <div>

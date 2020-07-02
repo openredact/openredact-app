@@ -6,7 +6,11 @@ import Item from "./Item";
 import MechanismConfig from "./MechanismConfig";
 import useLocalStorage from "../../js/useLocalStorage";
 import PolyglotContext from "../../js/polyglotContext";
-import { hasConfigurations, hasProperty } from "../../js/anonymizationConfig";
+import {
+  isConfigured,
+  hasProperty,
+  setFromHistoryOrDefault,
+} from "../../js/anonymizationConfig";
 
 const AnonymizationConfigMenu = ({ tags, config, setConfig }) => {
   const t = useContext(PolyglotContext);
@@ -22,10 +26,10 @@ const AnonymizationConfigMenu = ({ tags, config, setConfig }) => {
   );
 
   useEffect(() => {
+    // initialize mechanism configs
     const configClone = { ...config };
     let changed = false;
 
-    // initialize mechanism configs
     tags.forEach((tag) => {
       if (!hasProperty(config.mechanismsByTag, tag)) {
         configClone.mechanismsByTag[tag] = { mechanism: "useDefault" };
@@ -33,62 +37,40 @@ const AnonymizationConfigMenu = ({ tags, config, setConfig }) => {
       }
     });
 
-    // set config from history if possible
-    const getConfigHistoryForTag = (tag) => (mechanism) => {
-      return configHistory[mechanism][tag];
-    };
+    if (changed) setConfig(configClone);
+  }, [tags, config, setConfig]);
 
-    const isNotConfiguredAndHasHistory = (mechanismConfig, tag) => {
-      return (
-        mechanismConfig.mechanism !== "none" &&
-        mechanismConfig.mechanism !== "useDefault" &&
-        !hasConfigurations(mechanismConfig) &&
-        getConfigHistoryForTag(tag)(mechanismConfig.mechanism)
-      );
-    };
-
-    if (isNotConfiguredAndHasHistory(config.defaultMechanism, "default")) {
-      changed = true;
-      configClone.defaultMechanism = getConfigHistoryForTag("default")(
-        config.defaultMechanism.mechanism
-      );
-    }
-
-    Object.entries(config.mechanismsByTag).forEach(([tag, mechanismConfig]) => {
-      if (isNotConfiguredAndHasHistory(mechanismConfig, tag)) {
-        changed = true;
-        configClone.mechanismsByTag[tag] = getConfigHistoryForTag(tag)(
-          mechanismConfig.mechanism
-        );
-      }
-    });
-
-    if (changed) {
-      setConfig(configClone);
-    }
-  }, [tags, config, setConfig, configHistory]);
-
-  const updateConfigHistoryIfConfigured = (newMechanism, tag) => {
-    if (newMechanism.mechanism === "none" || !hasConfigurations(newMechanism)) {
-      return;
-    }
+  const updateConfigHistory = (mechanismConfig, tag) => {
     const historyClone = { ...configHistory };
-    historyClone[newMechanism.mechanism][tag] = newMechanism;
+    historyClone[mechanismConfig.mechanism][tag] = mechanismConfig;
     setConfigHistory(historyClone);
   };
 
-  const updateConfig = (newMechanism, tag = null) => {
-    if (tag == null) {
-      setConfig({ ...config, defaultMechanism: newMechanism });
-      updateConfigHistoryIfConfigured(newMechanism, "default");
-      return;
+  const updateConfig = (mechanismConfig, tag = "default") => {
+    const mechanismName = mechanismConfig.mechanism;
+    let myMechanismConfig = mechanismConfig;
+    if (
+      !isConfigured(mechanismConfig) &&
+      mechanismName !== "none" &&
+      mechanismName !== "useDefault"
+    ) {
+      myMechanismConfig = setFromHistoryOrDefault(
+        configHistory,
+        tag,
+        mechanismName
+      );
     }
 
-    // update mechanism for tag
-    const configClone = { ...config };
-    configClone.mechanismsByTag[tag] = newMechanism;
-    setConfig(configClone);
-    updateConfigHistoryIfConfigured(newMechanism, tag);
+    if (tag === "default") {
+      setConfig({ ...config, defaultMechanism: myMechanismConfig });
+    } else {
+      const configClone = { ...config };
+      configClone.mechanismsByTag[tag] = myMechanismConfig;
+      setConfig(configClone);
+    }
+
+    if (isConfigured(mechanismConfig))
+      updateConfigHistory(mechanismConfig, tag);
   };
 
   const listItems = Object.entries(config.mechanismsByTag)

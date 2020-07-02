@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { InputGroup, FormGroup, NumericInput } from "@blueprintjs/core";
 import PolyglotContext from "../../js/polyglotContext";
-import { hasConfigurations } from "../../js/anonymizationConfig";
 
 const SuppressionMechanism = ({
   mechanismConfig,
@@ -12,17 +11,6 @@ const SuppressionMechanism = ({
   const t = useContext(PolyglotContext);
 
   const [customLengthValid, setCustomLengthValid] = useState(true);
-
-  const isConfigured = hasConfigurations(mechanismConfig);
-
-  useEffect(() => {
-    if (!isConfigured) {
-      updateMechanismConfig({
-        ...mechanismConfig,
-        suppressionChar: "X",
-      });
-    }
-  });
 
   const onUpdateSuppressionChar = (value) => {
     updateMechanismConfig({
@@ -60,8 +48,6 @@ const SuppressionMechanism = ({
       customLength: valueAsNumber,
     });
   };
-
-  if (!isConfigured) return null;
 
   return (
     <div>
