@@ -19,8 +19,9 @@ repos:
         additional_dependencies:
           - eslint@7.1.0
           - eslint-config-airbnb@18.1.0
-          - eslint-config-prettier@6.11.0
           - eslint-plugin-jsx-a11y@6.2.3
           - eslint-plugin-react-hooks@4.0.4
+          - eslint-config-prettier@6.11.0
+          - eslint-config-react-app@5.2.1
           - "@blueprintjs/eslint-config@0.3.1"
           - "@blueprintjs/eslint-plugin-blueprint@0.1.0"
