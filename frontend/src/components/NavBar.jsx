@@ -5,6 +5,7 @@ import {
   NavbarGroup,
   Alignment,
   NavbarHeading,
+  Classes,
 } from "@blueprintjs/core";
 import PolyglotContext from "../js/polyglotContext";
 import { ReactComponent as LogoSvg } from "../logo.svg";
@@ -13,7 +14,7 @@ const NavBar = () => {
   const t = useContext(PolyglotContext);
 
   return (
-    <nav className="bp3-navbar bp3-dark">
+    <nav className={`${Classes.NAVBAR} ${Classes.DARK}`}>
       <NavbarGroup align={Alignment.LEFT}>
         <LogoSvg className="logo" />
         <NavbarHeading>
@@ -28,24 +29,4 @@ const NavBar = () => {
   );
 };
 
-// <NavBar className="bp3-dark">
-//   <NavbarGroup align={Alignment.LEFT}>
-//     <LogoSvg className="logo" />
-//     <NavbarHeading>
-//       OPEN<b>REDACT</b>
-//     </NavbarHeading>
-//   </NavbarGroup>
-//   <NavbarGroup align={Alignment.RIGHT}>
-//     <Button
-//       icon="cog"
-//       title={t("nav.settings")}
-//       minimal
-//     />
-//     <Button
-//       icon="help"
-//       title={t("nav.help")}
-//       minimal
-//     />
-//   </NavbarGroup>
-// </NavBar>
 export default NavBar;
