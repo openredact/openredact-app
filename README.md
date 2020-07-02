@@ -11,6 +11,7 @@ Semi-automatic data anonymization for German documents
 [![Code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 ![Frontend Tests](https://github.com/openredact/openredact-app/workflows/Frontend%20Tests/badge.svg?branch=master)
 ![Backend Tests](https://github.com/openredact/openredact-app/workflows/Backend%20Tests/badge.svg?branch=master)
+![Format & Lint](https://github.com/openredact/openredact-app/workflows/Format%20and%20Lint/badge.svg?branch=master)
 
 ## Description
 
