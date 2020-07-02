@@ -22,5 +22,6 @@ repos:
           - eslint-plugin-jsx-a11y@6.2.3
           - eslint-plugin-react-hooks@4.0.4
           - eslint-config-prettier@6.11.0
-          - react-scripts@3.4.1
+          - eslint-config-react-app@5.2.1
+          - babel-eslint@10.1.0
           - "@blueprintjs/eslint-plugin@0.2.0"
