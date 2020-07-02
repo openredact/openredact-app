@@ -7,11 +7,12 @@ it("renders", () => {
     <AnnotationControl
       tokens={[]}
       annotations={[]}
+      initialAnnotations={[]}
       onAnnotationsChange={() => {}}
-      scores={{}}
       onFileDrop={() => {}}
       onCancel={() => {}}
       isLoading={false}
+      tags={[]}
     />
   );
 });

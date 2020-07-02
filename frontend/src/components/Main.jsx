@@ -4,12 +4,7 @@ import PropTypes from "prop-types";
 import AnnotationControl from "./annotation/AnnotationControl";
 import PreviewControl from "./preview/PreviewControl";
 import "./Main.sass";
-import {
-  anonymizeFile,
-  computeScores,
-  findPiis,
-  anonymizePiis,
-} from "../api/routes";
+import { anonymizeFile, findPiis, anonymizePiis } from "../api/routes";
 import Token from "../js/token";
 import Annotation from "../js/annotation";
 import Anonymization from "../js/anonymization";
@@ -22,10 +17,9 @@ const Main = ({ tags, anonymizationConfig }) => {
 
   const [tokens, setTokens] = useState([]);
   const [annotations, setAnnotations] = useState([]);
-  const [initialAnnotations, setInitialAnnotations] = useState(null);
+  const [initialAnnotations, setInitialAnnotations] = useState([]);
   const [anonymizations, setAnonymizations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [scores, setScores] = useState({});
 
   const fileFormData = useRef({});
 
@@ -114,22 +108,6 @@ const Main = ({ tags, anonymizationConfig }) => {
       });
   }, [t, tokens, annotations, anonymizationConfig]);
 
-  useEffect(() => {
-    if (annotations.length === 0 || initialAnnotations === null) return;
-
-    computeScores({
-      computedAnnotations: initialAnnotations,
-      goldAnnotations: annotations,
-    })
-      .then((response) => setScores(response.data))
-      .catch(() => {
-        AppToaster.show({
-          message: t("main.computing_scores_failed_toast"),
-          intent: "danger",
-        });
-      });
-  }, [t, annotations, initialAnnotations]);
-
   const onCancel = () => {
     setTokens([]);
     setAnnotations([]);
@@ -213,8 +191,8 @@ const Main = ({ tags, anonymizationConfig }) => {
     <div className="main-view">
       <AnnotationControl
         tokens={tokens}
-        scores={scores}
         annotations={annotations}
+        initialAnnotations={initialAnnotations}
         onAnnotationsChange={onAnnotationsChange}
         onFileDrop={onFileDrop}
         onCancel={onCancel}

@@ -1,17 +1,19 @@
 import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
+import { Dialog } from "@blueprintjs/core";
 import "./ScoresDialog.sass";
-import { Dialog, Classes } from "@blueprintjs/core";
 import PolyglotContext from "../../js/polyglotContext";
-import ScoresTable from "./ScoresTable";
+import ScoresDialogButton from "./ScoresDialogButton";
+import ScoresDialogBody from "./ScoresDialogBody";
 
-const ScoresDialog = ({ scores }) => {
+const ScoresDialog = ({ annotations, goldAnnotations }) => {
   const t = useContext(PolyglotContext);
 
   const [showDialog, setShowDialog] = useState(false);
 
   return (
     <div>
+      <ScoresDialogButton setShowDialog={setShowDialog} />
       <Dialog
         onClose={() => setShowDialog(false)}
         isOpen={showDialog}
@@ -22,32 +24,18 @@ const ScoresDialog = ({ scores }) => {
         isCloseButtonShown
         className="dialog"
       >
-        <div className={Classes.DIALOG_BODY}>
-          <p>
-            {t("annotation.scores_description")}
-            <br />
-            {t("annotation.scores_note")}
-          </p>
-          <ScoresTable scores={scores} />
-        </div>
+        <ScoresDialogBody
+          annotations={annotations}
+          goldAnnotations={goldAnnotations}
+        />
       </Dialog>
-      <div
-        role="button"
-        tabIndex="0"
-        className="score-footer"
-        onClick={() => setShowDialog(true)}
-        onKeyDown={(e) => {
-          if (e.keyCode === 13) setShowDialog(true);
-        }}
-      >
-        {t("annotation.scores")}
-      </div>
     </div>
   );
 };
 
 ScoresDialog.propTypes = {
-  scores: PropTypes.objectOf(PropTypes.any).isRequired,
+  annotations: PropTypes.arrayOf(PropTypes.object).isRequired,
+  goldAnnotations: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default ScoresDialog;

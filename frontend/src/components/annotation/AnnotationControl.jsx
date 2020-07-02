@@ -9,8 +9,8 @@ import ScoresDialog from "./ScoresDialog";
 
 const AnnotationControl = ({
   tokens,
-  scores,
   annotations,
+  initialAnnotations,
   onAnnotationsChange,
   onFileDrop,
   onCancel,
@@ -39,8 +39,11 @@ const AnnotationControl = ({
           onClick={onCancel}
         />
       )}
-      {tokens.length > 0 && Object.keys(scores).length > 0 && (
-        <ScoresDialog scores={scores} />
+      {(annotations.length > 0 || initialAnnotations.length > 0) && (
+        <ScoresDialog
+          annotations={annotations}
+          goldAnnotations={initialAnnotations}
+        />
       )}
     </Card>
   );
@@ -48,17 +51,13 @@ const AnnotationControl = ({
 
 AnnotationControl.propTypes = {
   tokens: PropTypes.arrayOf(PropTypes.object).isRequired,
-  scores: PropTypes.objectOf(PropTypes.any),
   annotations: PropTypes.arrayOf(PropTypes.object).isRequired,
+  initialAnnotations: PropTypes.arrayOf(PropTypes.object).isRequired,
   onAnnotationsChange: PropTypes.func.isRequired,
   onFileDrop: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-};
-
-AnnotationControl.defaultProps = {
-  scores: {},
 };
 
 export default AnnotationControl;
