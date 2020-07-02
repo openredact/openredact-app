@@ -43,10 +43,10 @@ const AnnotationForm = ({ tokens, annotations, onAnnotationsChange, tags }) => {
           <Tooltip
             content={t(`annotation.tag.${tag.toLowerCase()}`)}
             hoverOpenDelay={500}
+            key={tag}
           >
             <Button
               className="tag"
-              key={tag}
               active={activeTag === tag}
               onClick={() => setActiveTag(tag)}
             >
