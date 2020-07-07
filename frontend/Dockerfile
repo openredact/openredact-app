@@ -11,7 +11,6 @@ COPY ./ /app/
 
 RUN npm run build
 
-
 # serve built frontend using nginx
 FROM nginx:1.15
 

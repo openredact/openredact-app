@@ -1,5 +1,9 @@
 # OpenRedact
 
+_**:warning: Disclaimer :warning::**_ This is a prototype. Do not use for anything critical.
+
+_**:warning: Note :warning::**_ This tool focuses on the text content. Metadata will not be anonymized.
+
 Semi-automatic data anonymization for German documents
 
 ---
@@ -15,11 +19,7 @@ Semi-automatic data anonymization for German documents
 
 ## Description
 
-...
-
-_**:warning: Disclaimer :warning::**_ This is a prototype. Do not use for anything critical.
-
-_**:warning: Note :warning::**_ This tool focuses on the text content. Metadata will not be anonymized.
+This repository contains all materials (frontend and backend) to run the Open Redact app.
 
 ## Backend Requirements
 
@@ -110,3 +110,7 @@ Documentation of the API is available at the endpoints `/docs` ([Swagger UI](htt
 and `/redocs` ([ReDoc](https://redocly.github.io/redoc/)), e.g. http://127.0.0.1:8000/redoc.
 
 The OpenAPI specification can be found here: http://127.0.0.1:8000/openapi.json
+
+## License
+
+[MIT License](https://github.com/openredact/openredact-app/blob/master/LICENSE)

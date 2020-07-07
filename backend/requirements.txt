@@ -1,6 +1,6 @@
 fastapi==0.54.1
 uvicorn==0.11.3
 python-multipart==0.0.5
-git+ssh://git@github.com/openredact/expose-text.git#egg=expose-text
-git+ssh://git@github.com/openredact/pii-identifier.git#egg=pii-identifier
-git+ssh://git@github.com/openredact/anonymizer.git#egg=anonymizer
+git+https://github.com/openredact/expose-text.git#egg=expose-text
+git+https://github.com/openredact/pii-identifier.git#egg=pii-identifier
+git+https://github.com/openredact/anonymizer.git#egg=anonymizer
