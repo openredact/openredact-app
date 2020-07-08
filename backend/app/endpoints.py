@@ -93,6 +93,8 @@ async def find_piis(file: UploadFile = File(...)):
         wrapper = BinaryWrapper(content, extension)
     except UnsupportedFormat:
         raise HTTPException(status_code=400, detail="Unsupported File Format")
+    except Exception:
+        raise HTTPException(status_code=400, detail="File Handling Error")
 
     recognizers = pii_identifier.core.all_recognizers[0:3]
     res = pii_identifier.find_piis(wrapper.text, recognizers=recognizers, aggregation_strategy="merge")
