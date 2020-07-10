@@ -51,6 +51,8 @@ export default {
     },
   },
   app: {
+    fetching_recognizers_failed_toast:
+      "Loading the list of available recognizers failed.",
     network_error_toast: "The server is not available.",
     rendering_error: "Unexpected Error",
     rendering_error_action: "Please try reloading the page.",

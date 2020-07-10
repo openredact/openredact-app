@@ -52,6 +52,8 @@ export default {
     },
   },
   app: {
+    fetching_recognizers_failed_toast:
+      "Das Laden der verfügbaren Erkennungsmechanismen ist fehlgeschlagen.",
     network_error_toast: "Der Server ist nicht erreichbar.",
     rendering_error: "Unerwarteter Fehler",
     rendering_error_action: "Bitte versuche die Seite erneut zu laden.",

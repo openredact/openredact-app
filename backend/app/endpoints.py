@@ -133,3 +133,13 @@ async def tags():
         "MISC",
         "STATE",
     ]  # TODO compute from loaded recognizers
+
+
+@router.get(
+    "/recognizers",
+    summary="PII Recognizers",
+    description="Fetch the list of recognizers that are supported by the backend.",
+    response_model=List[str],
+)
+async def recognizers():
+    return [recognizer.__name__ for recognizer in pii_identifier.supported_recognizers]

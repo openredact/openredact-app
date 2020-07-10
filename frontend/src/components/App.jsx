@@ -4,7 +4,7 @@ import NavBar from "./NavBar";
 import AnonymizationConfigMenu from "./anonymizationConfig/AnonymizationConfigMenu";
 import Main from "./Main";
 import PolyglotContext from "../js/polyglotContext";
-import { fetchTags } from "../api/routes";
+import { fetchRecognizers, fetchTags } from "../api/routes";
 import AppToaster from "../js/toaster";
 import useLocalStorage from "../js/useLocalStorage";
 import ErrorBoundary from "./ErrorBoundary";
@@ -13,6 +13,11 @@ const App = () => {
   const t = useContext(PolyglotContext);
 
   const [tags, setTags] = useState([]);
+  const [availableRecognizers, setAvailableRecognizers] = useState([]);
+  const [activatedRecognizers, setActivatedRecognizers] = useLocalStorage(
+    "activatedRecognizers",
+    []
+  );
   const [anonymizationConfig, setAnonymizationConfig] = useLocalStorage(
     "anonymizationConfig",
     {
@@ -20,6 +25,19 @@ const App = () => {
       mechanismsByTag: {},
     }
   );
+
+  useEffect(() => {
+    fetchRecognizers()
+      .then((response) => {
+        setAvailableRecognizers(response.data);
+      })
+      .catch(() => {
+        AppToaster.show({
+          message: t("app.fetching_recognizers_failed_toast"),
+          intent: "danger",
+        });
+      });
+  }, [t]);
 
   useEffect(() => {
     fetchTags()
@@ -36,7 +54,11 @@ const App = () => {
 
   return (
     <div>
-      <NavBar />
+      <NavBar
+        availableRecognizers={availableRecognizers}
+        activatedRecognizers={activatedRecognizers}
+        setActivatedRecognizers={setActivatedRecognizers}
+      />
       <div className="grid-container">
         <ErrorBoundary>
           <AnonymizationConfigMenu

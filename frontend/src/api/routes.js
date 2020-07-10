@@ -53,4 +53,15 @@ function anonymizePiis(payload) {
   return API.post("anonymize", payload);
 }
 
-export { findPiis, computeScores, fetchTags, anonymizeFile, anonymizePiis };
+function fetchRecognizers() {
+  return API.get("recognizers");
+}
+
+export {
+  findPiis,
+  computeScores,
+  fetchTags,
+  anonymizeFile,
+  anonymizePiis,
+  fetchRecognizers,
+};
