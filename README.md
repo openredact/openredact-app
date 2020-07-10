@@ -65,17 +65,16 @@ pre-commit run --all-files
 You can simply make the backend available at port 8000 and the frontend at port 80 by running:
 
 ```
-# Set your SSH keys
-export SSH_PRV_KEY="$(cat ~/.ssh/id_rsa)"
-export SSH_PUB_KEY="$(cat ~/.ssh/id_rsa.pub)"
-
-docker-compose up --build
-
-# Dev
-docker-compose up -f docker-compose.dev.yml
+docker-compose up
 ```
 
-The option `--build` rebuilds containers on change.
+Add the option `--build` to incorporate changes by rebuilding containers.
+
+To use our docker setup for development run:
+
+```
+docker-compose up -f docker-compose.dev.yml
+```
 
 ### Run the frontend using Docker
 
