@@ -7,7 +7,10 @@ it("renders", () => {
     <AnonymizationConfigMenu
       tags={["PER"]}
       config={{
-        defaultMechanism: { mechanism: "suppression", suppressionChar: "X" },
+        defaultMechanism: {
+          mechanism: "suppression",
+          config: { suppressionChar: "X" },
+        },
         mechanismsByTag: {},
       }}
       setConfig={() => {}}

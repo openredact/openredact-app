@@ -7,7 +7,6 @@ import MechanismConfig from "./MechanismConfig";
 import useLocalStorage from "../../js/useLocalStorage";
 import PolyglotContext from "../../js/polyglotContext";
 import {
-  isConfigured,
   hasProperty,
   setFromHistoryOrDefault,
 } from "../../js/anonymizationConfig";
@@ -32,7 +31,10 @@ const AnonymizationConfigMenu = ({ tags, config, setConfig }) => {
 
     tags.forEach((tag) => {
       if (!hasProperty(config.mechanismsByTag, tag)) {
-        configClone.mechanismsByTag[tag] = { mechanism: "useDefault" };
+        configClone.mechanismsByTag[tag] = {
+          mechanism: "useDefault",
+          config: {},
+        };
         changed = true;
       }
     });
@@ -40,48 +42,50 @@ const AnonymizationConfigMenu = ({ tags, config, setConfig }) => {
     if (changed) setConfig(configClone);
   }, [tags, config, setConfig]);
 
-  function updateConfigHistory(mechanismConfig, tag) {
+  function updateConfigHistory(mechanism, tag) {
     const historyClone = { ...configHistory };
-    historyClone[mechanismConfig.mechanism][tag] = mechanismConfig;
+    historyClone[mechanism.mechanism][tag] = mechanism.config;
     setConfigHistory(historyClone);
   }
 
-  function updateConfig(mechanismConfig, tag = "default") {
-    const mechanismName = mechanismConfig.mechanism;
-    let myMechanismConfig = mechanismConfig;
+  function updateConfig(mechanism, tag = "default") {
+    const mechanismName = mechanism.mechanism;
+    let mechanismConfig = mechanism.config;
     if (
-      !isConfigured(mechanismConfig) &&
-      mechanismName !== "none" &&
-      mechanismName !== "useDefault"
+      mechanismConfig === undefined ||
+      (Object.keys(mechanismConfig).length === 0 &&
+        mechanismName !== "none" &&
+        mechanismName !== "useDefault")
     ) {
-      myMechanismConfig = setFromHistoryOrDefault(
+      mechanismConfig = setFromHistoryOrDefault(
         configHistory,
         tag,
         mechanismName
       );
     }
 
+    const myMechanism = { mechanism: mechanismName, config: mechanismConfig };
     if (tag === "default") {
-      setConfig({ ...config, defaultMechanism: myMechanismConfig });
+      setConfig({ ...config, defaultMechanism: myMechanism });
     } else {
       const configClone = { ...config };
-      configClone.mechanismsByTag[tag] = myMechanismConfig;
+      configClone.mechanismsByTag[tag] = myMechanism;
       setConfig(configClone);
     }
 
-    if (isConfigured(mechanismConfig))
-      updateConfigHistory(mechanismConfig, tag);
+    if (Object.keys(mechanismConfig).length > 0)
+      updateConfigHistory(myMechanism, tag);
   }
 
   const listItems = Object.entries(config.mechanismsByTag)
     .sort()
-    .map(([tag, mechanismConfig]) => {
+    .map(([tag, mechanism]) => {
       return (
         <li key={tag}>
           <Item
             tag={tag}
-            mechanismConfig={mechanismConfig}
-            updateMechanismConfig={(mechanism) => updateConfig(mechanism, tag)}
+            mechanism={mechanism}
+            updateMechanism={(myMechanism) => updateConfig(myMechanism, tag)}
           />
         </li>
       );
@@ -94,8 +98,8 @@ const AnonymizationConfigMenu = ({ tags, config, setConfig }) => {
         labelFor="default-mechanism-config"
       >
         <MechanismConfig
-          mechanismConfig={config.defaultMechanism}
-          updateMechanismConfig={updateConfig}
+          mechanism={config.defaultMechanism}
+          updateMechanism={updateConfig}
           tag="default"
         />
       </FormGroup>

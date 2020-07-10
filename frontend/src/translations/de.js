@@ -38,8 +38,8 @@ export default {
       name: "Pseudonymisierung",
       format_string: "Ersetzen mit",
       format_string_hint: "benutze {} einmal als Platzhalter",
-      initial_counter_value: "Initialer Wert",
-      initial_counter_value_hint: "gib eine Zahl größer 0 sein",
+      counter_value: "Initialer Wert",
+      counter_value_hint: "gib eine Zahl größer 0 sein",
     },
     stateful: { name: "Zustandsbehaftet" },
     suppression: {

@@ -21,7 +21,10 @@ const App = () => {
   const [anonymizationConfig, setAnonymizationConfig] = useLocalStorage(
     "anonymizationConfig",
     {
-      defaultMechanism: { mechanism: "suppression", suppressionChar: "X" },
+      defaultMechanism: {
+        mechanism: "suppression",
+        config: { suppressionChar: "X" },
+      },
       mechanismsByTag: {},
     }
   );

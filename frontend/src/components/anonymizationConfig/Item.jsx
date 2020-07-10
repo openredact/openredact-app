@@ -4,7 +4,7 @@ import { FormGroup } from "@blueprintjs/core";
 import MechanismConfig from "./MechanismConfig";
 import PolyglotContext from "../../js/polyglotContext";
 
-const Item = ({ mechanismConfig, updateMechanismConfig, tag }) => {
+const Item = ({ mechanism, updateMechanism, tag }) => {
   const t = useContext(PolyglotContext);
 
   return (
@@ -13,8 +13,8 @@ const Item = ({ mechanismConfig, updateMechanismConfig, tag }) => {
       labelFor={`${tag}-mechanism-config`}
     >
       <MechanismConfig
-        mechanismConfig={mechanismConfig}
-        updateMechanismConfig={updateMechanismConfig}
+        mechanism={mechanism}
+        updateMechanism={updateMechanism}
         tag={tag}
       />
     </FormGroup>
@@ -22,8 +22,8 @@ const Item = ({ mechanismConfig, updateMechanismConfig, tag }) => {
 };
 
 Item.propTypes = {
-  mechanismConfig: PropTypes.objectOf(PropTypes.any).isRequired,
-  updateMechanismConfig: PropTypes.func.isRequired,
+  mechanism: PropTypes.objectOf(PropTypes.any).isRequired,
+  updateMechanism: PropTypes.func.isRequired,
   tag: PropTypes.string.isRequired,
 };
 

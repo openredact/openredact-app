@@ -3,20 +3,15 @@ import PropTypes from "prop-types";
 import { InputGroup, FormGroup, NumericInput } from "@blueprintjs/core";
 import PolyglotContext from "../../js/polyglotContext";
 
-const SuppressionMechanism = ({
-  mechanismConfig,
-  updateMechanismConfig,
-  tag,
-}) => {
+const SuppressionMechanism = ({ mechanism, updateMechanism, tag }) => {
   const t = useContext(PolyglotContext);
 
   const [customLengthValid, setCustomLengthValid] = useState(true);
 
   function onUpdateSuppressionChar(value) {
-    updateMechanismConfig({
-      ...mechanismConfig,
-      suppressionChar: value,
-    });
+    const mechanismClone = { ...mechanism };
+    mechanismClone.config.suppressionChar = value;
+    updateMechanism(mechanismClone);
   }
 
   function validateCustomLength(customLength) {
@@ -31,9 +26,9 @@ const SuppressionMechanism = ({
   function onUpdateCustomLength(valueAsNumber, valueAsString) {
     if (valueAsString === "" || Number.isNaN(valueAsNumber)) {
       if (valueAsString === "") setCustomLengthValid(true);
-      const clone = { ...mechanismConfig };
-      delete clone.customLength;
-      updateMechanismConfig(clone);
+      const mechanismClone = { ...mechanism };
+      delete mechanismClone.config.customLength;
+      updateMechanism(mechanismClone);
       return;
     }
 
@@ -43,10 +38,9 @@ const SuppressionMechanism = ({
     }
 
     setCustomLengthValid(true);
-    updateMechanismConfig({
-      ...mechanismConfig,
-      customLength: valueAsNumber,
-    });
+    const mechanismClone = { ...mechanism };
+    mechanismClone.config.customLength = valueAsNumber;
+    updateMechanism(mechanismClone);
   }
 
   return (
@@ -57,7 +51,7 @@ const SuppressionMechanism = ({
       >
         <InputGroup
           id={`${tag}-suppression-char-input`}
-          value={mechanismConfig.suppressionChar}
+          value={mechanism.config.suppressionChar}
           onChange={(event) => onUpdateSuppressionChar(event.target.value)}
           fill
         />
@@ -77,8 +71,8 @@ const SuppressionMechanism = ({
           min={1}
           minorStepSize={1}
           value={
-            mechanismConfig.customLength !== undefined
-              ? mechanismConfig.customLength
+            mechanism.config.customLength !== undefined
+              ? mechanism.config.customLength
               : ""
           }
           onValueChange={onUpdateCustomLength}
@@ -92,8 +86,8 @@ const SuppressionMechanism = ({
 };
 
 SuppressionMechanism.propTypes = {
-  mechanismConfig: PropTypes.objectOf(PropTypes.any).isRequired,
-  updateMechanismConfig: PropTypes.func.isRequired,
+  mechanism: PropTypes.objectOf(PropTypes.any).isRequired,
+  updateMechanism: PropTypes.func.isRequired,
   tag: PropTypes.string.isRequired,
 };
 

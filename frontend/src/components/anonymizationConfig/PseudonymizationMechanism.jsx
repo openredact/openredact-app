@@ -3,15 +3,11 @@ import PropTypes from "prop-types";
 import { FormGroup, InputGroup, NumericInput } from "@blueprintjs/core";
 import PolyglotContext from "../../js/polyglotContext";
 
-const PseudonymizationMechanism = ({
-  mechanismConfig,
-  updateMechanismConfig,
-  tag,
-}) => {
+const PseudonymizationMechanism = ({ mechanism, updateMechanism, tag }) => {
   const t = useContext(PolyglotContext);
 
   const [formatStringValid, setFormatStringValid] = useState(true);
-  const [initialCounterValid, setInitialCounterValid] = useState(true);
+  const [counterValid, setCounterValid] = useState(true);
 
   function validateFormatString(string) {
     const regex = RegExp("^[^{}]*{}[^{}]*$");
@@ -25,27 +21,25 @@ const PseudonymizationMechanism = ({
       setFormatStringValid(true);
     }
 
-    updateMechanismConfig({
-      ...mechanismConfig,
-      formatString: value,
-    });
+    const mechanismClone = { ...mechanism };
+    mechanismClone.config.formatString = value;
+    updateMechanism(mechanismClone);
   }
 
-  function validateInitialCounterValue(initialCounterValue) {
-    return Number.isInteger(initialCounterValue) && initialCounterValue >= 1;
+  function validateCounterValue(counterValue) {
+    return Number.isInteger(counterValue) && counterValue >= 1;
   }
 
-  function onUpdateInitialCounterValue(valueAsNumber) {
-    if (!validateInitialCounterValue(valueAsNumber)) {
-      setInitialCounterValid(false);
+  function onUpdateCounterValue(valueAsNumber) {
+    if (!validateCounterValue(valueAsNumber)) {
+      setCounterValid(false);
       return;
     }
 
-    setInitialCounterValid(true);
-    updateMechanismConfig({
-      ...mechanismConfig,
-      initialCounterValue: valueAsNumber,
-    });
+    setCounterValid(true);
+    const mechanismClone = { ...mechanism };
+    mechanismClone.config.counter = valueAsNumber;
+    updateMechanism(mechanismClone);
   }
 
   return (
@@ -62,29 +56,29 @@ const PseudonymizationMechanism = ({
       >
         <InputGroup
           id={`${tag}-format-string-input`}
-          value={mechanismConfig.formatString}
+          value={mechanism.config.formatString}
           onChange={(event) => onUpdateFormatString(event.target.value)}
           intent={formatStringValid ? "default" : "danger"}
           fill
         />
       </FormGroup>
       <FormGroup
-        label={t("anonymization.pseudonymization.initial_counter_value")}
-        labelFor={`${tag}-initial-counter-value-input`}
+        label={t("anonymization.pseudonymization.counter_value")}
+        labelFor={`${tag}-counter-value-input`}
         helperText={
-          initialCounterValid
+          counterValid
             ? undefined
-            : t("anonymization.pseudonymization.initial_counter_value_hint")
+            : t("anonymization.pseudonymization.counter_value_hint")
         }
-        intent={initialCounterValid ? "default" : "danger"}
+        intent={counterValid ? "default" : "danger"}
       >
         <NumericInput
-          id={`${tag}-initial-counter-value-input`}
+          id={`${tag}-counter-value-input`}
           min={1}
           minorStepSize={1}
-          value={mechanismConfig.initialCounterValue}
-          onValueChange={onUpdateInitialCounterValue}
-          intent={initialCounterValid ? "default" : "danger"}
+          value={mechanism.config.counter}
+          onValueChange={onUpdateCounterValue}
+          intent={counterValid ? "default" : "danger"}
           fill
         />
       </FormGroup>
@@ -93,8 +87,8 @@ const PseudonymizationMechanism = ({
 };
 
 PseudonymizationMechanism.propTypes = {
-  mechanismConfig: PropTypes.objectOf(PropTypes.any).isRequired,
-  updateMechanismConfig: PropTypes.func.isRequired,
+  mechanism: PropTypes.objectOf(PropTypes.any).isRequired,
+  updateMechanism: PropTypes.func.isRequired,
   tag: PropTypes.string.isRequired,
 };
 

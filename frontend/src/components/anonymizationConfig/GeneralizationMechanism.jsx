@@ -3,18 +3,13 @@ import PropTypes from "prop-types";
 import { InputGroup, FormGroup } from "@blueprintjs/core";
 import PolyglotContext from "../../js/polyglotContext";
 
-const GeneralizationMechanism = ({
-  mechanismConfig,
-  updateMechanismConfig,
-  tag,
-}) => {
+const GeneralizationMechanism = ({ mechanism, updateMechanism, tag }) => {
   const t = useContext(PolyglotContext);
 
   function onUpdateReplacement(value) {
-    updateMechanismConfig({
-      ...mechanismConfig,
-      replacement: value,
-    });
+    const mechanismClone = { ...mechanism };
+    mechanismClone.config.replacement = value;
+    updateMechanism(mechanismClone);
   }
 
   return (
@@ -25,7 +20,7 @@ const GeneralizationMechanism = ({
       >
         <InputGroup
           id={`${tag}-replacement-input`}
-          value={mechanismConfig.replacement}
+          value={mechanism.config.replacement}
           onChange={(event) => onUpdateReplacement(event.target.value)}
           fill
         />
@@ -35,8 +30,8 @@ const GeneralizationMechanism = ({
 };
 
 GeneralizationMechanism.propTypes = {
-  mechanismConfig: PropTypes.objectOf(PropTypes.any).isRequired,
-  updateMechanismConfig: PropTypes.func.isRequired,
+  mechanism: PropTypes.objectOf(PropTypes.any).isRequired,
+  updateMechanism: PropTypes.func.isRequired,
   tag: PropTypes.string.isRequired,
 };
 

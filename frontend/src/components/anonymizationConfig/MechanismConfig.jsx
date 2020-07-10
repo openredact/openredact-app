@@ -7,13 +7,13 @@ import SuppressionMechanism from "./SuppressionMechanism";
 import PseudonymizationMechanism from "./PseudonymizationMechanism";
 import GeneralizationMechanism from "./GeneralizationMechanism";
 
-const MechanismConfig = ({ mechanismConfig, updateMechanismConfig, tag }) => {
+const MechanismConfig = ({ mechanism, updateMechanism, tag }) => {
   const t = useContext(PolyglotContext);
 
-  const props = { mechanismConfig, updateMechanismConfig, tag };
+  const props = { mechanism, updateMechanism, tag };
 
   let mechanismComponent;
-  switch (mechanismConfig.mechanism) {
+  switch (mechanism.mechanism) {
     case "generalization":
       mechanismComponent = <GeneralizationMechanism {...props} />;
       break;
@@ -29,13 +29,13 @@ const MechanismConfig = ({ mechanismConfig, updateMechanismConfig, tag }) => {
   }
 
   function onSelect(event) {
-    updateMechanismConfig({ mechanism: event.target.value });
+    updateMechanism({ mechanism: event.target.value });
   }
 
   return (
     <div className="mechanism">
       <HTMLSelect
-        value={mechanismConfig.mechanism}
+        value={mechanism.mechanism}
         onChange={onSelect}
         id={`${tag}-mechanism-config`}
         fill
@@ -62,8 +62,8 @@ const MechanismConfig = ({ mechanismConfig, updateMechanismConfig, tag }) => {
 };
 
 MechanismConfig.propTypes = {
-  mechanismConfig: PropTypes.objectOf(PropTypes.any).isRequired,
-  updateMechanismConfig: PropTypes.func.isRequired,
+  mechanism: PropTypes.objectOf(PropTypes.any).isRequired,
+  updateMechanism: PropTypes.func.isRequired,
   tag: PropTypes.string.isRequired,
 };
 
