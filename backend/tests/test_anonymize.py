@@ -9,7 +9,7 @@ def test_anonymized_by_default(client):
         "/api/anonymize",
         json={
             "piis": [{"tag": "PER", "text": "Smith", "id": "1"}],
-            "config": {"defaultMechanism": {"mechanism": "suppression"}, "mechanismsByTag": {}},
+            "config": {"defaultMechanism": {"mechanism": "suppression", "config": {}}, "mechanismsByTag": {}},
         },
     )
     assert response.status_code == 200
@@ -22,8 +22,8 @@ def test_anonymized_by_tag_mechanism(client):
         json={
             "piis": [{"tag": "PER", "text": "Smith", "id": "1"}],
             "config": {
-                "defaultMechanism": {"mechanism": "suppression"},
-                "mechanismsByTag": {"PER": {"mechanism": "generalization", "replacement": "person"}},
+                "defaultMechanism": {"mechanism": "suppression", "config": {}},
+                "mechanismsByTag": {"PER": {"mechanism": "generalization", "config": {"replacement": "person"}}},
             },
         },
     )
