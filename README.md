@@ -66,8 +66,6 @@ pre-commit run --all-files
 
 ## Deployment
 
-**Note:** Docker is currently not working because our own dependencies will not be installed yet by the backend image.
-
 ### Run the full stack using Docker-Compose
 
 You can simply make the backend available at port 8000 and the frontend at port 80 by running:
