@@ -14,8 +14,6 @@ services:
       dockerfile: Dockerfile.dev
     image: openredact-frontend-dev
     command: npm run start
-    links:
-      - backend
     ports:
       - "80:80"
     volumes:
