@@ -11,15 +11,15 @@ def test_redact_cli(tmp_path):
         redact,
         [
             "--input_dir",
-            "./data/cli/input",
+            "tests/data/cli/input",
             "--output_dir",
             tmp_path,
             "--config_dir",
-            "./data/cli/config.json",
+            "tests/data/cli/config.json",
             "--recognizers",
             "DeStateRecognizer,EmailRecognizer",
         ],
     )
     assert result.exit_code == 0
-    assert filecmp.cmp("./data/cli/expected/test.html", tmp_path / "test.html", shallow=False)
-    assert filecmp.cmp("./data/cli/expected/nested/test.txt", tmp_path / "nested/test.txt", shallow=False)
+    assert filecmp.cmp("tests/data/cli/expected/test.html", tmp_path / "test.html", shallow=False)
+    assert filecmp.cmp("tests/data/cli/expected/nested/test.txt", tmp_path / "nested/test.txt", shallow=False)
