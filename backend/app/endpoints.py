@@ -142,4 +142,4 @@ async def tags():
     response_model=List[str],
 )
 async def recognizers():
-    return [recognizer.__name__ for recognizer in pii_identifier.supported_recognizers]
+    return pii_identifier.supported_recognizers

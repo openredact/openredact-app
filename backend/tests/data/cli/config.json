@@ -1,0 +1,17 @@
+{
+  "defaultMechanism": {
+    "mechanism": "suppression",
+    "config": {
+      "suppressionChar": "X"
+    }
+  },
+  "mechanismsByTag": {
+    "EMAIL": {
+      "mechanism": "pseudonymization",
+      "config": {
+        "format_string": "Email {}",
+        "stateful": true
+      }
+    }
+  }
+}

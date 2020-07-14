@@ -1,0 +1,9 @@
+{
+  "defaultMechanism": {
+    "mechanism": "suppression",
+    "config": {
+      "suppressionChar": "X"
+    }
+  },
+  "mechanismsByTag": {}
+}

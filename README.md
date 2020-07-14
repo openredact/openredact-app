@@ -31,6 +31,14 @@ This repository contains all materials (frontend and backend) to run the Open Re
 
 ## Usage
 
+You can use the CLI script `backend/cli/redact.py` to anonymize an entire directory of documents in an unsupervised manor.
+
+```shell script
+./redact.py --input_dir "path/to/documents/" --output_dir "out/directory/"
+```
+
+Please have a look in `./redact.py --help` for usage instructions and important notes.
+
 ## Development
 
 For development follow these instructions and then the instructions in the development documentation in the respective
