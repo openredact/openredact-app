@@ -16,7 +16,7 @@ const RecognizerConfigDialog = ({
   if (availableRecognizers.length === 0 || activatedRecognizers === null)
     return null;
 
-  const onSwitch = (recognizer) => () => {
+  function onSwitch(recognizer) {
     const activatedRecognizersClone = [...activatedRecognizers];
     if (!activatedRecognizers.includes(recognizer)) {
       activatedRecognizersClone.push(recognizer);
@@ -25,14 +25,14 @@ const RecognizerConfigDialog = ({
       activatedRecognizersClone.splice(index, 1);
     }
     setActivatedRecognizers(activatedRecognizersClone);
-  };
+  }
 
   const recognizerSwitches = availableRecognizers.map((recognizer) => (
     <li key={recognizer}>
       <Switch
         checked={activatedRecognizers.includes(recognizer)}
         label={recognizer}
-        onChange={onSwitch(recognizer)}
+        onChange={() => onSwitch(recognizer)}
         large
       />
     </li>
