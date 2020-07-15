@@ -36,7 +36,7 @@ const PreviewControl = ({ tokens, anonymizations, onDownload }) => {
 
   return (
     <Card className="preview-card" elevation={Elevation.ONE}>
-      <TextPreview text={text} />
+      {text !== "" && <TextPreview text={text} />}
       {text !== "" && (
         <Button
           className="download-button"
