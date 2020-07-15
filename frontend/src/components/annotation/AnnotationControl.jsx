@@ -39,7 +39,7 @@ const AnnotationControl = ({
           onClick={onCancel}
         />
       )}
-      {(annotations.length > 0 || computedAnnotations.length > 0) && (
+      {!isLoading && annotations.length > 0 && (
         <ScoresDialog
           annotations={annotations}
           goldAnnotations={computedAnnotations}
