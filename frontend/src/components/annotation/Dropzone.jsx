@@ -6,7 +6,7 @@ import "./Dropzone.sass";
 import PropTypes from "prop-types";
 import PolyglotContext from "../../js/polyglotContext";
 
-const ACCEPTED_FORMATS = [".txt", ".pdf", ".html"];
+const ACCEPTED_FORMATS = [".txt", ".pdf", ".html", ".docx"];
 
 const Dropzone = ({ onFileDrop }) => {
   const t = useContext(PolyglotContext);
