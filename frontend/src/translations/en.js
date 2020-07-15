@@ -71,6 +71,11 @@ export default {
   preview: {
     download: "Download",
   },
+  recognizer_config_dialog: {
+    description:
+      "You can deactivate recognizers here (e.g. to reduce the computational load).",
+    title: "Active Recognizers",
+  },
   tags: {
     loc: "Locations",
     misc: "Miscellaneous",

@@ -10,7 +10,7 @@ import {
 } from "@blueprintjs/core";
 import PolyglotContext from "../js/polyglotContext";
 import { ReactComponent as LogoSvg } from "../logo.svg";
-import IdentifierConfigDialog from "./IdentifierConfigDialog";
+import RecognizerConfigDialog from "./RecognizerConfigDialog";
 
 const NavBar = ({
   availableRecognizers,
@@ -19,7 +19,7 @@ const NavBar = ({
 }) => {
   const t = useContext(PolyglotContext);
 
-  const [showIdentifierConfig, setShowIdentifierConfig] = useState(false);
+  const [showRecognizerConfig, setShowRecognizerConfig] = useState(false);
 
   return (
     <div>
@@ -36,15 +36,15 @@ const NavBar = ({
             icon="cog"
             title={t("nav.settings")}
             minimal
-            onClick={() => setShowIdentifierConfig(true)}
+            onClick={() => setShowRecognizerConfig(true)}
           />
         </NavbarGroup>
       </nav>
-      <IdentifierConfigDialog
+      <RecognizerConfigDialog
         availableRecognizers={availableRecognizers}
         activatedRecognizers={activatedRecognizers}
-        showIdentifierConfig={showIdentifierConfig}
-        setShowIdentifierConfig={setShowIdentifierConfig}
+        showIdentifierConfig={showRecognizerConfig}
+        setShowIdentifierConfig={setShowRecognizerConfig}
         setActivatedRecognizers={setActivatedRecognizers}
       />
     </div>

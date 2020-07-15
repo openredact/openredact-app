@@ -12,7 +12,7 @@ import AppToaster from "../js/toaster";
 import PolyglotContext from "../js/polyglotContext";
 import SeparatorArrow from "./SeparatorArrow";
 
-const Main = ({ tags, anonymizationConfig }) => {
+const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
   const t = useContext(PolyglotContext);
 
   const [tokens, setTokens] = useState([]);
@@ -120,6 +120,7 @@ const Main = ({ tags, anonymizationConfig }) => {
 
     const formData = new FormData();
     formData.append("file", files[0]);
+    formData.append("recognizers", JSON.stringify(activatedRecognizers));
     fileFormData.current = formData;
 
     findPiis(formData)
@@ -212,6 +213,7 @@ const Main = ({ tags, anonymizationConfig }) => {
 Main.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   anonymizationConfig: PropTypes.objectOf(PropTypes.any).isRequired,
+  activatedRecognizers: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default Main;

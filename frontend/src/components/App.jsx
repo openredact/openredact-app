@@ -16,7 +16,7 @@ const App = () => {
   const [availableRecognizers, setAvailableRecognizers] = useState([]);
   const [activatedRecognizers, setActivatedRecognizers] = useLocalStorage(
     "activatedRecognizers",
-    []
+    null
   );
   const [anonymizationConfig, setAnonymizationConfig] = useLocalStorage(
     "anonymizationConfig",
@@ -33,6 +33,8 @@ const App = () => {
     fetchRecognizers()
       .then((response) => {
         setAvailableRecognizers(response.data);
+        if (activatedRecognizers === null)
+          setActivatedRecognizers(response.data);
       })
       .catch(() => {
         AppToaster.show({
@@ -40,7 +42,7 @@ const App = () => {
           intent: "danger",
         });
       });
-  }, [t]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     fetchTags()
@@ -53,7 +55,7 @@ const App = () => {
           intent: "danger",
         });
       });
-  }, [t]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div>
@@ -71,7 +73,11 @@ const App = () => {
           />
         </ErrorBoundary>
         <ErrorBoundary>
-          <Main tags={tags} anonymizationConfig={anonymizationConfig} />
+          <Main
+            tags={tags}
+            anonymizationConfig={anonymizationConfig}
+            activatedRecognizers={activatedRecognizers}
+          />
         </ErrorBoundary>
       </div>
     </div>

@@ -84,7 +84,7 @@ async def anonymize_file(
     response_model=FindPiisResponse,
     responses={400: {"model": ErrorMessage}},
 )
-async def find_piis(file: UploadFile = File(...)):
+async def find_piis(recognizers: str = Form(...), file: UploadFile = File(...)):
     _, extension = os.path.splitext(file.filename)
     content = await file.read()
     await file.close()
@@ -96,7 +96,7 @@ async def find_piis(file: UploadFile = File(...)):
     except Exception:
         raise HTTPException(status_code=400, detail="File Handling Error")
 
-    recognizers = pii_identifier.core.all_recognizers[0:3]
+    recognizers = json.loads(recognizers)
     res = pii_identifier.find_piis(wrapper.text, recognizers=recognizers, aggregation_strategy="merge")
     return FindPiisResponse(piis=[asdict(pii) for pii in res["piis"]], tokens=res["tokens"])
 
@@ -141,5 +141,5 @@ async def tags():
     description="Fetch the list of recognizers that are supported by the backend.",
     response_model=List[str],
 )
-async def recognizers():
+async def supported_recognizers():
     return pii_identifier.supported_recognizers

@@ -74,6 +74,11 @@ export default {
   preview: {
     download: "Herunterladen",
   },
+  recognizer_config_dialog: {
+    description:
+      "Hier können Sie Erkenner deaktivieren (z.B. um die Berechnungszeit zu verringern).",
+    title: "Aktive Erkenner",
+  },
   tags: {
     loc: "Orte",
     misc: "Andere",

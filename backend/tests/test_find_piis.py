@@ -3,7 +3,9 @@ from pathlib import Path
 
 def test_finding_piis(client):
     test_file_path = Path(__file__).parent / "data" / "test.txt"
-    response = client.post("/api/find-piis", files={"file": open(test_file_path, "rb")})
+    response = client.post(
+        "/api/find-piis", files={"file": open(test_file_path, "rb")}, data={"recognizers": '["DeStateRecognizer"]'}
+    )
     assert response.status_code == 200
 
     piis = response.json()["piis"]
@@ -20,5 +22,7 @@ def test_finding_piis(client):
 
 def test_unsupported_format(client):
     test_file_path = Path(__file__).parent / "data" / "foo.bar"
-    response = client.post("/api/find-piis", files={"file": open(test_file_path, "rb")})
+    response = client.post(
+        "/api/find-piis", files={"file": open(test_file_path, "rb")}, data={"recognizers": '["DeStateRecognizer"]'}
+    )
     assert response.status_code == 400
