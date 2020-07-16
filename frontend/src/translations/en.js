@@ -33,7 +33,7 @@ export default {
       counter_value: "Initial value",
       counter_value_hint: "enter a number larger than 0",
     },
-    stateful: { name: "Stateful" },
+    stateful: "Stateful",
     suppression: {
       as_original: "as original",
       name: "Suppression",

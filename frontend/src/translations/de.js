@@ -33,7 +33,7 @@ export default {
       counter_value: "Initialer Wert",
       counter_value_hint: "gib eine Zahl größer 0 sein",
     },
-    stateful: { name: "Zustandsbehaftet" },
+    stateful: "Zustandsbehaftet",
     suppression: {
       as_original: "wie im Original",
       name: "Schwärzen",

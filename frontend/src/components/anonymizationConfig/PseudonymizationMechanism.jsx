@@ -1,6 +1,11 @@
 import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
-import { FormGroup, InputGroup, NumericInput } from "@blueprintjs/core";
+import {
+  Checkbox,
+  FormGroup,
+  InputGroup,
+  NumericInput,
+} from "@blueprintjs/core";
 import PolyglotContext from "../../js/polyglotContext";
 
 const PseudonymizationMechanism = ({ mechanism, updateMechanism, tag }) => {
@@ -42,8 +47,19 @@ const PseudonymizationMechanism = ({ mechanism, updateMechanism, tag }) => {
     updateMechanism(mechanismClone);
   }
 
+  function onUpdateStateful() {
+    const mechanismClone = { ...mechanism };
+    mechanismClone.config.stateful = !mechanism.config.stateful;
+    updateMechanism(mechanismClone);
+  }
+
   return (
     <div>
+      <Checkbox
+        label={t("anonymization.stateful")}
+        checked={mechanism.config.stateful}
+        onChange={onUpdateStateful}
+      />
       <FormGroup
         label={t("anonymization.pseudonymization.format_string")}
         helperText={

@@ -14,7 +14,7 @@ export function hasHistoryEntry(configHistory, tag, mechanismName) {
 
 export const defaultConfigs = {
   generalization: { replacement: "<>" },
-  pseudonymization: { formatString: "{}", counter: 1 },
+  pseudonymization: { stateful: true, formatString: "{}", counter: 1 },
   suppression: { suppressionChar: "X" },
 };
 

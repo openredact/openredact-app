@@ -20,7 +20,6 @@ const AnonymizationConfigMenu = ({ tags, config, setConfig }) => {
       suppression: {},
       generalization: {},
       pseudonymization: {},
-      stateful: {},
     }
   );
 
