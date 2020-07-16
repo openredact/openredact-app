@@ -20,14 +20,6 @@ export default {
       "The following metrics evaluate the automatic detection of personal data on the basis of your manual corrections.",
     scores_note:
       "Note that the metrics can only be as accurate as your corrections.",
-    tag: {
-      loc: "Location",
-      misc: "Miscellaneous",
-      org: "Organization",
-      per: "Person",
-      state: "State",
-      total: "Total",
-    },
   },
   anonymization: {
     do_not_anonymize: "Do not anonymize",
@@ -77,10 +69,12 @@ export default {
     title: "Active Recognizers",
   },
   tags: {
+    email: "E-Mail",
+    gpe: "Geopolitical Entities",
     loc: "Locations",
     misc: "Miscellaneous",
     org: "Organizations",
     per: "Persons",
-    state: "States",
+    phone: "Phone",
   },
 };

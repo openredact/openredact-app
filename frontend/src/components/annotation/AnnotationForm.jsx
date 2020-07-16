@@ -41,7 +41,7 @@ const AnnotationForm = ({ tokens, annotations, onAnnotationsChange, tags }) => {
       <div className="annotation-header">
         {tags.map((tag, index) => (
           <Tooltip
-            content={t(`annotation.tag.${tag.toLowerCase()}`)}
+            content={t(`tags.${tag.toLowerCase()}`)}
             hoverOpenDelay={500}
             key={tag}
           >

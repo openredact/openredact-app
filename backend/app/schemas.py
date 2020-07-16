@@ -39,12 +39,13 @@ class Scores(CamelBaseModel):
 
 class EvaluationResponse(CamelBaseModel):
     total: Scores
-    PER: Scores = None
+    EMAIL: Scores = None
+    GPE: Scores = None
     LOC: Scores = None
-    ORG: Scores = None
     MISC: Scores = None
-    STATE: Scores = None
-    # TODO continue list
+    ORG: Scores = None
+    PER: Scores = None
+    PHONE: Scores = None
 
 
 class Pii(CamelBaseModel):

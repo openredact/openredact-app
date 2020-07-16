@@ -20,14 +20,6 @@ export default {
       "Die folgenden Metriken bewerten die automatische Erkennung von personenbezogenen Daten im Vergleich zu Ihren manuellen Anpassungen.",
     scores_note:
       "Beachten Sie, dass die Aussagekraft der Metriken von Ihren Anpassungen abhängt.",
-    tag: {
-      loc: "Ort",
-      misc: "Sonstige",
-      org: "Organisation",
-      per: "Person",
-      state: "Staat",
-      total: "Total",
-    },
   },
   anonymization: {
     do_not_anonymize: "Nicht anonymisieren",
@@ -80,10 +72,12 @@ export default {
     title: "Aktive Erkenner",
   },
   tags: {
+    email: "E-Mail",
+    gpe: "Geopolitische Entitäten",
     loc: "Orte",
     misc: "Andere",
     org: "Organisationen",
     per: "Personen",
-    state: "Staaten",
+    phone: "Telefonnummern",
   },
 };

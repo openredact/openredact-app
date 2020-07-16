@@ -12,7 +12,7 @@ def test_finding_piis(client):
     assert len(piis) == 1
     assert all(
         item in piis[0].items()
-        for item in {"startChar": 0, "endChar": 11, "tag": "STATE", "text": "Deutschland", "startTok": 0, "endTok": 1}.items()
+        for item in {"startChar": 0, "endChar": 11, "tag": "GPE", "text": "Deutschland", "startTok": 0, "endTok": 1}.items()
     )
 
     tokens = response.json()["tokens"]

@@ -18,7 +18,9 @@ afterEach(() => {
 });
 
 it("shows an upload button", () => {
-  const { getByRole } = render(<Main tags={["STATE"]} />);
+  const { getByRole } = render(
+    <Main tags={["GPE"]} activatedRecognizers={[]} />
+  );
   const help = getByRole("button", { name: /browse/i });
 
   expect(help).toBeInTheDocument();
@@ -35,7 +37,7 @@ it("loads and displays the file as well as preview of the anonymization", async 
         {
           startChar: 8,
           endChar: 15,
-          tag: "STATE",
+          tag: "GPE",
           text: "Germany",
           score: 1.0,
           model: "mock",
@@ -58,7 +60,11 @@ it("loads and displays the file as well as preview of the anonymization", async 
   uuidv4.mockReturnValue("1");
 
   const { getByText } = render(
-    <Main tags={["STATE"]} anonymizationConfig={anonymizationConfig} />
+    <Main
+      tags={["GPE"]}
+      anonymizationConfig={anonymizationConfig}
+      activatedRecognizers={[]}
+    />
   );
 
   // fire a drop event - this will be easier in @testing-library/jest-dom 5.x, see

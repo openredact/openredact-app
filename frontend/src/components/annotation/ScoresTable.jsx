@@ -35,7 +35,7 @@ const ScoresTable = ({ scores }) => {
   );
   const tableBody = Object.keys(scores).map((tag) => (
     <tr key={tag}>
-      <th>{t(`annotation.tag.${tag}`)}</th>
+      <th>{tag.toUpperCase()}</th>
       {[...metrics].map((metricName) => (
         <td key={metricName}>
           {tableValues.has(`${tag}-${metricName}`)
