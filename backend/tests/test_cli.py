@@ -17,7 +17,7 @@ def test_redact_cli(tmp_path):
             "--config_dir",
             "tests/data/cli/config.json",
             "--recognizers",
-            "DeStateRecognizer,EmailRecognizer",
+            "DeCountryRecognizer,EmailRecognizer",
         ],
     )
     assert result.exit_code == 0
