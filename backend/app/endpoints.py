@@ -126,13 +126,7 @@ async def score(data: AnnotationsForEvaluation):
     response_model=List[str],
 )
 async def tags():
-    return [
-        "PER",
-        "ORG",
-        "LOC",
-        "MISC",
-        "STATE",
-    ]  # TODO compute from loaded recognizers
+    return pii_identifier.supported_tags
 
 
 @router.get(
