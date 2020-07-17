@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
-import { Radio, RadioGroup } from "@blueprintjs/core";
+import { Radio, RadioGroup, Tooltip, Position } from "@blueprintjs/core";
 import PolyglotContext from "../../js/polyglotContext";
 import SuppressionMechanism from "./SuppressionMechanism";
 import PseudonymizationMechanism from "./PseudonymizationMechanism";
@@ -34,20 +34,32 @@ const DefaultMechanismConfig = ({ mechanism, updateMechanism }) => {
   }
 
   return (
-    <div className="mechanism">
+    <div>
       <RadioGroup selectedValue={mechanism.mechanism} onChange={onSelect}>
-        <Radio
-          label={t("anonymization.generalization.name")}
-          value="generalization"
-        />
-        <Radio
-          label={t("anonymization.pseudonymization.name")}
-          value="pseudonymization"
-        />
-        <Radio
-          label={t("anonymization.suppression.name")}
-          value="suppression"
-        />
+        <Radio value="generalization">
+          <Tooltip
+            content={t("anonymization.generalization.tooltip")}
+            position={Position.BOTTOM_RIGHT}
+          >
+            {t("anonymization.generalization.name")}
+          </Tooltip>
+        </Radio>
+        <Radio value="pseudonymization">
+          <Tooltip
+            content={t("anonymization.pseudonymization.tooltip")}
+            position={Position.BOTTOM_RIGHT}
+          >
+            {t("anonymization.pseudonymization.name")}
+          </Tooltip>
+        </Radio>
+        <Radio value="suppression">
+          <Tooltip
+            content={t("anonymization.suppression.tooltip")}
+            position={Position.BOTTOM_RIGHT}
+          >
+            {t("anonymization.suppression.name")}
+          </Tooltip>
+        </Radio>
       </RadioGroup>
       {mechanismComponent}
     </div>

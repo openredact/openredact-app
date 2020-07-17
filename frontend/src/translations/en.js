@@ -25,13 +25,18 @@ export default {
     do_not_anonymize: "Do not anonymize",
     default: "Default",
     use_default: "Use default",
-    generalization: { name: "Generalization", replacement: "Replace with" },
+    generalization: {
+      name: "Generalization",
+      replacement: "Replace with",
+      tooltip: "Replace with a more general phrase",
+    },
     pseudonymization: {
       name: "Pseudonymization",
       format_string: "Replace with",
       format_string_hint: "use {} once as placeholder",
       counter_value: "Initial value",
       counter_value_hint: "enter a number larger than 0",
+      tooltip: "Replace with a pseudonym",
     },
     stateful: "Stateful",
     suppression: {
@@ -40,6 +45,7 @@ export default {
       custom_length: "Length",
       custom_length_hint: "leave empty or enter a number larger than 0",
       suppression_char: "Replace with",
+      tooltip: "Replace each character with a different one",
     },
   },
   app: {

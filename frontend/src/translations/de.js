@@ -25,13 +25,18 @@ export default {
     do_not_anonymize: "Nicht anonymisieren",
     default: "Default",
     use_default: "Default benutzen",
-    generalization: { name: "Generalisierung", replacement: "Ersetzen mit" },
+    generalization: {
+      name: "Generalisierung",
+      replacement: "Ersetzen mit",
+      tooltip: "Ersetze mit einem allgemeineren Ausdruck",
+    },
     pseudonymization: {
       name: "Pseudonymisierung",
       format_string: "Ersetzen mit",
       format_string_hint: "benutze {} einmal als Platzhalter",
       counter_value: "Initialer Wert",
       counter_value_hint: "gib eine Zahl größer 0 sein",
+      tooltip: "Ersetze mit einem Pseudonym",
     },
     stateful: "Zustandsbehaftet",
     suppression: {
@@ -41,6 +46,7 @@ export default {
       suppression_char: "Ersetzen mit",
       custom_length_hint:
         "lasse das Feld leer oder gib eine Zahl größer 0 sein",
+      tooltip: "Ersetze jedes Zeichen mit einem anderen",
     },
   },
   app: {
