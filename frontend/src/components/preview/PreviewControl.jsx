@@ -9,20 +9,29 @@ const PreviewControl = ({ tokens, anonymizations, onDownload }) => {
   const t = useContext(PolyglotContext);
 
   function anonymize(myTokens, myAnonymizations) {
-    let skipNextTokens = 0;
+    let skipTokens = -1;
+    let anonymizedText = null;
     const anonymizedTokens = myTokens.map((token, idx) => {
-      if (skipNextTokens > 0) {
-        skipNextTokens -= 1;
-        return "";
+      skipTokens = Math.max(-1, skipTokens - 1);
+      if (skipTokens === 0) {
+        return anonymizedText;
       }
 
       const anonymization = myAnonymizations.find((anon) => anon.start === idx);
 
-      if (anonymization) {
-        skipNextTokens = anonymization.end - anonymization.start - 1;
-        return anonymization.text;
+      if (!anonymization) {
+        return token.text;
       }
-      return token.text;
+
+      const nrOfTokens = anonymization.end - anonymization.start;
+      if (nrOfTokens > 1) {
+        // return anonymized text instead of last original token, to get hasWhitespace of last token
+        skipTokens = nrOfTokens - 1;
+        anonymizedText = anonymization.text;
+        return "";
+      }
+
+      return anonymization.text;
     });
 
     return anonymizedTokens.reduce(
