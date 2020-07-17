@@ -75,10 +75,6 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
       (tag) => delete configForRequest.mechanismsByTag[tag]
     );
 
-    if (anonymizationConfig.defaultMechanism.mechanism === "none") {
-      delete configForRequest.defaultMechanism;
-    }
-
     const piisToAnonymize = piis.filter(
       (pii) => !tagsToNotAnonymize.includes(pii.tag)
     );
