@@ -51,10 +51,10 @@ const AnonymizationConfigMenu = ({ tags, config, setConfig }) => {
     const mechanismName = mechanism.mechanism;
     let mechanismConfig = mechanism.config;
     if (
-      mechanismConfig === undefined ||
-      (Object.keys(mechanismConfig).length === 0 &&
-        mechanismName !== "none" &&
-        mechanismName !== "useDefault")
+      mechanismName !== "none" &&
+      mechanismName !== "useDefault" &&
+      (mechanismConfig === undefined ||
+        Object.keys(mechanismConfig).length === 0)
     ) {
       mechanismConfig = setFromHistoryOrDefault(
         configHistory,
@@ -72,7 +72,7 @@ const AnonymizationConfigMenu = ({ tags, config, setConfig }) => {
       setConfig(configClone);
     }
 
-    if (Object.keys(mechanismConfig).length > 0)
+    if (mechanismConfig && Object.keys(mechanismConfig).length > 0)
       updateConfigHistory(myMechanism, tag);
   }
 
