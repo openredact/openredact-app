@@ -53,14 +53,14 @@ Run the following code to install pre-commit hooks for formatting and linting Py
 (black, flake8, prettier and eslint). The tests being slower than formatters and linters are run by CI, so don't
 forget to run them manually before committing.
 
-```
+```bash
 pre-commit install
 git config --bool flake8.strict true  # Makes the commit fail if flake8 reports an error
 ```
 
 To run the hooks:
 
-```
+```bash
 pre-commit run --all-files
 ```
 
@@ -70,7 +70,7 @@ pre-commit run --all-files
 
 You can simply make the backend available at port 8000 and the frontend at port 80 by running:
 
-```
+```bash
 docker-compose up
 ```
 
@@ -78,13 +78,13 @@ Add the option `--build` to incorporate changes by rebuilding containers.
 
 To use our docker setup for development run:
 
-```
+```bash
 docker-compose up -f docker-compose.dev.yml
 ```
 
 ### Run the frontend using Docker
 
-```
+```bash
 cd frontend
 docker build -t openredact-frontend .
 docker run -p 80:80 openredact-frontend
@@ -101,11 +101,9 @@ For more details about this procedure see [React in Docker with Nginx, built wit
 
 To build the backend Docker image, you need to add SSH keys for installing dependencies from private GitHub repos.
 
-```
+```bash
 cd backend
-docker build -t openredact-backend \
-    --build-arg ssh_prv_key="$(cat ~/.ssh/id_rsa)" \
-    --build-arg ssh_pub_key="$(cat ~/.ssh/id_rsa.pub)" .
+docker build -t openredact-backend
 docker run -p 8000:8000 openredact-backend
 ```
 
