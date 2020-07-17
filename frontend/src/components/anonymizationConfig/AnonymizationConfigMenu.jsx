@@ -3,13 +3,13 @@ import { Card, Divider, FormGroup } from "@blueprintjs/core";
 import "./AnonymizationConfigMenu.sass";
 import PropTypes from "prop-types";
 import Item from "./Item";
-import MechanismConfig from "./MechanismConfig";
 import useLocalStorage from "../../js/useLocalStorage";
 import PolyglotContext from "../../js/polyglotContext";
 import {
   hasProperty,
   setFromHistoryOrDefault,
 } from "../../js/anonymizationConfig";
+import DefaultMechanismConfig from "./DefaultMechanismConfig";
 
 const AnonymizationConfigMenu = ({ tags, config, setConfig }) => {
   const t = useContext(PolyglotContext);
@@ -96,10 +96,9 @@ const AnonymizationConfigMenu = ({ tags, config, setConfig }) => {
         label={t("anonymization.default")}
         labelFor="default-mechanism-config"
       >
-        <MechanismConfig
+        <DefaultMechanismConfig
           mechanism={config.defaultMechanism}
           updateMechanism={updateConfig}
-          tag="default"
         />
       </FormGroup>
 

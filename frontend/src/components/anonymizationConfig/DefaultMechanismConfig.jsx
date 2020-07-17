@@ -1,15 +1,16 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
-import { HTMLSelect } from "@blueprintjs/core";
+import { Radio, RadioGroup } from "@blueprintjs/core";
 import PolyglotContext from "../../js/polyglotContext";
 import SuppressionMechanism from "./SuppressionMechanism";
 import PseudonymizationMechanism from "./PseudonymizationMechanism";
 import GeneralizationMechanism from "./GeneralizationMechanism";
 
-const MechanismConfig = ({ mechanism, updateMechanism, tag }) => {
+const DefaultMechanismConfig = ({ mechanism, updateMechanism }) => {
   const t = useContext(PolyglotContext);
 
+  const tag = "default";
   const props = { mechanism, updateMechanism, tag };
 
   let mechanismComponent;
@@ -34,33 +35,28 @@ const MechanismConfig = ({ mechanism, updateMechanism, tag }) => {
 
   return (
     <div className="mechanism">
-      <HTMLSelect
-        value={mechanism.mechanism}
-        onChange={onSelect}
-        id={`${tag}-mechanism-config`}
-        fill
-      >
-        <option value="useDefault">{t("anonymization.use_default")}</option>
-        <option value="none">{t("anonymization.do_not_anonymize")}</option>
-        <option value="generalization">
-          {t("anonymization.generalization.name")}
-        </option>
-        <option value="pseudonymization">
-          {t("anonymization.pseudonymization.name")}
-        </option>
-        <option value="suppression">
-          {t("anonymization.suppression.name")}
-        </option>
-      </HTMLSelect>
+      <RadioGroup selectedValue={mechanism.mechanism} onChange={onSelect}>
+        <Radio
+          label={t("anonymization.generalization.name")}
+          value="generalization"
+        />
+        <Radio
+          label={t("anonymization.pseudonymization.name")}
+          value="pseudonymization"
+        />
+        <Radio
+          label={t("anonymization.suppression.name")}
+          value="suppression"
+        />
+      </RadioGroup>
       {mechanismComponent}
     </div>
   );
 };
 
-MechanismConfig.propTypes = {
+DefaultMechanismConfig.propTypes = {
   mechanism: PropTypes.objectOf(PropTypes.any).isRequired,
   updateMechanism: PropTypes.func.isRequired,
-  tag: PropTypes.string.isRequired,
 };
 
-export default MechanismConfig;
+export default DefaultMechanismConfig;
