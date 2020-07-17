@@ -23,6 +23,10 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
   const fileFormData = useRef({});
 
   useEffect(() => {
+    if (annotations.length === 0) return;
+
+    const sortedAnnotations = annotations.sort((a, b) => a.start - b.start);
+
     const createPositionsMap = () => {
       return new Map(
         annotations.map((annotation) => {
@@ -55,10 +59,8 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
       return [tagsToNotAnonymize, tagsAnonymizedWithDefault];
     };
 
-    if (annotations.length === 0) return;
-
     const positionsMap = createPositionsMap();
-    const piis = annotations.map((annotation) => {
+    const piis = sortedAnnotations.map((annotation) => {
       return { tag: annotation.tag, text: annotation.text, id: annotation.id };
     });
 
