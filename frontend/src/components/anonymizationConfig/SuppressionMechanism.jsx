@@ -44,7 +44,7 @@ const SuppressionMechanism = ({ mechanism, updateMechanism, tag }) => {
   }
 
   return (
-    <div>
+    <div className="mechanism-options">
       <FormGroup
         label={t("anonymization.suppression.suppression_char")}
         labelFor={`${tag}-suppression-char-input`}

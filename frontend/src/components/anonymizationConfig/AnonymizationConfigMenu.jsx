@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from "react";
-import { Card, Divider, FormGroup } from "@blueprintjs/core";
+import React, { useContext, useEffect, useState } from "react";
+import { Button, Card, Collapse, H3, H6 } from "@blueprintjs/core";
 import "./AnonymizationConfigMenu.sass";
 import PropTypes from "prop-types";
 import Item from "./Item";
@@ -22,6 +22,7 @@ const AnonymizationConfigMenu = ({ tags, config, setConfig }) => {
       pseudonymization: {},
     }
   );
+  const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
 
   useEffect(() => {
     // initialize mechanism configs
@@ -92,18 +93,23 @@ const AnonymizationConfigMenu = ({ tags, config, setConfig }) => {
 
   return (
     <Card className="config-menu">
-      <FormGroup
-        label={t("anonymization.default")}
-        labelFor="default-mechanism-config"
+      <H3>{t("anonymization.anonymization")}</H3>
+      <H6 className="more-top-padding">{t("anonymization.default")}</H6>
+      <DefaultMechanismConfig
+        mechanism={config.defaultMechanism}
+        updateMechanism={updateConfig}
+      />
+      <div className="vertical-space" />
+      <Button
+        className="show-advanced-button"
+        onClick={() => setShowAdvancedOptions(!showAdvancedOptions)}
+        active={showAdvancedOptions}
       >
-        <DefaultMechanismConfig
-          mechanism={config.defaultMechanism}
-          updateMechanism={updateConfig}
-        />
-      </FormGroup>
-
-      <Divider />
-      <ul>{listItems}</ul>
+        {t("anonymization.advanced_settings")}
+      </Button>
+      <Collapse isOpen={showAdvancedOptions}>
+        <ul>{listItems}</ul>
+      </Collapse>
     </Card>
   );
 };

@@ -1,23 +1,21 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
-import { FormGroup } from "@blueprintjs/core";
-import MechanismConfig from "./MechanismConfig";
+import { H6 } from "@blueprintjs/core";
+import TagMechanismConfig from "./TagMechanismConfig";
 import PolyglotContext from "../../js/polyglotContext";
 
 const Item = ({ mechanism, updateMechanism, tag }) => {
   const t = useContext(PolyglotContext);
 
   return (
-    <FormGroup
-      label={t(`tags.${tag.toLowerCase()}`)}
-      labelFor={`${tag}-mechanism-config`}
-    >
-      <MechanismConfig
+    <div>
+      <H6>{t(`tags.${tag.toLowerCase()}`)}</H6>
+      <TagMechanismConfig
         mechanism={mechanism}
         updateMechanism={updateMechanism}
         tag={tag}
       />
-    </FormGroup>
+    </div>
   );
 };
 

@@ -1,39 +1,24 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { HTMLSelect } from "@blueprintjs/core";
 import PolyglotContext from "../../js/polyglotContext";
-import SuppressionMechanism from "./SuppressionMechanism";
-import PseudonymizationMechanism from "./PseudonymizationMechanism";
-import GeneralizationMechanism from "./GeneralizationMechanism";
+import { getMechanismComponent } from "../../js/anonymizationConfig";
 
-const MechanismConfig = ({ mechanism, updateMechanism, tag }) => {
+const TagMechanismConfig = ({ mechanism, updateMechanism, tag }) => {
   const t = useContext(PolyglotContext);
 
-  const props = { mechanism, updateMechanism, tag };
-
-  let mechanismComponent;
-  switch (mechanism.mechanism) {
-    case "generalization":
-      mechanismComponent = <GeneralizationMechanism {...props} />;
-      break;
-    case "pseudonymization":
-      mechanismComponent = <PseudonymizationMechanism {...props} />;
-      break;
-    case "suppression":
-      mechanismComponent = <SuppressionMechanism {...props} />;
-      break;
-
-    default:
-      mechanismComponent = null;
-  }
+  const mechanismComponent = getMechanismComponent(
+    mechanism,
+    updateMechanism,
+    tag
+  );
 
   function onSelect(event) {
     updateMechanism({ mechanism: event.target.value });
   }
 
   return (
-    <div className="mechanism">
+    <div className="advanced-mechanism-options">
       <HTMLSelect
         value={mechanism.mechanism}
         onChange={onSelect}
@@ -57,10 +42,10 @@ const MechanismConfig = ({ mechanism, updateMechanism, tag }) => {
   );
 };
 
-MechanismConfig.propTypes = {
+TagMechanismConfig.propTypes = {
   mechanism: PropTypes.objectOf(PropTypes.any).isRequired,
   updateMechanism: PropTypes.func.isRequired,
   tag: PropTypes.string.isRequired,
 };
 
-export default MechanismConfig;
+export default TagMechanismConfig;

@@ -54,7 +54,7 @@ const PseudonymizationMechanism = ({ mechanism, updateMechanism, tag }) => {
   }
 
   return (
-    <div>
+    <div className="mechanism-options">
       <Checkbox
         label={t("anonymization.stateful")}
         checked={mechanism.config.stateful}

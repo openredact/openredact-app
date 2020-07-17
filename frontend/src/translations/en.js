@@ -22,14 +22,17 @@ export default {
       "Note that the metrics can only be as accurate as your corrections.",
   },
   anonymization: {
+    anonymization: "Anonymization",
+    advanced_settings: "Advanced Settings",
     do_not_anonymize: "Do not anonymize",
-    default: "Default",
+    default: "Default Mechanism",
     use_default: "Use default",
     generalization: {
       name: "Generalization",
       replacement: "Replace with",
       tooltip: "Replace with a more general phrase",
     },
+    options: "Options",
     pseudonymization: {
       name: "Pseudonymization",
       format_string: "Replace with",

@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 
 import "./AnnotationForm.sass";
 import PolyglotContext from "../../js/polyglotContext";
+import constants from "../../js/constants";
 
 const AnnotationForm = ({ tokens, annotations, onAnnotationsChange, tags }) => {
   const [activeTag, setActiveTag] = useState(tags[0]);
@@ -42,7 +43,7 @@ const AnnotationForm = ({ tokens, annotations, onAnnotationsChange, tags }) => {
         {tags.map((tag, index) => (
           <Tooltip
             content={t(`tags.${tag.toLowerCase()}`)}
-            hoverOpenDelay={500}
+            hoverOpenDelay={constants.tooltipHoverOpenDelay}
             key={tag}
           >
             <Button

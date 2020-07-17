@@ -22,14 +22,17 @@ export default {
       "Beachten Sie, dass die Aussagekraft der Metriken von Ihren Anpassungen abhängt.",
   },
   anonymization: {
+    anonymization: "Anonymisierung",
+    advanced_settings: "Erweiterte Einstellungen",
     do_not_anonymize: "Nicht anonymisieren",
-    default: "Default",
+    default: "Default Mechanismus",
     use_default: "Default benutzen",
     generalization: {
       name: "Generalisierung",
       replacement: "Ersetzen mit",
       tooltip: "Ersetze mit einem allgemeineren Ausdruck",
     },
+    options: "Optionen",
     pseudonymization: {
       name: "Pseudonymisierung",
       format_string: "Ersetzen mit",

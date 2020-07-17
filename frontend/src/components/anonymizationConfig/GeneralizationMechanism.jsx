@@ -13,7 +13,7 @@ const GeneralizationMechanism = ({ mechanism, updateMechanism, tag }) => {
   }
 
   return (
-    <div>
+    <div className="mechanism-options">
       <FormGroup
         label={t("anonymization.generalization.replacement")}
         labelFor={`${tag}-replacement-input`}

@@ -1,45 +1,31 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
-import { Radio, RadioGroup, Tooltip, Position } from "@blueprintjs/core";
+import { Radio, RadioGroup, Tooltip, Position, H6 } from "@blueprintjs/core";
 import PolyglotContext from "../../js/polyglotContext";
-import SuppressionMechanism from "./SuppressionMechanism";
-import PseudonymizationMechanism from "./PseudonymizationMechanism";
-import GeneralizationMechanism from "./GeneralizationMechanism";
+import constants from "../../js/constants";
+import { getMechanismComponent } from "../../js/anonymizationConfig";
 
 const DefaultMechanismConfig = ({ mechanism, updateMechanism }) => {
   const t = useContext(PolyglotContext);
 
-  const tag = "default";
-  const props = { mechanism, updateMechanism, tag };
-
-  let mechanismComponent;
-  switch (mechanism.mechanism) {
-    case "generalization":
-      mechanismComponent = <GeneralizationMechanism {...props} />;
-      break;
-    case "pseudonymization":
-      mechanismComponent = <PseudonymizationMechanism {...props} />;
-      break;
-    case "suppression":
-      mechanismComponent = <SuppressionMechanism {...props} />;
-      break;
-
-    default:
-      mechanismComponent = null;
-  }
+  const mechanismComponent = getMechanismComponent(
+    mechanism,
+    updateMechanism,
+    "default"
+  );
 
   function onSelect(event) {
     updateMechanism({ mechanism: event.target.value });
   }
 
   return (
-    <div>
+    <div className="default-mechanism">
       <RadioGroup selectedValue={mechanism.mechanism} onChange={onSelect}>
         <Radio value="generalization">
           <Tooltip
             content={t("anonymization.generalization.tooltip")}
             position={Position.BOTTOM_RIGHT}
+            hoverOpenDelay={constants.tooltipHoverOpenDelay}
           >
             {t("anonymization.generalization.name")}
           </Tooltip>
@@ -48,6 +34,7 @@ const DefaultMechanismConfig = ({ mechanism, updateMechanism }) => {
           <Tooltip
             content={t("anonymization.pseudonymization.tooltip")}
             position={Position.BOTTOM_RIGHT}
+            hoverOpenDelay={constants.tooltipHoverOpenDelay}
           >
             {t("anonymization.pseudonymization.name")}
           </Tooltip>
@@ -56,11 +43,13 @@ const DefaultMechanismConfig = ({ mechanism, updateMechanism }) => {
           <Tooltip
             content={t("anonymization.suppression.tooltip")}
             position={Position.BOTTOM_RIGHT}
+            hoverOpenDelay={constants.tooltipHoverOpenDelay}
           >
             {t("anonymization.suppression.name")}
           </Tooltip>
         </Radio>
       </RadioGroup>
+      <H6 className="more-top-padding">{t("anonymization.options")}</H6>
       {mechanismComponent}
     </div>
   );
