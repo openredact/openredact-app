@@ -1,8 +1,5 @@
-from pathlib import Path
-
-
-def test_finding_piis(client):
-    test_file_path = Path(__file__).parent / "data" / "test.txt"
+def test_finding_piis(client, test_data):
+    test_file_path = test_data / "test.txt"
     response = client.post(
         "/api/find-piis", files={"file": open(test_file_path, "rb")}, data={"recognizers": '["DeCountryRecognizer"]'}
     )
@@ -20,8 +17,8 @@ def test_finding_piis(client):
     assert all(item in tokens[1].items() for item in {"text": ".", "hasWs": False, "startChar": 11, "endChar": 12}.items())
 
 
-def test_unsupported_format(client):
-    test_file_path = Path(__file__).parent / "data" / "foo.bar"
+def test_unsupported_format(client, test_data):
+    test_file_path = test_data / "foo.bar"
     response = client.post(
         "/api/find-piis", files={"file": open(test_file_path, "rb")}, data={"recognizers": '["DeCountryRecognizer"]'}
     )
