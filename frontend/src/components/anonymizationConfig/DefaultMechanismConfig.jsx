@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Radio, RadioGroup, Tooltip, Position, H6 } from "@blueprintjs/core";
 import PolyglotContext from "../../js/polyglotContext";
 import constants from "../../js/constants";
-import { getMechanismComponent } from "../../js/anonymizationConfig";
+import { getMechanismComponent } from "./anonymizationConfig";
 
 const DefaultMechanismConfig = ({ mechanism, updateMechanism }) => {
   const t = useContext(PolyglotContext);

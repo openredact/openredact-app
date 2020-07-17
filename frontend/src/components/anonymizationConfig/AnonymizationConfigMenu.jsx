@@ -5,10 +5,7 @@ import PropTypes from "prop-types";
 import Item from "./Item";
 import useLocalStorage from "../../js/useLocalStorage";
 import PolyglotContext from "../../js/polyglotContext";
-import {
-  hasProperty,
-  setFromHistoryOrDefault,
-} from "../../js/anonymizationConfig";
+import { hasProperty, setFromHistoryOrDefault } from "./anonymizationConfig";
 import DefaultMechanismConfig from "./DefaultMechanismConfig";
 
 const AnonymizationConfigMenu = ({ tags, config, setConfig }) => {

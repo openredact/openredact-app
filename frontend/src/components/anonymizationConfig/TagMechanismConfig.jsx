@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { HTMLSelect } from "@blueprintjs/core";
 import PolyglotContext from "../../js/polyglotContext";
-import { getMechanismComponent } from "../../js/anonymizationConfig";
+import { getMechanismComponent } from "./anonymizationConfig";
 
 const TagMechanismConfig = ({ mechanism, updateMechanism, tag }) => {
   const t = useContext(PolyglotContext);

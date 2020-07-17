@@ -1,7 +1,7 @@
 import React from "react";
-import GeneralizationMechanism from "../components/anonymizationConfig/GeneralizationMechanism";
-import PseudonymizationMechanism from "../components/anonymizationConfig/PseudonymizationMechanism";
-import SuppressionMechanism from "../components/anonymizationConfig/SuppressionMechanism";
+import GeneralizationMechanism from "./GeneralizationMechanism";
+import PseudonymizationMechanism from "./PseudonymizationMechanism";
+import SuppressionMechanism from "./SuppressionMechanism";
 
 export function hasProperty(object, property) {
   return Object.prototype.hasOwnProperty.call(object, property);
