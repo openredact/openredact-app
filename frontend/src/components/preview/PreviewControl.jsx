@@ -9,12 +9,15 @@ const PreviewControl = ({ tokens, anonymizations, onDownload }) => {
   const t = useContext(PolyglotContext);
 
   function anonymize(myTokens, myAnonymizations) {
-    let skipTokens = -1;
+    let skipTokens = 0;
     let anonymizedText = null;
     const anonymizedTokens = myTokens.map((token, idx) => {
-      skipTokens = Math.max(-1, skipTokens - 1);
-      if (skipTokens === 0) {
-        return anonymizedText;
+      if (skipTokens > 0) {
+        skipTokens -= 1;
+        if (skipTokens === 0) {
+          return anonymizedText;
+        }
+        return "";
       }
 
       const anonymization = myAnonymizations.find((anon) => anon.start === idx);
