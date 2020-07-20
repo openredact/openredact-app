@@ -1,12 +1,14 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
-import { Classes, Dialog, Icon } from "@blueprintjs/core";
+import { Classes, Dialog } from "@blueprintjs/core";
 import PolyglotContext from "../js/polyglotContext";
 import { ReactComponent as LogoSvg } from "../logo.svg";
 import "./AboutDialog.sass";
+import Disclaimer from "./Disclaimer";
 
 const AboutDialog = ({ showAbout, setShowAbout }) => {
   const t = useContext(PolyglotContext);
+
   return (
     <Dialog
       onClose={() => setShowAbout(false)}
@@ -21,14 +23,12 @@ const AboutDialog = ({ showAbout, setShowAbout }) => {
         <LogoSvg className="logo" />
       </div>
       <div className={Classes.DIALOG_BODY}>
-        <p>
+        <Disclaimer />
+        <p className="more-vertical-space">
           <a href="https://openredact.org">OpenRedact</a>
           {t("about.description1")}
           <a href="https://prototypefund.de">Prototype Fund</a>
           {t("about.description2")}
-        </p>
-        <p>
-          <Icon icon="warning-sign" intent="warning" /> {t("about.disclaimer")}
         </p>
         <p className="copyright">
           © Pascal Berrang, Jonas Langhabel, Malte Ostendorff {t("about.and")}{" "}

@@ -3,8 +3,6 @@ export default {
     and: "und",
     description1: " ist eins der vom ",
     description2: " geförderten Projekte.",
-    disclaimer:
-      "Dies ist ein Prototyp. Bitte nutze diese Software nicht zur Anonymisierung von Dokumenten. Bitte benutze aus dieser Software heruntergeladene Dokumente nicht weiter.",
   },
   annotation: {
     browse: "Computer durchsuchen",
@@ -65,6 +63,23 @@ export default {
     network_error_toast: "Der Server ist nicht erreichbar.",
     rendering_error: "Unerwarteter Fehler",
     rendering_error_action: "Bitte versuche die Seite erneut zu laden.",
+  },
+  disclaimer: {
+    text:
+      "Bitte nutze diese Software nicht zur Anonymisierung von Dokumenten. Bitte benutze aus dieser Software heruntergeladene Dokumente nicht weiter.",
+    title: "Dies ist ein Prototyp",
+  },
+  help: {
+    intro:
+      "Die folgenden Schritte skizzieren kurz den Anonymisierungs-Prozess:",
+    item1: "Lade das Dokument hoch, dass Du anonymisieren willst.",
+    item2:
+      "Erweitere und korrigiere was automatisch als personenbezogene Daten erkannt wurde in der linken Dokumentenansicht.",
+    item3: "Konfiguriere die Anonymisierung nach Deinen Anforderungen.",
+    item4:
+      "Überprüfe die Vorschau der Anonymisierung in der rechten Dokumentenansicht und lade dein anonymisiertes Dokument herunter.",
+    tip:
+      "Tipp: Viele Elemente zeigen einen Hilfetext an, wenn du mit dem Mauszeiger über sie gehst.",
   },
   main: {
     anonymize_file_failed_toast:
