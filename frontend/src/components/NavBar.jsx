@@ -11,6 +11,7 @@ import {
 import PolyglotContext from "../js/polyglotContext";
 import { ReactComponent as LogoSvg } from "../logo.svg";
 import SettingsDialog from "./SettingsDialog";
+import AboutDialog from "./AboutDialog";
 
 const NavBar = ({
   availableRecognizers,
@@ -20,6 +21,7 @@ const NavBar = ({
   const t = useContext(PolyglotContext);
 
   const [showSettings, setShowSettings] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
 
   return (
     <div>
@@ -31,13 +33,19 @@ const NavBar = ({
           </NavbarHeading>
         </NavbarGroup>
         <NavbarGroup align={Alignment.RIGHT}>
-          <Button icon="help" title={t("nav.help")} minimal />
           <Button
             icon="cog"
             title={t("nav.settings")}
             minimal
             onClick={() => setShowSettings(true)}
           />
+          <Button
+            icon="info-sign"
+            title={t("nav.about")}
+            minimal
+            onClick={() => setShowAbout(true)}
+          />
+          <Button icon="help" title={t("nav.help")} minimal />
         </NavbarGroup>
       </nav>
       <SettingsDialog
@@ -47,6 +55,7 @@ const NavBar = ({
         setShowSettings={setShowSettings}
         setActivatedRecognizers={setActivatedRecognizers}
       />
+      <AboutDialog setShowAbout={setShowAbout} showAbout={showAbout} />
     </div>
   );
 };

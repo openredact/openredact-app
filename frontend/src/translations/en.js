@@ -1,4 +1,11 @@
 export default {
+  about: {
+    and: "and",
+    description1: " is one of the projects supported by the ",
+    description2: ".",
+    disclaimer:
+      "This is a prototype. Do not use this software to anonymize documents. Do not further use the documents downloaded from this software.",
+  },
   annotation: {
     browse: "Browse your computer",
     drop: "Drop a %{formats} document here.",
@@ -68,6 +75,7 @@ export default {
     new_document: "New Document",
   },
   nav: {
+    about: "About OpenRedact",
     help: "Help",
     settings: "Settings",
   },

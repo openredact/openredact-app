@@ -1,4 +1,11 @@
 export default {
+  about: {
+    and: "und",
+    description1: " ist eins der vom ",
+    description2: " geförderten Projekte.",
+    disclaimer:
+      "Dies ist ein Prototyp. Bitte nutze diese Software nicht zur Anonymisierung von Dokumenten. Bitte benutze aus dieser Software heruntergeladene Dokumente nicht weiter.",
+  },
   annotation: {
     browse: "Computer durchsuchen",
     drop: "Ziehe eine %{formats} Datei hierhin.",
@@ -71,6 +78,7 @@ export default {
     new_document: "Neues Dokument",
   },
   nav: {
+    about: "Über OpenRedact",
     help: "Hilfe",
     settings: "Einstellungen",
   },
