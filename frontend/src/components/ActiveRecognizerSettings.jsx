@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
-import { Switch } from "@blueprintjs/core";
+import { Switch, UL } from "@blueprintjs/core";
 import PolyglotContext from "../js/polyglotContext";
 import "./ActiveRecognizerSettings.sass";
 
@@ -37,7 +37,7 @@ const ActiveRecognizerSettings = ({
   return (
     <div>
       <p>{t("settings.recognizers.description")}</p>
-      <ul className="recognizer-list">{recognizerSwitches}</ul>
+      <UL className="recognizer-list">{recognizerSwitches}</UL>
     </div>
   );
 };

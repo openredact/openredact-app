@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Card, Collapse, H3, H6 } from "@blueprintjs/core";
+import { Button, Card, Collapse, H3, H6, UL } from "@blueprintjs/core";
 import "./AnonymizationConfigMenu.sass";
 import PropTypes from "prop-types";
 import Item from "./Item";
@@ -104,8 +104,9 @@ const AnonymizationConfigMenu = ({ tags, config, setConfig }) => {
       >
         {t("anonymization.advanced_settings")}
       </Button>
+      <div className="vertical-space" />
       <Collapse isOpen={showAdvancedOptions}>
-        <ul>{listItems}</ul>
+        <UL>{listItems}</UL>
       </Collapse>
     </Card>
   );
