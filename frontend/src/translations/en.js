@@ -74,6 +74,15 @@ export default {
   recognizer_config_dialog: {
     description:
       "You can deactivate recognizers here (e.g. to reduce the computational load).",
+    recognizers: {
+      decountryrecognizer: "Recognize country names",
+      dephonenumberrecognizer: "Recognize phone numbers",
+      emailrecognizer: "Recognize e-mail addresses",
+      flairstatisticalrecognizer:
+        "Use flair to recognize persons, locations, organizations and more",
+      spacystatisticalrecognizer:
+        "Use spaCy to recognize persons, locations, organizations and more",
+    },
     title: "Active Recognizers",
   },
   tags: {

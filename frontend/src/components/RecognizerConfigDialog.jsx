@@ -31,7 +31,9 @@ const RecognizerConfigDialog = ({
     <li key={recognizer}>
       <Switch
         checked={activatedRecognizers.includes(recognizer)}
-        label={recognizer}
+        label={t(
+          `recognizer_config_dialog.recognizers.${recognizer.toLowerCase()}`
+        )}
         onChange={() => onSwitch(recognizer)}
         large
       />

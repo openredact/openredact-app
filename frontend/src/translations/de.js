@@ -77,6 +77,15 @@ export default {
   recognizer_config_dialog: {
     description:
       "Hier können Sie Erkenner deaktivieren (z.B. um die Berechnungszeit zu verringern).",
+    recognizers: {
+      decountryrecognizer: "Suche nach Namen von Ländern",
+      dephonenumberrecognizer: "Suche nach Telefonnummern",
+      emailrecognizer: "Suche nach E-Mail Adressen",
+      flairstatisticalrecognizer:
+        "Nutze flair um nach Personen, Orten, Organisationen, und weiteren zu suchen",
+      spacystatisticalrecognizer:
+        "Nutze spaCy um nach Personen, Orten, Organisationen, und weiteren zu suchen",
+    },
     title: "Aktive Erkenner",
   },
   tags: {
