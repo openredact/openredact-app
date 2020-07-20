@@ -10,6 +10,7 @@ import Annotation from "../js/annotation";
 import Anonymization from "../js/anonymization";
 import AppToaster from "../js/toaster";
 import PolyglotContext from "../js/polyglotContext";
+import MainMenu from "./MainMenu";
 
 const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
   const t = useContext(PolyglotContext);
@@ -105,7 +106,7 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
       });
   }, [t, tokens, annotations, anonymizationConfig]);
 
-  function onCancel() {
+  function onNewDocument() {
     setTokens([]);
     setAnnotations([]);
     setAnonymizations([]);
@@ -185,23 +186,29 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
     setAnnotations(newAnnotations);
   }
 
+  function documentLoaded() {
+    return tokens.length > 0;
+  }
+
   return (
-    <div className="main-view">
-      <AnnotationControl
-        tokens={tokens}
-        annotations={annotations}
-        computedAnnotations={computedAnnotations}
-        onAnnotationsChange={onAnnotationsChange}
-        onFileDrop={onFileDrop}
-        onCancel={onCancel}
-        isLoading={isLoading}
-        tags={tags}
-      />
-      <PreviewControl
-        tokens={tokens}
-        anonymizations={anonymizations}
+    <div className="main">
+      <MainMenu
+        onNewDocument={onNewDocument}
         onDownload={onDownload}
+        showDownloadButton={documentLoaded()}
       />
+      <div className="main-view">
+        <AnnotationControl
+          tokens={tokens}
+          annotations={annotations}
+          computedAnnotations={computedAnnotations}
+          onAnnotationsChange={onAnnotationsChange}
+          onFileDrop={onFileDrop}
+          isLoading={isLoading}
+          tags={tags}
+        />
+        <PreviewControl tokens={tokens} anonymizations={anonymizations} />
+      </div>
     </div>
   );
 };

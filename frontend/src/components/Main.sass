@@ -1,6 +1,12 @@
 @import "~@blueprintjs/core/lib/scss/variables"
 
 $border-width: 5px
+$main-menu-height: 40px
+$main-view-height: calc(100vh - #{$pt-navbar-height} - #{$main-menu-height})
+
+.main
+  display: grid
+  grid: $main-menu-height $main-view-height / 100%
 
 .main-view
   display: grid

@@ -1,6 +1,5 @@
 import React from "react";
-import { Card, Elevation, Icon, Spinner } from "@blueprintjs/core";
-import { IconNames } from "@blueprintjs/icons";
+import { Card, Elevation, Spinner } from "@blueprintjs/core";
 import "./AnnotationControl.sass";
 import PropTypes from "prop-types";
 import Dropzone from "./Dropzone";
@@ -13,7 +12,6 @@ const AnnotationControl = ({
   computedAnnotations,
   onAnnotationsChange,
   onFileDrop,
-  onCancel,
   isLoading,
   tags,
 }) => {
@@ -29,14 +27,6 @@ const AnnotationControl = ({
           annotations={annotations}
           onAnnotationsChange={onAnnotationsChange}
           tags={tags}
-        />
-      )}
-      {tokens.length > 0 && (
-        <Icon
-          className="cancel"
-          icon={IconNames.CROSS}
-          iconSize={Icon.SIZE_LARGE}
-          onClick={onCancel}
         />
       )}
       {!isLoading && annotations.length > 0 && (
@@ -55,7 +45,6 @@ AnnotationControl.propTypes = {
   computedAnnotations: PropTypes.arrayOf(PropTypes.object).isRequired,
   onAnnotationsChange: PropTypes.func.isRequired,
   onFileDrop: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
 };

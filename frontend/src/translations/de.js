@@ -66,14 +66,13 @@ export default {
       "Das Anonymisieren der personenbezogenen Daten ist fehlgeschlagen.",
     computing_scores_failed_toast:
       "Die Berechnung statistischer Maße für die automatische Identifizierung persönlicher Daten ist fehlgeschlagen.",
+    download: "Herunterladen",
     find_piis_failed_toast: "Die Verarbeitung der Datei ist fehlgeschlagen.",
+    new_document: "Neues Dokument",
   },
   nav: {
     help: "Hilfe",
     settings: "Einstellungen",
-  },
-  preview: {
-    download: "Herunterladen",
   },
   recognizer_config_dialog: {
     description:

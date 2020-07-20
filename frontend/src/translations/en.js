@@ -63,14 +63,13 @@ export default {
     anonymizing_piis_failed_toast: "Anonymizing the personal data failed.",
     computing_scores_failed_toast:
       "Computing statistical measures for the automatic identification of personal data failed.",
+    download: "Download",
     find_piis_failed_toast: "Processing of the document failed.",
+    new_document: "New Document",
   },
   nav: {
     help: "Help",
     settings: "Settings",
-  },
-  preview: {
-    download: "Download",
   },
   recognizer_config_dialog: {
     description:
