@@ -4,7 +4,7 @@ export default {
     description1: " is one of the projects supported by the ",
     description2: ".",
     disclaimer:
-      "This is a prototype. Do not use this software to anonymize documents. Do not further use the documents downloaded from this software.",
+      "This is a prototype. Do not use this software to anonymize documents. Do not use the documents downloaded from this software.",
   },
   annotation: {
     browse: "Browse your computer",
