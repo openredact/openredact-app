@@ -11,7 +11,7 @@ const HelpDialog = ({ showHelp, setShowHelp }) => {
     <Dialog
       onClose={() => setShowHelp(false)}
       isOpen={showHelp}
-      icon="info-sign"
+      icon="help"
       title={t("nav.help")}
       canOutsideClickClose
       canEscapeKeyClose
