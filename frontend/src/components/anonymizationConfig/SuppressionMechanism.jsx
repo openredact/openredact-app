@@ -9,8 +9,9 @@ const SuppressionMechanism = ({ mechanism, updateMechanism, tag }) => {
   const [customLengthValid, setCustomLengthValid] = useState(true);
 
   function onUpdateSuppressionChar(value) {
+    const suppressionChar = value.slice(-1);
     const mechanismClone = { ...mechanism };
-    mechanismClone.config.suppressionChar = value;
+    mechanismClone.config.suppressionChar = suppressionChar;
     updateMechanism(mechanismClone);
   }
 
