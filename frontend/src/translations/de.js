@@ -23,7 +23,7 @@ export default {
   },
   anonymization: {
     anonymization: "Anonymisierung",
-    advanced_settings: "Erweiterte Einstellungen",
+    advanced_settings: "Pro Kategorie einstellen",
     do_not_anonymize: "Nicht anonymisieren",
     default: "Default Mechanismus",
     use_default: "Default benutzen",
@@ -74,19 +74,21 @@ export default {
     help: "Hilfe",
     settings: "Einstellungen",
   },
-  recognizer_config_dialog: {
-    description:
-      "Hier können Sie Erkenner deaktivieren (z.B. um die Berechnungszeit zu verringern).",
+  settings: {
     recognizers: {
-      decountryrecognizer: "Suche nach Namen von Ländern",
-      dephonenumberrecognizer: "Suche nach Telefonnummern",
-      emailrecognizer: "Suche nach E-Mail Adressen",
-      flairstatisticalrecognizer:
-        "Nutze flair um nach Personen, Orten, Organisationen, und weiteren zu suchen",
-      spacystatisticalrecognizer:
-        "Nutze spaCy um nach Personen, Orten, Organisationen, und weiteren zu suchen",
+      description:
+        "Aktiviere Erkenner um nach personenbezogene Daten für eine Kategorie zu suchen.",
+      names: {
+        decountryrecognizer: "Suche nach Namen von Ländern",
+        dephonenumberrecognizer: "Suche nach Telefonnummern",
+        emailrecognizer: "Suche nach E-Mail Adressen",
+        flairstatisticalrecognizer:
+          "Nutze flair um nach Personen, Orten, Organisationen, und weiteren zu suchen",
+        spacystatisticalrecognizer:
+          "Nutze spaCy um nach Personen, Orten, Organisationen, und weiteren zu suchen",
+      },
+      title: "Kategorien",
     },
-    title: "Aktive Erkenner",
   },
   tags: {
     email: "E-Mail",

@@ -1,13 +1,11 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
-import "./RecognizerConfigDialog.sass";
-import { Classes, Dialog, Switch } from "@blueprintjs/core";
+import { Switch } from "@blueprintjs/core";
 import PolyglotContext from "../js/polyglotContext";
+import "./ActiveRecognizerSettings.sass";
 
-const RecognizerConfigDialog = ({
+const ActiveRecognizerSettings = ({
   availableRecognizers,
-  showIdentifierConfig,
-  setShowIdentifierConfig,
   activatedRecognizers,
   setActivatedRecognizers,
 }) => {
@@ -31,40 +29,23 @@ const RecognizerConfigDialog = ({
     <li key={recognizer}>
       <Switch
         checked={activatedRecognizers.includes(recognizer)}
-        label={t(
-          `recognizer_config_dialog.recognizers.${recognizer.toLowerCase()}`
-        )}
+        label={t(`settings.recognizers.names.${recognizer.toLowerCase()}`)}
         onChange={() => onSwitch(recognizer)}
-        large
       />
     </li>
   ));
-
   return (
-    <Dialog
-      className="dialog"
-      onClose={() => setShowIdentifierConfig(false)}
-      isOpen={showIdentifierConfig}
-      icon="cog"
-      title={t("recognizer_config_dialog.title")}
-      canOutsideClickClose
-      canEscapeKeyClose
-      isCloseButtonShown
-    >
-      <p className={Classes.DIALOG_BODY}>
-        {t("recognizer_config_dialog.description")}
-      </p>
+    <div>
+      <p>{t("settings.recognizers.description")}</p>
       <ul className="recognizer-list">{recognizerSwitches}</ul>
-    </Dialog>
+    </div>
   );
 };
 
-RecognizerConfigDialog.propTypes = {
+ActiveRecognizerSettings.propTypes = {
   availableRecognizers: PropTypes.arrayOf(PropTypes.string).isRequired,
-  showIdentifierConfig: PropTypes.bool.isRequired,
-  setShowIdentifierConfig: PropTypes.func.isRequired,
   activatedRecognizers: PropTypes.arrayOf(PropTypes.string).isRequired,
   setActivatedRecognizers: PropTypes.func.isRequired,
 };
 
-export default RecognizerConfigDialog;
+export default ActiveRecognizerSettings;

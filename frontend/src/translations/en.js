@@ -23,7 +23,7 @@ export default {
   },
   anonymization: {
     anonymization: "Anonymization",
-    advanced_settings: "Advanced Settings",
+    advanced_settings: "Set Per Category",
     do_not_anonymize: "Do not anonymize",
     default: "Default Mechanism",
     use_default: "Use default",
@@ -71,19 +71,20 @@ export default {
     help: "Help",
     settings: "Settings",
   },
-  recognizer_config_dialog: {
-    description:
-      "You can deactivate recognizers here (e.g. to reduce the computational load).",
+  settings: {
     recognizers: {
-      decountryrecognizer: "Recognize country names",
-      dephonenumberrecognizer: "Recognize phone numbers",
-      emailrecognizer: "Recognize e-mail addresses",
-      flairstatisticalrecognizer:
-        "Use flair to recognize persons, locations, organizations and more",
-      spacystatisticalrecognizer:
-        "Use spaCy to recognize persons, locations, organizations and more",
+      description: "Enable recognizers to search personal data for a category.",
+      names: {
+        decountryrecognizer: "Recognize country names",
+        dephonenumberrecognizer: "Recognize phone numbers",
+        emailrecognizer: "Recognize e-mail addresses",
+        flairstatisticalrecognizer:
+          "Use flair to recognize persons, locations, organizations and more",
+        spacystatisticalrecognizer:
+          "Use spaCy to recognize persons, locations, organizations and more",
+      },
+      title: "Categories",
     },
-    title: "Active Recognizers",
   },
   tags: {
     email: "E-Mail",
