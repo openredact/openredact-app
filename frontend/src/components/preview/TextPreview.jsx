@@ -5,7 +5,7 @@ import "./TextPreview.sass";
 
 const TextPreview = ({ text }) => {
   return (
-    <Card elevation={Elevation.THREE} className="document-outline">
+    <Card elevation={Elevation.TWO} className="document-outline">
       <EditableText
         disabled
         multiline
