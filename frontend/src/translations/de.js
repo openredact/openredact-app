@@ -51,6 +51,7 @@ export default {
       as_original: "wie im Original",
       name: "Schwärzen",
       custom_length: "Länge",
+      redact: "Schwärzen",
       suppression_char: "Ersetzen mit",
       custom_length_hint:
         "lasse das Feld leer oder gib eine Zahl größer 0 sein",

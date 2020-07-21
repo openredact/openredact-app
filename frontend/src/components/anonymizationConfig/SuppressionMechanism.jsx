@@ -1,6 +1,13 @@
 import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
-import { InputGroup, FormGroup, NumericInput } from "@blueprintjs/core";
+import {
+  InputGroup,
+  FormGroup,
+  NumericInput,
+  Tooltip,
+  Button,
+  Position,
+} from "@blueprintjs/core";
 import PolyglotContext from "../../js/polyglotContext";
 
 const SuppressionMechanism = ({ mechanism, updateMechanism, tag }) => {
@@ -44,6 +51,21 @@ const SuppressionMechanism = ({ mechanism, updateMechanism, tag }) => {
     updateMechanism(mechanismClone);
   }
 
+  function handleRedactClick() {
+    const mechanismClone = { ...mechanism };
+    mechanismClone.config.suppressionChar = "▬";
+    updateMechanism(mechanismClone);
+  }
+
+  const redactButton = (
+    <Tooltip
+      content={t("anonymization.suppression.redact")}
+      position={Position.BOTTOM}
+    >
+      <Button icon="symbol-square" minimal onClick={handleRedactClick} />
+    </Tooltip>
+  );
+
   return (
     <div className="mechanism-options">
       <FormGroup
@@ -55,6 +77,7 @@ const SuppressionMechanism = ({ mechanism, updateMechanism, tag }) => {
           value={mechanism.config.suppressionChar}
           onChange={(event) => onUpdateSuppressionChar(event.target.value)}
           fill
+          rightElement={redactButton}
         />
       </FormGroup>
       <FormGroup

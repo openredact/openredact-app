@@ -52,6 +52,7 @@ export default {
       name: "Suppression",
       custom_length: "Length",
       custom_length_hint: "leave empty or enter a number larger than 0",
+      redact: "Redact",
       suppression_char: "Replace with",
       tooltip: "Replace each character with a different one",
     },
