@@ -98,6 +98,10 @@ export default {
     help: "Hilfe",
     settings: "Einstellungen",
   },
+  preview: {
+    warning:
+      "Dies ist nur eine Vorschau. Der tatsächliche Inhalt und die Formatierung können abweichen.",
+  },
   settings: {
     recognizers: {
       description:

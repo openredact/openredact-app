@@ -94,6 +94,10 @@ export default {
     help: "Help",
     settings: "Settings",
   },
+  preview: {
+    warning:
+      "This is just a preview. The actual output and formatting may look different.",
+  },
   settings: {
     recognizers: {
       description: "Enable recognizers to search personal data for a category.",

@@ -1,10 +1,15 @@
-import React from "react";
-import { Card, Elevation } from "@blueprintjs/core";
+import React, { useContext, useState } from "react";
+import { Callout, Card, Elevation, Icon } from "@blueprintjs/core";
 import "./PreviewControl.sass";
 import PropTypes from "prop-types";
 import TextPreview from "./TextPreview";
+import PolyglotContext from "../../js/polyglotContext";
 
 const PreviewControl = ({ tokens, anonymizations }) => {
+  const t = useContext(PolyglotContext);
+
+  const [showWarning, setShowWarning] = useState(true);
+
   function anonymize(myTokens, myAnonymizations) {
     let skipTokens = 0;
     let anonymizedText = null;
@@ -45,7 +50,22 @@ const PreviewControl = ({ tokens, anonymizations }) => {
 
   return (
     <Card className="preview-card" elevation={Elevation.ONE}>
-      {text !== "" && <TextPreview text={text} />}
+      {text !== "" && (
+        <div>
+          {showWarning && (
+            <Callout icon={null} intent="warning">
+              {t("preview.warning")}
+              <Icon
+                className="cancel-warning"
+                icon="cross"
+                iconSize={Icon.SIZE_LARGE}
+                onClick={() => setShowWarning(false)}
+              />
+            </Callout>
+          )}
+          <TextPreview text={text} />
+        </div>
+      )}
     </Card>
   );
 };
