@@ -8,6 +8,9 @@ import { fetchRecognizers, fetchTags } from "../api/routes";
 import AppToaster from "../js/toaster";
 import useLocalStorage from "../js/useLocalStorage";
 import ErrorBoundary from "./ErrorBoundary";
+import Settings from "./Settings";
+import About from "./About";
+import Help from "./Help";
 
 const App = () => {
   const t = useContext(PolyglotContext);
@@ -60,9 +63,15 @@ const App = () => {
   return (
     <div>
       <NavBar
-        availableRecognizers={availableRecognizers}
-        activatedRecognizers={activatedRecognizers}
-        setActivatedRecognizers={setActivatedRecognizers}
+        settings={
+          <Settings
+            setActivatedRecognizers={setActivatedRecognizers}
+            availableRecognizers={availableRecognizers}
+            activatedRecognizers={activatedRecognizers || []}
+          />
+        }
+        about={<About />}
+        help={<Help />}
       />
       <div className="grid-container">
         <ErrorBoundary>
@@ -76,7 +85,7 @@ const App = () => {
           <Main
             tags={tags}
             anonymizationConfig={anonymizationConfig}
-            activatedRecognizers={activatedRecognizers}
+            activatedRecognizers={activatedRecognizers || []}
           />
         </ErrorBoundary>
       </div>

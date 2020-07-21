@@ -8,6 +8,7 @@ it("renders button", () => {
       onDownload={() => {}}
       onNewDocument={() => {}}
       showDownloadButton={false}
+      onShowScores={() => {}}
     />
   );
   const button = getByRole("button");

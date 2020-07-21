@@ -1,30 +1,15 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import "./NavBar.sass";
 import {
-  Button,
   NavbarGroup,
   Alignment,
   NavbarHeading,
   Classes,
 } from "@blueprintjs/core";
-import PolyglotContext from "../js/polyglotContext";
 import { ReactComponent as LogoSvg } from "../logo.svg";
-import SettingsDialog from "./SettingsDialog";
-import AboutDialog from "./AboutDialog";
-import HelpDialog from "./HelpDialog";
 
-const NavBar = ({
-  availableRecognizers,
-  activatedRecognizers,
-  setActivatedRecognizers,
-}) => {
-  const t = useContext(PolyglotContext);
-
-  const [showSettings, setShowSettings] = useState(false);
-  const [showAbout, setShowAbout] = useState(false);
-  const [showHelp, setShowHelp] = useState(false);
-
+const NavBar = ({ settings, about, help }) => {
   return (
     <div>
       <nav className={`${Classes.NAVBAR} ${Classes.DARK}`}>
@@ -39,43 +24,19 @@ const NavBar = ({
           </a>
         </NavbarGroup>
         <NavbarGroup align={Alignment.RIGHT}>
-          <Button
-            icon="cog"
-            title={t("nav.settings")}
-            minimal
-            onClick={() => setShowSettings(true)}
-          />
-          <Button
-            icon="info-sign"
-            title={t("nav.about")}
-            minimal
-            onClick={() => setShowAbout(true)}
-          />
-          <Button
-            icon="help"
-            title={t("nav.help")}
-            minimal
-            onClick={() => setShowHelp(true)}
-          />
+          {settings}
+          {about}
+          {help}
         </NavbarGroup>
       </nav>
-      <SettingsDialog
-        availableRecognizers={availableRecognizers}
-        activatedRecognizers={activatedRecognizers}
-        showSettings={showSettings}
-        setShowSettings={setShowSettings}
-        setActivatedRecognizers={setActivatedRecognizers}
-      />
-      <AboutDialog showAbout={showAbout} setShowAbout={setShowAbout} />
-      <HelpDialog showHelp={showHelp} setShowHelp={setShowHelp} />
     </div>
   );
 };
 
 NavBar.propTypes = {
-  availableRecognizers: PropTypes.arrayOf(PropTypes.string).isRequired,
-  activatedRecognizers: PropTypes.arrayOf(PropTypes.string).isRequired,
-  setActivatedRecognizers: PropTypes.func.isRequired,
+  settings: PropTypes.element.isRequired,
+  about: PropTypes.element.isRequired,
+  help: PropTypes.element.isRequired,
 };
 
 export default NavBar;
