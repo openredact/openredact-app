@@ -1,17 +1,17 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { saveAs } from "file-saver";
 import PropTypes from "prop-types";
 import AnnotationControl from "./annotation/AnnotationControl";
 import PreviewControl from "./preview/PreviewControl";
 import "./Main.sass";
-import { anonymizeFile, findPiis, anonymizePiis } from "../api/routes";
+import { anonymizeFile, findPiis } from "../api/routes";
 import Token from "../js/token";
 import Annotation from "../js/annotation";
-import Anonymization from "../js/anonymization";
 import AppToaster from "../js/toaster";
 import PolyglotContext from "../js/polyglotContext";
 import MainMenu from "./MainMenu";
 import ScoresDialog from "./scores/ScoresDialog";
+import useAnonymization from "../js/useAnonymization";
 
 const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
   const t = useContext(PolyglotContext);
@@ -19,99 +19,20 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
   const [tokens, setTokens] = useState([]);
   const [annotations, setAnnotations] = useState([]);
   const [computedAnnotations, setComputedAnnotations] = useState([]);
-  const [anonymizations, setAnonymizations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showScoresDialog, setShowScoresDialog] = useState(false);
 
   const fileFormData = useRef({});
 
-  useEffect(() => {
-    if (annotations.length === 0) return;
-
-    const sortedAnnotations = annotations.sort((a, b) => a.start - b.start);
-
-    const createPositionsMap = () => {
-      return new Map(
-        annotations.map((annotation) => {
-          return [
-            annotation.id,
-            {
-              start: annotation.start,
-              end: annotation.end,
-              startChar: tokens[annotation.start].startChar,
-              endChar: tokens[annotation.end - 1].endChar,
-            },
-          ];
-        })
-      );
-    };
-
-    const computeTagsToNotAnonymizeAndDefaults = () => {
-      const tagsToNotAnonymize = [];
-      const tagsAnonymizedWithDefault = [];
-      Object.entries(anonymizationConfig.mechanismsByTag).forEach((item) => {
-        const tag = item[0];
-        const mechanism = item[1];
-        if (mechanism.mechanism === "none") {
-          tagsToNotAnonymize.push(tag);
-        }
-        if (mechanism.mechanism === "useDefault") {
-          tagsAnonymizedWithDefault.push(tag);
-        }
-      });
-      return [tagsToNotAnonymize, tagsAnonymizedWithDefault];
-    };
-
-    const positionsMap = createPositionsMap();
-    const piis = sortedAnnotations.map((annotation) => {
-      return { tag: annotation.tag, text: annotation.text, id: annotation.id };
-    });
-
-    const [
-      tagsToNotAnonymize,
-      tagsAnonymizedWithDefault,
-    ] = computeTagsToNotAnonymizeAndDefaults();
-
-    const configForRequest = JSON.parse(JSON.stringify(anonymizationConfig)); // deep clone
-    tagsToNotAnonymize.forEach(
-      (tag) => delete configForRequest.mechanismsByTag[tag]
-    );
-    tagsAnonymizedWithDefault.forEach(
-      (tag) => delete configForRequest.mechanismsByTag[tag]
-    );
-
-    const piisToAnonymize = piis.filter(
-      (pii) => !tagsToNotAnonymize.includes(pii.tag)
-    );
-
-    anonymizePiis({
-      piis: piisToAnonymize,
-      config: configForRequest,
-    })
-      .then((response) => {
-        const { anonymizedPiis } = response.data;
-
-        const newAnonymizations = anonymizedPiis.map((anonymizedPii) => {
-          return new Anonymization({
-            ...positionsMap.get(anonymizedPii.id),
-            text: anonymizedPii.text,
-          });
-        });
-
-        setAnonymizations(newAnonymizations);
-      })
-      .catch(() => {
-        AppToaster.show({
-          message: t("main.anonymizing_piis_failed_toast"),
-          intent: "danger",
-        });
-      });
-  }, [t, tokens, annotations, anonymizationConfig]);
+  const anonymizations = useAnonymization({
+    tokens,
+    annotations,
+    anonymizationConfig,
+  });
 
   function onNewDocument() {
     setTokens([]);
     setAnnotations([]);
-    setAnonymizations([]);
     document.title = "OpenRedact";
   }
 
@@ -188,16 +109,12 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
     setAnnotations(newAnnotations);
   }
 
-  function documentLoaded() {
-    return tokens.length > 0;
-  }
-
   return (
     <div className="main">
       <MainMenu
         onNewDocument={onNewDocument}
         onDownload={onDownload}
-        showDownloadButton={documentLoaded()}
+        showDownloadButton={tokens.length > 0}
         onShowScores={() => setShowScoresDialog(true)}
       />
       <div className="main-view">

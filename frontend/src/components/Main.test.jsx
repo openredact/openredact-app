@@ -17,9 +17,18 @@ afterEach(() => {
   jest.clearAllMocks();
 });
 
+const anonymizationConfig = {
+  defaultMechanism: { mechanism: "suppression" },
+  mechanismsByTag: {},
+};
+
 it("shows an upload button", () => {
   const { getByRole } = render(
-    <Main tags={["GPE"]} activatedRecognizers={[]} />
+    <Main
+      tags={["GPE"]}
+      activatedRecognizers={[]}
+      anonymizationConfig={anonymizationConfig}
+    />
   );
   const help = getByRole("button", { name: /browse/i });
 
@@ -27,10 +36,6 @@ it("shows an upload button", () => {
 });
 
 it("loads and displays the file as well as preview of the anonymization", async () => {
-  const anonymizationConfig = {
-    defaultMechanism: { mechanism: "suppression" },
-    mechanismsByTag: {},
-  };
   findPiis.mockResolvedValue({
     data: {
       piis: [
