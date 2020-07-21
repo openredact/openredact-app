@@ -28,11 +28,15 @@ const NavBar = ({
   return (
     <div>
       <nav className={`${Classes.NAVBAR} ${Classes.DARK}`}>
-        <NavbarGroup align={Alignment.LEFT}>
-          <LogoSvg className="logo" />
-          <NavbarHeading>
-            OPEN<b>REDACT</b>
-          </NavbarHeading>
+        <NavbarGroup align={Alignment.LEFT} className="branding">
+          <a href="/">
+            <LogoSvg className="logo" />
+          </a>
+          <a href="/">
+            <NavbarHeading>
+              OPEN<b>REDACT</b>
+            </NavbarHeading>
+          </a>
         </NavbarGroup>
         <NavbarGroup align={Alignment.RIGHT}>
           <Button
