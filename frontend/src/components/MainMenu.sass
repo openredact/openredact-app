@@ -1,13 +1,21 @@
 @import "~@blueprintjs/core/lib/scss/variables"
 @import "./Main"
+@import "./App"
 
 .main-menu
   background-color: $gray5
 
-  .bp3-button
-    margin: $border-width
+.new-document-button
+  margin: $border-width
+
+.scores-button
+  margin-top: $border-width
+  margin-right: 0.5*$border-width
+  right: 0.5*(100vw-$config-width)
+  position: absolute
 
 .download-button
+  margin: $border-width
   right: 0
   position: absolute
 

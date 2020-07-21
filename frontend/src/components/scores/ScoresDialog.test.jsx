@@ -4,7 +4,12 @@ import ScoresDialog from "./ScoresDialog";
 
 it("can open dialog", () => {
   const { getByRole, getByLabelText } = render(
-    <ScoresDialog annotations={[]} goldAnnotations={[]} />
+    <ScoresDialog
+      annotations={[]}
+      goldAnnotations={[]}
+      onClose={() => {}}
+      showDialog
+    />
   );
   const button = getByRole("button");
   button.click();

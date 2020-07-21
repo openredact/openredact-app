@@ -7,10 +7,8 @@ it("renders", () => {
     <AnnotationControl
       tokens={[]}
       annotations={[]}
-      computedAnnotations={[]}
       onAnnotationsChange={() => {}}
       onFileDrop={() => {}}
-      onCancel={() => {}}
       isLoading={false}
       tags={[]}
     />

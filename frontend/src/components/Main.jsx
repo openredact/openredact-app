@@ -11,6 +11,7 @@ import Anonymization from "../js/anonymization";
 import AppToaster from "../js/toaster";
 import PolyglotContext from "../js/polyglotContext";
 import MainMenu from "./MainMenu";
+import ScoresDialog from "./scores/ScoresDialog";
 
 const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
   const t = useContext(PolyglotContext);
@@ -20,6 +21,7 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
   const [computedAnnotations, setComputedAnnotations] = useState([]);
   const [anonymizations, setAnonymizations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [showScoresDialog, setShowScoresDialog] = useState(false);
 
   const fileFormData = useRef({});
 
@@ -196,6 +198,7 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
         onNewDocument={onNewDocument}
         onDownload={onDownload}
         showDownloadButton={documentLoaded()}
+        onShowScores={() => setShowScoresDialog(true)}
       />
       <div className="main-view">
         <AnnotationControl
@@ -208,6 +211,12 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
           tags={tags}
         />
         <PreviewControl tokens={tokens} anonymizations={anonymizations} />
+        <ScoresDialog
+          showDialog={showScoresDialog}
+          onClose={() => setShowScoresDialog(false)}
+          annotations={annotations}
+          goldAnnotations={computedAnnotations}
+        />
       </div>
     </div>
   );

@@ -4,12 +4,10 @@ import "./AnnotationControl.sass";
 import PropTypes from "prop-types";
 import Dropzone from "./Dropzone";
 import AnnotationForm from "./AnnotationForm";
-import ScoresDialog from "./ScoresDialog";
 
 const AnnotationControl = ({
   tokens,
   annotations,
-  computedAnnotations,
   onAnnotationsChange,
   onFileDrop,
   isLoading,
@@ -29,12 +27,6 @@ const AnnotationControl = ({
           tags={tags}
         />
       )}
-      {!isLoading && annotations.length > 0 && (
-        <ScoresDialog
-          annotations={annotations}
-          goldAnnotations={computedAnnotations}
-        />
-      )}
     </Card>
   );
 };
@@ -42,7 +34,6 @@ const AnnotationControl = ({
 AnnotationControl.propTypes = {
   tokens: PropTypes.arrayOf(PropTypes.object).isRequired,
   annotations: PropTypes.arrayOf(PropTypes.object).isRequired,
-  computedAnnotations: PropTypes.arrayOf(PropTypes.object).isRequired,
   onAnnotationsChange: PropTypes.func.isRequired,
   onFileDrop: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,

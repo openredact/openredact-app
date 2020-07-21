@@ -4,14 +4,32 @@ import "./MainMenu.sass";
 import { Button } from "@blueprintjs/core";
 import PolyglotContext from "../js/polyglotContext";
 
-const MainMenu = ({ onNewDocument, showDownloadButton, onDownload }) => {
+const MainMenu = ({
+  onNewDocument,
+  showDownloadButton,
+  onDownload,
+  onShowScores,
+}) => {
   const t = useContext(PolyglotContext);
 
   return (
     <div className="main-menu">
-      <Button intent="primary" onClick={onNewDocument}>
+      <Button
+        intent="primary"
+        className="new-document-button"
+        onClick={onNewDocument}
+      >
         {t("main.new_document")}
       </Button>
+      {showDownloadButton && (
+        <Button
+          intent="success"
+          className="scores-button"
+          onClick={onShowScores}
+        >
+          {t("annotation.scores")}
+        </Button>
+      )}
       {showDownloadButton && (
         <Button
           className="download-button"
@@ -29,6 +47,7 @@ MainMenu.propTypes = {
   showDownloadButton: PropTypes.bool.isRequired,
   onNewDocument: PropTypes.func.isRequired,
   onDownload: PropTypes.func.isRequired,
+  onShowScores: PropTypes.func.isRequired,
 };
 
 export default MainMenu;
