@@ -3,7 +3,9 @@ import { render } from "@testing-library/react";
 import ScoresTable from "./ScoresTable";
 
 it("renders", () => {
-  const { getByText } = render(<ScoresTable scores={{ total: { f2: 1.0 } }} />);
+  const { getByText } = render(
+    <ScoresTable scores={{ total: { f2: 1.0 }, tags: {} }} />
+  );
   const tag = getByText(/total/i);
   expect(tag).toBeInTheDocument();
   const metric = getByText(/f2/i);

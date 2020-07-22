@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 from pydantic import BaseModel
 
 
@@ -39,13 +39,7 @@ class Scores(CamelBaseModel):
 
 class EvaluationResponse(CamelBaseModel):
     total: Scores
-    EMAIL: Scores = None
-    GPE: Scores = None
-    LOC: Scores = None
-    MISC: Scores = None
-    ORG: Scores = None
-    PER: Scores = None
-    PHONE: Scores = None
+    tags: Dict[str, Scores]
 
 
 class Pii(CamelBaseModel):

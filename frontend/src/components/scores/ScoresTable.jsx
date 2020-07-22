@@ -8,10 +8,10 @@ const ScoresTable = ({ scores }) => {
 
   const tableValues = new Map();
   const metrics = new Set();
-  Object.entries(scores).forEach((scoresEntry) => {
-    const [tag, metricsObject] = scoresEntry;
-    if (metricsObject === null) return;
+  const tags = [];
 
+  function extractTableValues(metricsObject, tag) {
+    tags.push(tag);
     Object.entries(metricsObject).forEach((metricsEntry) => {
       const [metricName, metricValue] = metricsEntry;
       tableValues.set(
@@ -22,6 +22,14 @@ const ScoresTable = ({ scores }) => {
       );
       metrics.add(metricName);
     });
+  }
+
+  extractTableValues(scores.total, "total");
+
+  Object.entries(scores.tags).forEach((scoresEntry) => {
+    const [tag, metricsObject] = scoresEntry;
+    if (metricsObject === null) return;
+    extractTableValues(metricsObject, tag);
   });
 
   const tableHeader = (
@@ -33,7 +41,7 @@ const ScoresTable = ({ scores }) => {
       )}
     </tr>
   );
-  const tableBody = Object.keys(scores).map((tag) => (
+  const tableBody = tags.map((tag) => (
     <tr key={tag}>
       <th>{tag.toUpperCase()}</th>
       {[...metrics].map((metricName) => (
