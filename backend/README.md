@@ -30,7 +30,7 @@ To install our own dependencies in editable more (aka setuptools develop mode) u
 This adopts any changes in the local checked out projects immediately.
 
 ```
-pip install -e path/to/pii-identifier
+pip install -e path/to/nerwhal
 pip install -e path/to/expose-text
 pip install -e path/to/anonymizer
 ```

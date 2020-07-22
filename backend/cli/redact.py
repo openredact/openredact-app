@@ -4,12 +4,12 @@ import json
 from pathlib import Path
 
 import click
-import pii_identifier
+import nerwhal
 from anonymizer import Anonymizer, AnonymizerConfig, Pii
 from click import UsageError, progressbar
 from expose_text import FileWrapper, UnsupportedFormat
 
-from pii_identifier.recognizers import __all__ as all_recognizers
+from nerwhal.recognizers import __all__ as all_recognizers
 
 all_recognizers_arg = ",".join(all_recognizers)
 
@@ -60,7 +60,7 @@ def redact(input_dir, output_dir, config_dir, recognizers):
                 click.echo(f"Error while processing file {relative_path}! This file was skipped!", err=True)
                 continue
 
-            result = pii_identifier.find_piis(wrapper.text, recognizers=recognizers, aggregation_strategy="merge")
+            result = nerwhal.find_piis(wrapper.text, recognizers=recognizers, aggregation_strategy="merge")
             id_to_piis = {str(idx): pii for idx, pii in enumerate(result["piis"])}
             piis_for_anonymizer = [Pii(tag=pii.tag, text=pii.text, id=idx) for idx, pii in id_to_piis.items()]
 

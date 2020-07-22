@@ -7,7 +7,7 @@ import io
 import json
 import os
 from expose_text import BinaryWrapper, UnsupportedFormat
-import pii_identifier
+import nerwhal
 from anonymizer import AnonymizerConfig, Anonymizer, Pii
 
 from app.schemas import (
@@ -97,7 +97,7 @@ async def find_piis(recognizers: str = Form(...), file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail="File Handling Error")
 
     recognizers = json.loads(recognizers)
-    res = pii_identifier.find_piis(wrapper.text, recognizers=recognizers, aggregation_strategy="merge")
+    res = nerwhal.find_piis(wrapper.text, recognizers=recognizers, aggregation_strategy="merge")
     return FindPiisResponse(piis=[asdict(pii) for pii in res["piis"]], tokens=res["tokens"])
 
 
@@ -111,11 +111,11 @@ async def score(data: AnnotationsForEvaluation):
     def _create_pii(annot: Annotation):
         # annotation start and end are token based indices; in the context of scoring the actual value is not
         # important though, so we can pretend they are character based
-        return pii_identifier.Pii(start_char=annot.start, end_char=annot.end, tag=annot.tag)
+        return nerwhal.Pii(start_char=annot.start, end_char=annot.end, tag=annot.tag)
 
     gold = [_create_pii(annot) for annot in data.gold_annotations]
     piis = [_create_pii(annot) for annot in data.computed_annotations]
-    return pii_identifier.evaluate(piis, gold)
+    return nerwhal.evaluate(piis, gold)
 
 
 @router.get(
@@ -126,7 +126,7 @@ async def score(data: AnnotationsForEvaluation):
     response_model=List[str],
 )
 async def tags():
-    return pii_identifier.supported_tags
+    return nerwhal.supported_tags
 
 
 @router.get(
@@ -136,4 +136,4 @@ async def tags():
     response_model=List[str],
 )
 async def supported_recognizers():
-    return pii_identifier.supported_recognizers
+    return nerwhal.supported_recognizers
