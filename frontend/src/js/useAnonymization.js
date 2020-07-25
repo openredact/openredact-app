@@ -38,25 +38,33 @@ function computeSpecialTags(anonymizationConfig) {
   return [tagsToNotAnonymize, tagsAnonymizedWithDefault];
 }
 
-function useAnonymization({ tokens, annotations, anonymizationConfig }) {
+function useAnonymization({ paragraphs, annotations, anonymizationConfig }) {
   const t = useContext(PolyglotContext);
+
+  // TODO paragraph level
+  // const tokens = [];
+  const tokens = paragraphs.length > 0 ? paragraphs[0].tokens : [];
+  // const annotations = [];
+  const paragraphAnnotations = annotations.length > 0 ? annotations[0] : [];
 
   const [anonymizations, setAnonymizations] = useState([]);
   const computeSpecialTagsCallback = useCallback(computeSpecialTags, [
     anonymizationConfig,
   ]);
   const computePositionsMapCallback = useCallback(computePositionsMap, [
-    annotations,
+    paragraphAnnotations,
     tokens,
   ]);
 
   useEffect(() => {
-    if (annotations.length === 0) {
+    if (paragraphAnnotations.length === 0) {
       setAnonymizations([]);
       return;
     }
 
-    const sortedAnnotations = annotations.sort((a, b) => a.start - b.start);
+    const sortedAnnotations = paragraphAnnotations.sort(
+      (a, b) => a.start - b.start
+    );
 
     const piis = sortedAnnotations.map((annotation) => {
       return { tag: annotation.tag, text: annotation.text, id: annotation.id };
@@ -79,7 +87,10 @@ function useAnonymization({ tokens, annotations, anonymizationConfig }) {
       (pii) => !tagsToNotAnonymize.includes(pii.tag)
     );
 
-    const positionsMap = computePositionsMapCallback(annotations, tokens);
+    const positionsMap = computePositionsMapCallback(
+      paragraphAnnotations,
+      tokens
+    );
 
     anonymizePiis({
       piis: piisToAnonymize,
@@ -106,7 +117,7 @@ function useAnonymization({ tokens, annotations, anonymizationConfig }) {
   }, [
     t,
     tokens,
-    annotations,
+    paragraphAnnotations,
     anonymizationConfig,
     computePositionsMapCallback,
     computeSpecialTagsCallback,

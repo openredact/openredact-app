@@ -16,7 +16,7 @@ import useAnonymization from "../js/useAnonymization";
 const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
   const t = useContext(PolyglotContext);
 
-  const [tokens, setTokens] = useState([]);
+  const [paragraphs, setParagraphs] = useState([]);
   const [annotations, setAnnotations] = useState([]);
   const [computedAnnotations, setComputedAnnotations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -24,14 +24,15 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
 
   const fileFormData = useRef({});
 
-  const anonymizations = useAnonymization({
-    tokens,
-    annotations,
-    anonymizationConfig,
-  });
+  // const anonymizations = useAnonymization({
+  //   paragraphs,
+  //   annotations,
+  //   anonymizationConfig,
+  // });
+  const anonymizations = [];
 
   function onNewDocument() {
-    setTokens([]);
+    setParagraphs([]);
     setAnnotations([]);
     document.title = "OpenRedact";
   }
@@ -46,18 +47,27 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
 
     findPiis(formData)
       .then((response) => {
-        setTokens(
-          response.data.tokens.map(
-            (token) =>
-              new Token(token.startChar, token.endChar, token.text, token.hasWs)
-          )
+        // Backend does not support paragraphs yet.
+        const tokens = response.data.tokens.map(
+          (token) =>
+            new Token(
+              token.startChar,
+              token.endChar,
+              token.text,
+              token.hasWs,
+              token.hasBr
+            )
         );
+        // Use a single paragraph instead.
+        setParagraphs([{ htmlProps: {}, tokens: tokens }]);
 
+        // Annotations are as well not on paragraph-level
         const myAnnotations = response.data.piis.map((pii) => {
           return new Annotation(pii.startTok, pii.endTok, pii.tag, pii.text);
         });
-        setAnnotations(myAnnotations);
-        setComputedAnnotations(myAnnotations);
+        //
+        setAnnotations([myAnnotations]);
+        setComputedAnnotations([myAnnotations]);
 
         setIsLoading(false);
         document.title = `OpenRedact - ${
@@ -89,13 +99,21 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
       });
   }
 
-  function onAnnotationsChange(modifiedAnnotations) {
-    const newAnnotations = modifiedAnnotations.map((item) => {
+  function onAnnotationsChange(paragraphIndex, changedParagraphAnnotations) {
+    console.log("onAnnotationsChange: paragraphIndex=", paragraphIndex);
+    console.log(
+      " - changedParagraphAnnotations: ",
+      changedParagraphAnnotations
+    );
+
+    // Convert to Annotation instances
+    changedParagraphAnnotations = changedParagraphAnnotations.map((item) => {
       if (item instanceof Annotation) {
         return item;
       }
 
-      const text = tokens
+      // TODO paragraph support
+      const text = paragraphs[0].tokens
         .slice(item.start, item.end)
         .reduce(
           (acc, cur, idx) =>
@@ -106,7 +124,16 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
         );
       return new Annotation(item.start, item.end, item.tag, text);
     });
+
+    // Update only current paragraph
+    const newAnnotations = annotations;
+
+    newAnnotations[paragraphIndex] = changedParagraphAnnotations;
+
+    console.log("setAnnotations (new): ", newAnnotations);
+    // setAnnotations(annotations => annotations.copy());
     setAnnotations(newAnnotations);
+    console.log("After setAnnotations: ", annotations);
   }
 
   return (
@@ -114,25 +141,30 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
       <MainMenu
         onNewDocument={onNewDocument}
         onDownload={onDownload}
-        showDownloadButton={tokens.length > 0}
+        showDownloadButton={paragraphs.length > 0}
         onShowScores={() => setShowScoresDialog(true)}
       />
       <div className="main-view">
         <AnnotationControl
-          tokens={tokens}
+          paragraphs={paragraphs}
           annotations={annotations}
-          computedAnnotations={computedAnnotations}
+          // computedAnnotations={computedAnnotations}
           onAnnotationsChange={onAnnotationsChange}
           onFileDrop={onFileDrop}
           isLoading={isLoading}
           tags={tags}
         />
-        <PreviewControl tokens={tokens} anonymizations={anonymizations} />
+        <PreviewControl
+          paragraphs={paragraphs}
+          anonymizations={anonymizations}
+        />
         <ScoresDialog
           showDialog={showScoresDialog}
           onClose={() => setShowScoresDialog(false)}
-          annotations={annotations}
-          goldAnnotations={computedAnnotations}
+          annotations={annotations.length > 0 ? annotations[0] : []}
+          goldAnnotations={
+            computedAnnotations.length > 0 ? computedAnnotations[0] : []
+          }
         />
       </div>
     </div>

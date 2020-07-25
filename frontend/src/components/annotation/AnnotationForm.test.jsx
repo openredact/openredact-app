@@ -11,6 +11,7 @@ it("shows a token", () => {
           endChar: 7,
           text: "MyToken",
           hasWs: false,
+          hasBr: false,
         },
       ]}
       annotations={[]}

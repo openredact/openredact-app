@@ -1,5 +1,9 @@
 @import "~@blueprintjs/core/lib/scss/variables"
 
+.annotation-selected
+  border: 2px dotted #000
+  opacity: 1.0
+
 .annotation-mark
   cursor: pointer
   margin: 1px
@@ -7,6 +11,7 @@
   font-weight: bold
   color: $black
   background: #ffe184
+  opacity: 0.85
 
   .tag
     margin-left: 6px
@@ -26,6 +31,10 @@
     position: absolute
     transition: opacity 0.1s ease
     border-radius: 50%
+
+    &:hover
+      background: #777
+
 
   &:hover
     .remove

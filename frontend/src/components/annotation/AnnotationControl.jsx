@@ -6,7 +6,7 @@ import Dropzone from "./Dropzone";
 import AnnotationForm from "./AnnotationForm";
 
 const AnnotationControl = ({
-  tokens,
+  paragraphs,
   annotations,
   onAnnotationsChange,
   onFileDrop,
@@ -16,23 +16,25 @@ const AnnotationControl = ({
   return (
     <Card className="annotation-card" elevation={Elevation.ONE}>
       {isLoading && <Spinner />}
-      {tokens.length === 0 && !isLoading && (
-        <Dropzone onFileDrop={onFileDrop} />
-      )}
-      {tokens.length > 0 && tags.length > 0 && (
-        <AnnotationForm
-          tokens={tokens}
-          annotations={annotations}
-          onAnnotationsChange={onAnnotationsChange}
-          tags={tags}
-        />
-      )}
+      {(paragraphs.length === 0 ||
+        (paragraphs.length > 0 && paragraphs[0].tokens.length === 0)) &&
+        !isLoading && <Dropzone onFileDrop={onFileDrop} />}
+      {paragraphs.length > 0 &&
+        paragraphs[0].tokens.length > 0 &&
+        tags.length > 0 && (
+          <AnnotationForm
+            paragraphs={paragraphs}
+            annotations={annotations}
+            onAnnotationsChange={onAnnotationsChange}
+            tags={tags}
+          />
+        )}
     </Card>
   );
 };
 
 AnnotationControl.propTypes = {
-  tokens: PropTypes.arrayOf(PropTypes.object).isRequired,
+  paragraphs: PropTypes.arrayOf(PropTypes.object).isRequired,
   annotations: PropTypes.arrayOf(PropTypes.object).isRequired,
   onAnnotationsChange: PropTypes.func.isRequired,
   onFileDrop: PropTypes.func.isRequired,

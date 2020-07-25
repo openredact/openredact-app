@@ -56,6 +56,7 @@ class Pii(CamelBaseModel):
 class Token(CamelBaseModel):
     text: str
     has_ws: bool
+    has_br: bool
     start_char: int
     end_char: int
 
