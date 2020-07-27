@@ -1,9 +1,8 @@
 import React, { useContext, useState } from "react";
-import { Button, Icon, Tag, Tooltip } from "@blueprintjs/core";
+import { Button, Icon, Pre, Tag, Tooltip } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
-// import { TokenAnnotator } from "react-text-annotate";
-import { GlobalHotKeys } from "react-hotkeys";
 import PropTypes from "prop-types";
+import { useHotkeys } from "react-hotkeys-hook";
 
 import "./AnnotationForm.sass";
 import PolyglotContext from "../../js/polyglotContext";
@@ -18,16 +17,14 @@ const AnnotationForm = ({
 }) => {
   const [activeTag, setActiveTag] = useState(tags[0]);
   const t = useContext(PolyglotContext);
-
+  const navButtons = false;
   const [selectedParagraph, setSelectedParagraph] = useState(-1);
   const [selectedStart, setSelectedStart] = useState(-1);
   const [selectedEnd, setSelectedEnd] = useState(-1);
 
-  // const textTokens = tokens.map((token) => token.text);
-
   function onAnnotationRemove(paragraphIndex, mark) {
     // Remove items in annotations of current paragraph
-    let paragraphAnnotations = annotations[paragraphIndex].filter(
+    const paragraphAnnotations = annotations[paragraphIndex].filter(
       (item) => item.start !== mark.start || item.end !== mark.end
     );
 
@@ -37,7 +34,12 @@ const AnnotationForm = ({
       selectedStart === mark.start &&
       selectedEnd === mark.end
     ) {
-      selectPreviousAnnotation();
+      selectPreviousAnnotation(
+        annotations,
+        selectedParagraph,
+        selectedStart,
+        selectedEnd
+      );
     }
 
     onAnnotationsChange(paragraphIndex, paragraphAnnotations);
@@ -50,14 +52,19 @@ const AnnotationForm = ({
     setSelectedEnd(mark.end);
   }
 
-  const selectPreviousAnnotation = () => {
-    console.log("previous ", selectedParagraph);
+  const selectPreviousAnnotation = (
+    inputAnnotations,
+    paragraph,
+    start,
+    end
+  ) => {
+    console.log("previous ", inputAnnotations, paragraph, start, end);
 
-    if (selectedParagraph >= 0) {
-      console.log("selectedPargraph: ", selectedParagraph);
-      console.log(annotations[selectedParagraph]);
+    if (paragraph >= 0) {
+      // console.log("selectedPargraph: ", selectedParagraph);
+      // console.log(annotations[selectedParagraph]);
 
-      if (annotations[selectedParagraph].length < 1) {
+      if (inputAnnotations[paragraph].length < 1) {
         // Unset
         setSelectedParagraph(-1);
         setSelectedStart(-1);
@@ -65,14 +72,14 @@ const AnnotationForm = ({
       }
 
       // sort annotations in current paragraph descending
-      annotations[selectedParagraph].sort((a, b) => b.start - a.start);
+      inputAnnotations[paragraph].sort((a, b) => b.start - a.start);
 
       // select the annotation with start < selectedStart
       let newSelection;
 
-      for (let i = 0; i < annotations[selectedParagraph].length; i++) {
-        if (annotations[selectedParagraph][i].start < selectedStart) {
-          newSelection = annotations[selectedParagraph][i];
+      for (let i = 0; i < inputAnnotations[paragraph].length; i++) {
+        if (inputAnnotations[paragraph][i].start < start) {
+          newSelection = inputAnnotations[paragraph][i];
           break;
         }
       }
@@ -83,44 +90,43 @@ const AnnotationForm = ({
         // previous annotation found in current paragraph
         setSelectedStart(newSelection.start);
         setSelectedEnd(newSelection.end);
-      } else {
-        // find previous annotation in other paragraphs
+      } else if (paragraph > 0) {
+        // Last annotations from previous paragraph
+        let newParagraph = paragraph - 1;
 
-        if (selectedParagraph > 0) {
-          // Last annotations from previous paragraph
-          let newParagraph = selectedParagraph - 1;
+        while (newParagraph >= 0) {
+          if (inputAnnotations[newParagraph].length > 0) {
+            inputAnnotations[newParagraph].sort((a, b) => b.start - a.start); // sort descending
 
-          while (newParagraph >= 0) {
-            if (annotations[newParagraph].length > 0) {
-              annotations[newParagraph].sort((a, b) => b.start - a.start); // sort descending
-
-              let newSelection = annotations[newParagraph][0];
-              setSelectedParagraph(newParagraph);
-              setSelectedStart(newSelection.start);
-              setSelectedEnd(newSelection.end);
-              break;
-            }
-            newParagraph -= 1;
+            setSelectedParagraph(newParagraph);
+            setSelectedStart(inputAnnotations[newParagraph][0].start);
+            setSelectedEnd(inputAnnotations[newParagraph][0].end);
+            break;
           }
+          newParagraph -= 1;
         }
       }
     }
+
+    return false;
   };
 
-  const selectNextAnnotation = () => {
-    console.log("next ", selectedParagraph, selectedStart, selectedEnd);
+  const selectNextAnnotation = (inputAnnotations, paragraph, start, end) => {
+    // console.log("next ", selectedParagraph, selectedStart, selectedEnd);
+    console.log("next ", paragraph, start, end);
+
     // console.log(' state , ', this.state);
 
-    if (selectedParagraph >= 0) {
+    if (paragraph >= 0) {
       // sort annotations of current paragraph by "start"
-      annotations[selectedParagraph].sort((a, b) => a.start - b.start);
+      inputAnnotations[paragraph].sort((a, b) => a.start - b.start);
 
       // select the annotation with start > selectedEnd
       let newSelection;
 
-      for (let i = 0; i < annotations[selectedParagraph].length; i++) {
-        if (annotations[selectedParagraph][i].start > selectedEnd) {
-          newSelection = annotations[selectedParagraph][i];
+      for (let i = 0; i < inputAnnotations[paragraph].length; i += 1) {
+        if (inputAnnotations[paragraph][i].start > end) {
+          newSelection = inputAnnotations[paragraph][i];
           break;
         }
       }
@@ -131,19 +137,17 @@ const AnnotationForm = ({
         setSelectedEnd(newSelection.end);
       } else {
         // find in next paragraph
-        let newParagraph = selectedParagraph + 1;
+        let newParagraph = paragraph + 1;
 
         while (newParagraph < paragraphs.length) {
           // Skip empty paragraphs
-          if (annotations[newParagraph].length > 0) {
-            annotations[newParagraph].sort((a, b) => a.start - b.start);
+          if (inputAnnotations[newParagraph].length > 0) {
+            inputAnnotations[newParagraph].sort((a, b) => a.start - b.start);
 
             // Take first annotation of next paragraph
-            let newSelection = annotations[newParagraph][0];
-
             setSelectedParagraph(newParagraph);
-            setSelectedStart(newSelection.start);
-            setSelectedEnd(newSelection.end);
+            setSelectedStart(inputAnnotations[newParagraph][0].start);
+            setSelectedEnd(inputAnnotations[newParagraph][0].end);
 
             break;
           }
@@ -152,52 +156,100 @@ const AnnotationForm = ({
       }
     }
     // TODO jump to beginning?
+
+    return false;
   };
 
-  const hotkeyHandlers = {
-    selectTag: (event) => {
-      const tagIndex = parseInt(event.key, 10);
+  const selectTag = (
+    tagIndex,
+    tag,
+    inputAnnotations,
+    paragraph,
+    start,
+    end
+  ) => {
+    console.log("selectActiveTag ", tagIndex, tag);
 
-      // TODO change annotation for selection
-      // (does not work without states)
+    // Is the selected tag valid?
+    if (!isNaN(tagIndex) && tagIndex > 0 && tagIndex <= tags.length) {
+      const newActiveTag = tags[tagIndex - 1];
 
-      if (!Number.isNaN(tagIndex) && tagIndex > 0 && tagIndex <= tags.length)
-        setActiveTag(tags[tagIndex - 1]);
-    },
-    next: () => {
-      // TODO Hot keys do not receive states
-      //selectNextAnnotation();
-    },
-    previous: () => {
-      // TODO Hot keys do not receive states
-      //selectPreviousAnnotation();
-    },
+      // If old tag is equal to new tag, no need to change anything
+      if (tag === newActiveTag) return;
+
+      // Update active tag
+      setActiveTag(newActiveTag);
+
+      // Is any annotation selected that we need to change?
+      if (paragraph >= 0 && start >= 0 && end >= 0) {
+        const changedAnnotations = [...inputAnnotations];
+
+        for (let i = 0; i < changedAnnotations[paragraph].length; i += 1) {
+          if (
+            start === changedAnnotations[paragraph][i].start &&
+            end === changedAnnotations[paragraph][i].end
+          ) {
+            // Change tag
+            changedAnnotations[paragraph][i].tag = newActiveTag;
+            console.log("Change to tag: ", newActiveTag);
+            break;
+          }
+        }
+        // Send annotation change
+        onAnnotationsChange(paragraph, changedAnnotations[paragraph]);
+      }
+    }
   };
 
-  const hotkeys = {
-    selectTag: [...Array(tags.length).keys()].map((key) => String(key + 1)),
-    next: "right",
-    previous: "left",
-  };
+  // const getTagStyle = (tag) => {
+  //   if(tags.length <= 7) {
+  //     return { background: constants.tagColors[tags.indexOf(tag)] };
+  //   }
+  //
+  //   return {};
+  // };
 
-  function debug() {
-    console.log(selectedParagraph);
-    console.log(selectedStart);
-    console.log(selectedEnd);
-
-    console.log("Paragraphs: ", paragraphs);
-    console.log("Annotations: ", annotations);
-  }
+  useHotkeys(
+    "left",
+    () =>
+      selectPreviousAnnotation(
+        annotations,
+        selectedParagraph,
+        selectedStart,
+        selectedEnd
+      ),
+    {},
+    [annotations, selectedParagraph, selectedStart, selectedEnd]
+  );
+  useHotkeys(
+    "right",
+    () =>
+      selectNextAnnotation(
+        annotations,
+        selectedParagraph,
+        selectedStart,
+        selectedEnd
+      ),
+    {},
+    [annotations, selectedParagraph, selectedStart, selectedEnd]
+  );
+  useHotkeys(
+    "0,1,2,3,4,5,6,7,8,9",
+    (event) =>
+      selectTag(
+        parseInt(event.key, 10),
+        activeTag,
+        annotations,
+        selectedParagraph,
+        selectedStart,
+        selectedEnd
+      ),
+    {},
+    [activeTag, annotations, selectedParagraph, selectedStart, selectedEnd]
+  );
 
   return (
     <div>
-      <button onClick={() => debug()}>Debug</button>
-      <input key={1} value={selectedParagraph} />
-      <input key={2} value={selectedStart} />
-      <input key={3} value={selectedEnd} />
-      <hr />
-      <GlobalHotKeys keyMap={hotkeys} handlers={hotkeyHandlers} />
-
       <div className="annotation-header">
         {tags.map((tag, index) => (
           <Tooltip
@@ -206,39 +258,69 @@ const AnnotationForm = ({
             key={tag}
           >
             <Button
-              className="tag"
+              className={`tag tag-${String(index + 1)}`}
               active={activeTag === tag}
-              onClick={() => setActiveTag(tag)}
+              onClick={() =>
+                selectTag(
+                  index + 1,
+                  activeTag,
+                  annotations,
+                  selectedParagraph,
+                  selectedStart,
+                  selectedEnd
+                )
+              }
             >
               {tag}
               <Tag>{index + 1}</Tag>
             </Button>
           </Tooltip>
         ))}
-        <div className="annotation-navigation">
-          <Tooltip
-            content="Previous annotation"
-            hoverOpenDelay={constants.tooltipHoverOpenDelay}
-          >
-            <Button className="tag" onClick={() => selectPreviousAnnotation()}>
-              <Icon icon={IconNames.ARROW_LEFT} />
-            </Button>
-          </Tooltip>
-          <Tooltip
-            content="Next annotation"
-            hoverOpenDelay={constants.tooltipHoverOpenDelay}
-          >
-            <Button className="tag" onClick={() => selectNextAnnotation()}>
-              <Icon icon={IconNames.ARROW_RIGHT} />
-            </Button>
-          </Tooltip>
-        </div>
+        {navButtons && (
+          <div className="annotation-navigation">
+            <Tooltip
+              content="Previous annotation"
+              hoverOpenDelay={constants.tooltipHoverOpenDelay}
+            >
+              <Button
+                className="tag"
+                onClick={() =>
+                  selectPreviousAnnotation(
+                    annotations,
+                    selectedParagraph,
+                    selectedStart,
+                    selectedEnd
+                  )
+                }
+              >
+                <Icon icon={IconNames.ARROW_LEFT} />
+              </Button>
+            </Tooltip>
+            <Tooltip
+              content="Next annotation"
+              hoverOpenDelay={constants.tooltipHoverOpenDelay}
+            >
+              <Button
+                className="tag"
+                onClick={() =>
+                  selectNextAnnotation(
+                    annotations,
+                    selectedParagraph,
+                    selectedStart,
+                    selectedEnd
+                  )
+                }
+              >
+                <Icon icon={IconNames.ARROW_RIGHT} />
+              </Button>
+            </Tooltip>
+          </div>
+        )}
       </div>
 
       <div className="annotation-body">
         {paragraphs.map((paragraph, paragraphIndex) => (
-          <p key={paragraphIndex} {...paragraph.htmlProps}>
-            <pre>{JSON.stringify(annotations[paragraphIndex])}</pre>
+          <div>
             <TokenAnnotator
               tokens={paragraph.tokens}
               value={annotations[paragraphIndex]}
@@ -254,32 +336,40 @@ const AnnotationForm = ({
               })}
               renderMark={(mark) => (
                 <Tag
-                  className={
+                  className={`annotation-mark tag-${
+                    tags.indexOf(mark.tag) + 1
+                  } ${
                     paragraphIndex === selectedParagraph &&
                     mark.start === selectedStart &&
                     mark.end === selectedEnd
                       ? "annotation-mark annotation-selected"
-                      : "annotation-mark"
-                  }
+                      : ""
+                  }`}
                   key={mark.key}
                 >
                   <div
+                    role="button"
+                    tabIndex={mark.key}
                     className="tag-content"
                     onClick={() => onAnnotationClick(paragraphIndex, mark)}
+                    onKeyPress={() => onAnnotationClick(paragraphIndex, mark)}
                   >
                     {mark.text}
                     <span className="tag">{mark.tag}</span>
                   </div>
                   <span
+                    role="button"
+                    tabIndex={mark.key}
                     className="remove"
                     onClick={() => onAnnotationRemove(paragraphIndex, mark)}
+                    onKeyPress={() => onAnnotationClick(paragraphIndex, mark)}
                   >
                     <Icon icon={IconNames.SMALL_CROSS} />
                   </span>
                 </Tag>
               )}
             />
-          </p>
+          </div>
         ))}
       </div>
     </div>

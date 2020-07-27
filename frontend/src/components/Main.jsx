@@ -107,7 +107,7 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
     );
 
     // Convert to Annotation instances
-    changedParagraphAnnotations = changedParagraphAnnotations.map((item) => {
+    const paragraphAnnotations = changedParagraphAnnotations.map((item) => {
       if (item instanceof Annotation) {
         return item;
       }
@@ -125,15 +125,12 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
       return new Annotation(item.start, item.end, item.tag, text);
     });
 
-    // Update only current paragraph
-    const newAnnotations = annotations;
-
-    newAnnotations[paragraphIndex] = changedParagraphAnnotations;
-
-    console.log("setAnnotations (new): ", newAnnotations);
-    // setAnnotations(annotations => annotations.copy());
+    // Update annotations for current paragraph
+    const newAnnotations = [...annotations];
+    newAnnotations[paragraphIndex] = paragraphAnnotations;
     setAnnotations(newAnnotations);
-    console.log("After setAnnotations: ", annotations);
+
+    console.log("After setAnnotations: ", JSON.stringify(annotations));
   }
 
   return (

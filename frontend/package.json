@@ -16,9 +16,9 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-dropzone": "^11.0.1",
-    "react-hotkeys": "^2.0.0-pre9",
     "react-scripts": "3.4.1",
     "react-text-annotate": "^0.3.0",
+    "react-hotkeys-hook": "^2.2.1",
     "uuid": "^8.1.0"
   },
   "scripts": {
