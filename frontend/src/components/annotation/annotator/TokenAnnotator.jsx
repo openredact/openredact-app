@@ -7,7 +7,6 @@ import {
   selectionIsBackwards,
   splitTokensWithOffsets,
 } from "./utils";
-import Mark from "./Mark";
 
 const WrapperToken = ({ text, index, hasWhitespace, hasLinebreak }) => {
   // return <span data-i={props.i}>{props.content} </span>
