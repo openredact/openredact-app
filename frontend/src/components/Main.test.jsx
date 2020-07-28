@@ -38,6 +38,7 @@ it("shows an upload button", () => {
 it("loads and displays the file as well as preview of the anonymization", async () => {
   findPiis.mockResolvedValue({
     data: {
+      format: "txt",
       piis: [
         {
           startChar: 8,

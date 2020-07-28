@@ -7,6 +7,7 @@ import {
   selectionIsBackwards,
   splitTokensWithOffsets,
 } from "./utils";
+import Mark from "./Mark";
 
 const WrapperToken = ({ text, index, hasWhitespace, hasLinebreak }) => {
   // return <span data-i={props.i}>{props.content} </span>
@@ -19,11 +20,16 @@ const WrapperToken = ({ text, index, hasWhitespace, hasLinebreak }) => {
   );
 };
 
+WrapperToken.defaultProps = {
+  hasWhitespace: true,
+  hasLinebreak: false,
+};
+
 WrapperToken.propTypes = {
   text: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
-  hasWhitespace: PropTypes.bool.isRequired,
-  hasLinebreak: PropTypes.bool.isRequired,
+  hasWhitespace: PropTypes.bool,
+  hasLinebreak: PropTypes.bool,
 };
 
 // const TokenAnnotator = <T extends Span>(props: TokenAnnotatorProps<T>) => {
