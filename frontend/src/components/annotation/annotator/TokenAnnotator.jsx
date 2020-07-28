@@ -1,14 +1,12 @@
 import React from "react";
 
 import PropTypes from "prop-types";
-import Mark from "./Mark";
 
 import {
   selectionIsEmpty,
   selectionIsBackwards,
   splitTokensWithOffsets,
 } from "./utils";
-import Span from "./Span";
 
 const WrapperToken = ({ text, index, hasWhitespace, hasLinebreak }) => {
   // return <span data-i={props.i}>{props.content} </span>

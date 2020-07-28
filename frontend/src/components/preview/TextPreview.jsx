@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, EditableText, Elevation } from "@blueprintjs/core";
+import { EditableText } from "@blueprintjs/core";
 import PropTypes from "prop-types";
 import "./TextPreview.sass";
 

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Callout, Card, Elevation, Icon, Pre } from "@blueprintjs/core";
+import { Callout, Card, Elevation, Icon } from "@blueprintjs/core";
 import "./PreviewControl.sass";
 import PropTypes from "prop-types";
 import TextPreview from "./TextPreview";
