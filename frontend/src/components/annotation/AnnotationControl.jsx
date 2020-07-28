@@ -14,22 +14,25 @@ const AnnotationControl = ({
   tags,
 }) => {
   return (
-    <Card className="annotation-card" elevation={Elevation.ONE}>
-      {isLoading && <Spinner />}
-      {(paragraphs.length === 0 ||
-        (paragraphs.length > 0 && paragraphs[0].tokens.length === 0)) &&
-        !isLoading && <Dropzone onFileDrop={onFileDrop} />}
-      {paragraphs.length > 0 &&
-        paragraphs[0].tokens.length > 0 &&
-        tags.length > 0 && (
-          <AnnotationForm
-            paragraphs={paragraphs}
-            annotations={annotations}
-            onAnnotationsChange={onAnnotationsChange}
-            tags={tags}
-          />
-        )}
-    </Card>
+    <div className="view-wrapper">
+      <div className="view-header">Editor</div>
+      <Card className="annotation-card" elevation={Elevation.ONE}>
+        {isLoading && <Spinner />}
+        {(paragraphs.length === 0 ||
+          (paragraphs.length > 0 && paragraphs[0].tokens.length === 0)) &&
+          !isLoading && <Dropzone onFileDrop={onFileDrop} />}
+        {paragraphs.length > 0 &&
+          paragraphs[0].tokens.length > 0 &&
+          tags.length > 0 && (
+            <AnnotationForm
+              paragraphs={paragraphs}
+              annotations={annotations}
+              onAnnotationsChange={onAnnotationsChange}
+              tags={tags}
+            />
+          )}
+      </Card>
+    </div>
   );
 };
 

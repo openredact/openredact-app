@@ -1,11 +1,12 @@
 import React, { useContext, useState } from "react";
-import { Callout, Card, Elevation, Icon } from "@blueprintjs/core";
+import { Callout, Card, Elevation, Icon, Pre } from "@blueprintjs/core";
 import "./PreviewControl.sass";
 import PropTypes from "prop-types";
 import TextPreview from "./TextPreview";
 import PolyglotContext from "../../js/polyglotContext";
+import PdfPreview from "./PdfPreview";
 
-const PreviewControl = ({ paragraphs, anonymizations }) => {
+const PreviewControl = ({ paragraphs, anonymizations, base64pdf }) => {
   const t = useContext(PolyglotContext);
 
   const [showWarning, setShowWarning] = useState(true);
@@ -55,30 +56,42 @@ const PreviewControl = ({ paragraphs, anonymizations }) => {
   );
 
   return (
-    <Card className="preview-card" elevation={Elevation.ONE}>
-      {text !== "" && (
-        <div>
-          {showWarning && (
-            <Callout icon={null} intent="warning">
-              {t("preview.warning")}
-              <Icon
-                className="cancel-warning"
-                icon="cross"
-                iconSize={Icon.SIZE_LARGE}
-                onClick={() => setShowWarning(false)}
-              />
-            </Callout>
-          )}
-          <TextPreview text={text} />
-        </div>
-      )}
-    </Card>
+    <div className="view-wrapper">
+      <div className="view-header">Preview</div>
+      <Card className="preview-card" elevation={Elevation.ONE}>
+        {text !== "" && (
+          <div>
+            {showWarning && (
+              <Callout icon={null} intent="warning">
+                {t("preview.warning")}
+                <Icon
+                  className="cancel-warning"
+                  icon="cross"
+                  iconSize={Icon.SIZE_LARGE}
+                  onClick={() => setShowWarning(false)}
+                />
+              </Callout>
+            )}
+            {base64pdf ? (
+              <PdfPreview base64pdf={base64pdf} />
+            ) : (
+              <TextPreview text={text} />
+            )}
+          </div>
+        )}
+      </Card>
+    </div>
   );
+};
+
+PreviewControl.defaultProps = {
+  base64pdf: null,
 };
 
 PreviewControl.propTypes = {
   paragraphs: PropTypes.arrayOf(PropTypes.object).isRequired,
   anonymizations: PropTypes.arrayOf(PropTypes.object).isRequired,
+  base64pdf: PropTypes.string,
 };
 
 export default PreviewControl;

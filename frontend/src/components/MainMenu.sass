@@ -4,18 +4,31 @@
 
 .main-menu
   background-color: $gray5
+  display: grid
+  grid: auto / 50% 50%
 
-.new-document-button
-  margin: $border-width
+  .annotation-menu, .preview-menu
+    display: flex
+    justify-content: space-between
 
-.scores-button
-  margin-top: $border-width
-  margin-right: 0.5*$border-width
-  right: 0.5*(100vw-$config-width)
-  position: absolute
+    .new-document-button
+      margin: $border-width
 
-.download-button
-  margin: $border-width
-  right: 0
-  position: absolute
+    .scores-button
+      margin: $border-width
+      //margin-top: $border-width
+      //margin-right: 0.5*$border-width
+      //right: 0.5*(100vw-$config-width)
+      //position: absolute
+
+
+    .download-button
+      margin: $border-width
+      //right: 0
+      //position: absolute
+
+    .compile-button
+      margin: $border-width
+      //left: $config-width * 2.4
+      //position: absolute
 

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import AnnotationControl from "./annotation/AnnotationControl";
 import PreviewControl from "./preview/PreviewControl";
 import "./Main.sass";
-import { anonymizeFile, findPiis } from "../api/routes";
+import { anonymizeFile, findPiis, compileFile } from "../api/routes";
 import Token from "../js/token";
 import Annotation from "../js/annotation";
 import AppToaster from "../js/toaster";
@@ -12,6 +12,7 @@ import PolyglotContext from "../js/polyglotContext";
 import MainMenu from "./MainMenu";
 import ScoresDialog from "./scores/ScoresDialog";
 import useAnonymization from "../js/useAnonymization";
+import constants from "../js/constants";
 
 const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
   const t = useContext(PolyglotContext);
@@ -21,20 +22,27 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
   const [computedAnnotations, setComputedAnnotations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showScoresDialog, setShowScoresDialog] = useState(false);
-
   const fileFormData = useRef({});
+  const [isCompilable, setIsCompilable] = useState(false);
+  const [isCompiling, setIsCompiling] = useState(false);
+  const [base64pdf, setBase64pdf] = useState(null);
 
-  // const anonymizations = useAnonymization({
-  //   paragraphs,
-  //   annotations,
-  //   anonymizationConfig,
-  // });
-  const anonymizations = [];
+  let compileTimer = null;
 
+  const anonymizations = useAnonymization({
+    paragraphs,
+    annotations,
+    anonymizationConfig,
+  });
   function onNewDocument() {
     setParagraphs([]);
     setAnnotations([]);
-    document.title = "OpenRedact";
+    setIsCompilable(false);
+    setIsCompiling(false);
+    setBase64pdf(null);
+    clearTimeout(compileTimer);
+
+    document.title = constants.title;
   }
 
   function onFileDrop(files) {
@@ -59,7 +67,7 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
             )
         );
         // Use a single paragraph instead.
-        setParagraphs([{ htmlProps: {}, tokens: tokens }]);
+        setParagraphs([{ htmlProps: {}, tokens }]);
 
         // Annotations are as well not on paragraph-level
         const myAnnotations = response.data.piis.map((pii) => {
@@ -68,6 +76,13 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
         //
         setAnnotations([myAnnotations]);
         setComputedAnnotations([myAnnotations]);
+
+        // Is this a compilable file, e.g., PDF?
+        if (response.data.format.indexOf("pdf") > -1) {
+          setIsCompilable(true);
+          // TODO find-piis should return a compiled version as well (current not efficient)
+          onCompile();
+        }
 
         setIsLoading(false);
         document.title = `OpenRedact - ${
@@ -130,7 +145,41 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
     newAnnotations[paragraphIndex] = paragraphAnnotations;
     setAnnotations(newAnnotations);
 
-    console.log("After setAnnotations: ", JSON.stringify(annotations));
+    // Set compile timer
+    if (isCompilable) {
+      if (compileTimer == null) {
+        compileTimer = setTimeout(() => {
+          console.log("Auto-compile...");
+          onCompile();
+        }, constants.compileTimeout);
+      }
+    }
+  }
+
+  function onCompile() {
+    console.log("Trigger compile");
+
+    // unset myTimeout
+    clearTimeout(compileTimer);
+
+    setIsCompiling(true);
+
+    const formData = fileFormData.current;
+    formData.set("anonymizations", JSON.stringify(anonymizations));
+    compileFile(formData)
+      .then((response) => {
+        console.log("Received compiled version: ", response.data.base64);
+
+        setBase64pdf(response.data.base64);
+        setIsCompiling(false);
+      })
+      .catch(() => {
+        AppToaster.show({
+          message: t("main.anonymize_file_failed_toast"),
+          intent: "danger",
+        });
+        setIsCompiling(false);
+      });
   }
 
   return (
@@ -140,6 +189,9 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
         onDownload={onDownload}
         showDownloadButton={paragraphs.length > 0}
         onShowScores={() => setShowScoresDialog(true)}
+        showCompileButton={isCompilable}
+        isCompiling={isCompiling}
+        onCompile={onCompile}
       />
       <div className="main-view">
         <AnnotationControl
@@ -154,6 +206,7 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
         <PreviewControl
           paragraphs={paragraphs}
           anonymizations={anonymizations}
+          base64pdf={base64pdf}
         />
         <ScoresDialog
           showDialog={showScoresDialog}

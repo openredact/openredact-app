@@ -4,7 +4,7 @@ export const splitWithOffsets = (text, offsets) => {
   let lastEnd = 0;
   const splits = [];
 
-  for (let offset of sortBy(offsets, (o) => o.start)) {
+  for (const offset of sortBy(offsets, (o) => o.start)) {
     const { start, end } = offset;
 
     if (lastEnd < start) {
@@ -39,10 +39,10 @@ export const splitTokensWithOffsets = (tokens, offsets) => {
 
   console.log("splitTokensWithOffsets: ", tokens);
 
-  for (let offset of sortBy(offsets, (o) => o.start)) {
+  for (const offset of sortBy(offsets, (o) => o.start)) {
     const { start, end } = offset;
     if (lastEnd < start) {
-      for (let i = lastEnd; i < start; i++) {
+      for (let i = lastEnd; i < start; i += 1) {
         splits.push({
           i,
           text: tokens[i].text,
@@ -64,7 +64,7 @@ export const splitTokensWithOffsets = (tokens, offsets) => {
     lastEnd = end;
   }
 
-  for (let i = lastEnd; i < tokens.length; i++) {
+  for (let i = lastEnd; i < tokens.length; i += 1) {
     splits.push({
       i,
       text: tokens[i].text,
@@ -79,21 +79,20 @@ export const splitTokensWithOffsets = (tokens, offsets) => {
 // selection: Selection
 export const selectionIsEmpty = (selection) => {
   if (selection.anchorNode) {
-    let position = selection.anchorNode.compareDocumentPosition(
+    const position = selection.anchorNode.compareDocumentPosition(
       selection.focusNode
     );
 
     return position === 0 && selection.focusOffset === selection.anchorOffset;
-  } else {
-    return true;
   }
+  return true;
 };
 
 // selection: Selection
 export const selectionIsBackwards = (selection) => {
   if (selectionIsEmpty(selection)) return false;
 
-  let position = selection.anchorNode.compareDocumentPosition(
+  const position = selection.anchorNode.compareDocumentPosition(
     selection.focusNode
   );
 

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Button, Icon, Pre, Tag, Tooltip } from "@blueprintjs/core";
+import { Button, Divider, Icon, Tag, Tooltip } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import PropTypes from "prop-types";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -58,12 +58,8 @@ const AnnotationForm = ({
     start,
     end
   ) => {
-    console.log("previous ", inputAnnotations, paragraph, start, end);
-
+    // Paragraph must be set
     if (paragraph >= 0) {
-      // console.log("selectedPargraph: ", selectedParagraph);
-      // console.log(annotations[selectedParagraph]);
-
       if (inputAnnotations[paragraph].length < 1) {
         // Unset
         setSelectedParagraph(-1);
@@ -77,14 +73,12 @@ const AnnotationForm = ({
       // select the annotation with start < selectedStart
       let newSelection;
 
-      for (let i = 0; i < inputAnnotations[paragraph].length; i++) {
+      for (let i = 0; i < inputAnnotations[paragraph].length; i += 1) {
         if (inputAnnotations[paragraph][i].start < start) {
           newSelection = inputAnnotations[paragraph][i];
           break;
         }
       }
-
-      console.log("newSelection ", newSelection);
 
       if (newSelection) {
         // previous annotation found in current paragraph
@@ -112,11 +106,6 @@ const AnnotationForm = ({
   };
 
   const selectNextAnnotation = (inputAnnotations, paragraph, start, end) => {
-    // console.log("next ", selectedParagraph, selectedStart, selectedEnd);
-    console.log("next ", paragraph, start, end);
-
-    // console.log(' state , ', this.state);
-
     if (paragraph >= 0) {
       // sort annotations of current paragraph by "start"
       inputAnnotations[paragraph].sort((a, b) => a.start - b.start);
@@ -168,8 +157,6 @@ const AnnotationForm = ({
     start,
     end
   ) => {
-    console.log("selectActiveTag ", tagIndex, tag);
-
     // Is the selected tag valid?
     if (!isNaN(tagIndex) && tagIndex > 0 && tagIndex <= tags.length) {
       const newActiveTag = tags[tagIndex - 1];
@@ -201,14 +188,7 @@ const AnnotationForm = ({
     }
   };
 
-  // const getTagStyle = (tag) => {
-  //   if(tags.length <= 7) {
-  //     return { background: constants.tagColors[tags.indexOf(tag)] };
-  //   }
-  //
-  //   return {};
-  // };
-
+  // Hot keys
   useHotkeys(
     "left",
     () =>
@@ -251,6 +231,7 @@ const AnnotationForm = ({
   return (
     <div>
       <div className="annotation-header">
+        <span className="label">{t("annotation.tagsLabel")}</span>
         {tags.map((tag, index) => (
           <Tooltip
             content={t(`tags.${tag.toLowerCase()}`)}
@@ -258,7 +239,9 @@ const AnnotationForm = ({
             key={tag}
           >
             <Button
-              className={`tag tag-${String(index + 1)}`}
+              className={`tag tag-${String(index + 1)} ${
+                tags.length >= constants.maxTagColors ? "" : "tag-colored"
+              }`}
               active={activeTag === tag}
               onClick={() =>
                 selectTag(
@@ -316,6 +299,7 @@ const AnnotationForm = ({
             </Tooltip>
           </div>
         )}
+        <Divider vertical />
       </div>
 
       <div className="annotation-body">
@@ -344,6 +328,8 @@ const AnnotationForm = ({
                     mark.end === selectedEnd
                       ? "annotation-mark annotation-selected"
                       : ""
+                  } ${
+                    tags.length >= constants.maxTagColors ? "" : "tag-colored"
                   }`}
                   key={mark.key}
                 >

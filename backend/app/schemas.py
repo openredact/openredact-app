@@ -64,6 +64,7 @@ class Token(CamelBaseModel):
 class FindPiisResponse(CamelBaseModel):
     piis: List[Pii]
     tokens: List[Token]
+    format: str
 
 
 class AnonymizedPii(CamelBaseModel):

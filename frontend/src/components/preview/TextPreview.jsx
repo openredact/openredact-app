@@ -5,15 +5,13 @@ import "./TextPreview.sass";
 
 const TextPreview = ({ text }) => {
   return (
-    <Card elevation={Elevation.TWO} className="document-outline">
-      <EditableText
-        disabled
-        multiline
-        className="preview-text"
-        placeholder=""
-        value={text}
-      />
-    </Card>
+    <EditableText
+      disabled
+      multiline
+      className="preview-text"
+      placeholder=""
+      value={text}
+    />
   );
 };
 

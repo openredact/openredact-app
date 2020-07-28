@@ -98,6 +98,7 @@ const AnonymizationConfigMenu = ({ tags, config, setConfig }) => {
       />
       <div className="vertical-space" />
       <Button
+        icon="settings"
         className="show-advanced-button"
         onClick={() => setShowAdvancedOptions(!showAdvancedOptions)}
         active={showAdvancedOptions}

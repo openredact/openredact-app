@@ -1,60 +1,61 @@
 @import "~@blueprintjs/core/lib/scss/variables"
 
 // Tag colors
-$tag-1-color: #6592cc
-$tag-2-color: #92f691
-$tag-3-color: #fbcc41
-$tag-4-color: #ff5d36
-$tag-5-color: #e89bf8
+$tag-1-color: #669EFF
+$tag-2-color: #29A634
+$tag-3-color: #D99E0B
+$tag-4-color: #D13913
+$tag-5-color: #8F398F
 $tag-6-color: #00B3A4
 $tag-7-color: #DB2C6F
 $tag-8-color: #9BBF30
-$tag-9-color: #e19842
-$tag-10-color: #865ef5
+$tag-9-color: #96622D
+$tag-10-color: #7157D9
 
-$tag-selected-darken: 20%
+$tag-selected-modifier: 30%
 
-.tag-1
-  background: $tag-1-color !important
-  &.bp3-active,
-  &.annotation-selected
-    background: darken($tag-1-color, $tag-selected-darken) !important
+.tag-colored
+  &.tag-1
+    background: $tag-1-color !important
+    &.bp3-active,
+    &.annotation-selected
+      background: lighten($tag-1-color, $tag-selected-modifier) !important
 
-.tag-2
-  background: $tag-2-color !important
-  &.bp3-active,
-  &.annotation-selected
-    background: darken($tag-2-color, $tag-selected-darken) !important
+  &.tag-2
+    background: $tag-2-color !important
+    &.bp3-active,
+    &.annotation-selected
+      background: lighten($tag-2-color, $tag-selected-modifier) !important
 
-.tag-3
-  background: $tag-3-color !important
-  &.bp3-active,
-  &.annotation-selected
-    background: darken($tag-3-color, $tag-selected-darken) !important
+  &.tag-3
+    background: $tag-3-color !important
+    &.bp3-active,
+    &.annotation-selected
+      background: lighten($tag-3-color, $tag-selected-modifier) !important
 
-.tag-4
-  background: $tag-4-color !important
-  &.bp3-active,
-  &.annotation-selected
-    background: darken($tag-4-color, $tag-selected-darken) !important
+  &.tag-4
+    background: $tag-4-color !important
+    &.bp3-active,
+    &.annotation-selected
+      background: lighten($tag-4-color, $tag-selected-modifier) !important
 
-.tag-5
-  background: $tag-5-color !important
-  &.bp3-active,
-  &.annotation-selected
-    background: darken($tag-5-color, $tag-selected-darken) !important
+  &.tag-5
+    background: $tag-5-color !important
+    &.bp3-active,
+    &.annotation-selected
+      background: lighten($tag-5-color, $tag-selected-modifier) !important
 
-.tag-6
-  background: $tag-6-color !important
-  &.bp3-active,
-  &.annotation-selected
-    background: darken($tag-6-color, $tag-selected-darken) !important
+  &.tag-6
+    background: $tag-6-color !important
+    &.bp3-active,
+    &.annotation-selected
+      background: lighten($tag-6-color, $tag-selected-modifier) !important
 
-.tag-7
-  background: $tag-7-color !important
-  &.bp3-active,
-  &.annotation-selected
-    background: darken($tag-7-color, $tag-selected-darken) !important
+  &.tag-7
+    background: $tag-7-color !important
+    &.bp3-active,
+    &.annotation-selected
+      background: lighten($tag-7-color, $tag-selected-modifier) !important
 
 
 .annotation-selected
@@ -100,6 +101,11 @@ $tag-selected-darken: 20%
 .annotation-header
   margin-bottom: 16px
 
+  .label
+    font-size: 11px
+    text-transform: uppercase
+    margin-right: 10px
+
   button
     > span > span
       margin-left: 8px
@@ -108,3 +114,4 @@ $tag-selected-darken: 20%
     padding-right: 5px
     margin-right: 5px
     margin-bottom: 5px
+
