@@ -27,7 +27,8 @@
     "test": "./node_modules/.bin/react-scripts test",
     "eject": "./node_modules/.bin/react-scripts eject",
     "lint": "eslint --ext .jsx,.js src/",
-    "format": "npx prettier . --write"
+    "format": "npx prettier . --write",
+    "postinstall": "cp node_modules/pdfjs-dist/build/pdf.worker.min.js public/pdf.worker.min.js"
   },
   "eslintConfig": {
     "extends": [
