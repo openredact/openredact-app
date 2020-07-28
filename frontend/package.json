@@ -18,7 +18,7 @@
     "react-dropzone": "^11.0.1",
     "react-scripts": "3.4.1",
     "react-hotkeys-hook": "^2.2.1",
-    "react-pdf": "4.2.0",
+    "react-pdf": "5.0.0-beta.4",
     "uuid": "^8.1.0"
   },
   "scripts": {
