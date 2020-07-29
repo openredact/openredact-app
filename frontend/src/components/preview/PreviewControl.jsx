@@ -56,31 +56,28 @@ const PreviewControl = ({ paragraphs, anonymizations, base64pdf }) => {
   );
 
   return (
-    <div className="view-wrapper">
-      <div className="view-header">Preview</div>
-      <Card className="preview-card" elevation={Elevation.ONE}>
-        {text !== "" && (
-          <div>
-            {showWarning && (
-              <Callout icon={null} intent="warning">
-                {t("preview.warning")}
-                <Icon
-                  className="cancel-warning"
-                  icon="cross"
-                  iconSize={Icon.SIZE_LARGE}
-                  onClick={() => setShowWarning(false)}
-                />
-              </Callout>
-            )}
-            {base64pdf ? (
-              <PdfPreview base64pdf={base64pdf} />
-            ) : (
-              <TextPreview text={text} />
-            )}
-          </div>
-        )}
-      </Card>
-    </div>
+    <Card className="preview-card" elevation={Elevation.ONE}>
+      {text !== "" && (
+        <div>
+          {showWarning && (
+            <Callout icon={null} intent="warning">
+              {t("preview.warning")}
+              <Icon
+                className="cancel-warning"
+                icon="cross"
+                iconSize={Icon.SIZE_LARGE}
+                onClick={() => setShowWarning(false)}
+              />
+            </Callout>
+          )}
+          {base64pdf ? (
+            <PdfPreview base64pdf={base64pdf} />
+          ) : (
+            <TextPreview text={text} />
+          )}
+        </div>
+      )}
+    </Card>
   );
 };
 
