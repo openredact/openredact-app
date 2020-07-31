@@ -112,7 +112,7 @@ export default {
         phone_number_recognizer: "Recognize phone numbers",
         money_recognizer: "Recognize amounts of money",
         statistical_recognizer:
-          "Nutze statistische Modelle to recognize persons, locations, organizations and miscellaneous entities",
+          "Use statistical models to recognize persons, locations, organizations and miscellaneous entities",
       },
       title: "Categories",
     },
