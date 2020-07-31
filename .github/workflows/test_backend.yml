@@ -10,7 +10,7 @@ jobs:
         working-directory: backend
     strategy:
       matrix:
-        python-version: [3.7, 3.8]
+        python-version: [3.7]
 
     steps:
       - uses: actions/checkout@v2
