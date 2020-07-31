@@ -39,4 +39,4 @@ def test_finding_piis_pdf(client, test_data):
         "/api/find-piis", files={"file": open(test_file_path, "rb")}, data={"recognizers": '["de_country_recognizer"]'},
     )
     assert response.status_code == 200
-    assert response.json()["format"] == "pdf2html2pdf"
+    assert response.json()["format"] == "autopdf"
