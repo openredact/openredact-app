@@ -1,6 +1,7 @@
 from dataclasses import asdict
 from typing import List
 import base64
+from pathlib import Path
 
 from fastapi import APIRouter, File, UploadFile, Form, HTTPException
 from starlette.responses import StreamingResponse, JSONResponse
@@ -22,6 +23,8 @@ from app.schemas import (
 )
 
 router = APIRouter()
+
+recognizer_name_to_path_lookup = {Path(path).stem: path for path in nerwhal.list_integrated_recognizers()}
 
 
 @router.post(
@@ -94,7 +97,7 @@ async def anonymize_file(
     response_model=FindPiisResponse,
     responses={400: {"model": ErrorMessage}},
 )
-async def find_piis(config: str = Form(...), file: UploadFile = File(...)):
+async def find_piis(recognizers: str = Form(...), file: UploadFile = File(...)):
     _, extension = os.path.splitext(file.filename)
     content = await file.read()
     await file.close()
@@ -106,7 +109,14 @@ async def find_piis(config: str = Form(...), file: UploadFile = File(...)):
     except Exception:
         raise HTTPException(status_code=400, detail="File Handling Error")
 
-    nerwhal_config = nerwhal.Config(**json.loads(config))
+    recognizers = json.loads(recognizers)
+    use_statistical_ner = False
+    if "statistical_recognizer" in recognizers:
+        use_statistical_ner = True
+        recognizers.remove("statistical_recognizer")
+    recognizer_paths = [recognizer_name_to_path_lookup[name] for name in recognizers]
+
+    nerwhal_config = nerwhal.Config(language="de", recognizer_paths=recognizer_paths, use_statistical_ner=use_statistical_ner)
     res = nerwhal.recognize(wrapper.text, config=nerwhal_config, combination_strategy="smart-fusion")
 
     return FindPiisResponse(
@@ -151,4 +161,4 @@ async def tags():
     response_model=List[str],
 )
 async def supported_recognizers():
-    return nerwhal.list_integrated_recognizers()
+    return list(recognizer_name_to_path_lookup.keys()) + ["statistical_recognizer"]
