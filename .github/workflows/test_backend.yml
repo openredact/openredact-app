@@ -33,4 +33,4 @@ jobs:
         run: |
           pip install pytest
           pip install pytest-cov
-          pytest --doctest-modules --cov-report term --cov=expose_text
+          pytest --cov-report term --cov=app
