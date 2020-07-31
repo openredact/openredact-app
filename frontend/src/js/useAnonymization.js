@@ -4,20 +4,26 @@ import Anonymization from "./anonymization";
 import AppToaster from "./toaster";
 import PolyglotContext from "./polyglotContext";
 
-function computePositionsMap(annotations, tokens) {
-  return new Map(
-    annotations.map((annotation) => {
-      return [
-        annotation.id,
-        {
-          start: annotation.start,
-          end: annotation.end,
-          startChar: tokens[annotation.start].startChar,
-          endChar: tokens[annotation.end - 1].endChar,
-        },
-      ];
-    })
-  );
+function computePositionsMap(annotations, paragraphs) {
+  // Iterate over all paragraphs
+  return Object.keys(paragraphs).map(function (p, paragraphIndex) {
+    return new Map(
+      // Generate position map for each paragraph + annotations
+      annotations[paragraphIndex].map((annotation) => {
+        return [
+          annotation.id,
+          {
+            start: annotation.start,
+            end: annotation.end,
+            startChar:
+              paragraphs[paragraphIndex].tokens[annotation.start].startChar,
+            endChar:
+              paragraphs[paragraphIndex].tokens[annotation.end - 1].endChar,
+          },
+        ];
+      })
+    );
+  });
 }
 
 function computeSpecialTags(anonymizationConfig) {
@@ -38,25 +44,30 @@ function computeSpecialTags(anonymizationConfig) {
   return [tagsToNotAnonymize, tagsAnonymizedWithDefault];
 }
 
-function useAnonymization({ tokens, annotations, anonymizationConfig }) {
+function useAnonymization({ paragraphs, annotations, anonymizationConfig }) {
   const t = useContext(PolyglotContext);
 
   const [anonymizations, setAnonymizations] = useState([]);
+
   const computeSpecialTagsCallback = useCallback(computeSpecialTags, [
     anonymizationConfig,
   ]);
   const computePositionsMapCallback = useCallback(computePositionsMap, [
     annotations,
-    tokens,
+    paragraphs,
   ]);
 
   useEffect(() => {
-    if (annotations.length === 0) {
+    if (annotations.length === 0 || annotations[0].length === 0) {
       setAnonymizations([]);
       return;
     }
 
-    const sortedAnnotations = annotations.sort((a, b) => a.start - b.start);
+    const paragraphAnnotations = annotations[0];
+
+    const sortedAnnotations = paragraphAnnotations.sort(
+      (a, b) => a.start - b.start
+    );
 
     const piis = sortedAnnotations.map((annotation) => {
       return { tag: annotation.tag, text: annotation.text, id: annotation.id };
@@ -79,8 +90,8 @@ function useAnonymization({ tokens, annotations, anonymizationConfig }) {
       (pii) => !tagsToNotAnonymize.includes(pii.tag)
     );
 
-    const positionsMap = computePositionsMapCallback(annotations, tokens);
-
+    const positionsMap = computePositionsMapCallback(annotations, paragraphs);
+    //
     anonymizePiis({
       piis: piisToAnonymize,
       config: configForRequest,
@@ -90,7 +101,8 @@ function useAnonymization({ tokens, annotations, anonymizationConfig }) {
 
         const newAnonymizations = anonymizedPiis.map((anonymizedPii) => {
           return new Anonymization({
-            ...positionsMap.get(anonymizedPii.id),
+            // TODO paragraph support
+            ...positionsMap[0].get(anonymizedPii.id),
             text: anonymizedPii.text,
           });
         });
@@ -105,7 +117,7 @@ function useAnonymization({ tokens, annotations, anonymizationConfig }) {
       });
   }, [
     t,
-    tokens,
+    paragraphs,
     annotations,
     anonymizationConfig,
     computePositionsMapCallback,

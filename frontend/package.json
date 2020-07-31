@@ -9,15 +9,16 @@
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-react": "^7.20.3",
     "file-saver": "^2.0.2",
+    "lodash.sortby": "^4.7.0",
     "node-polyglot": "^2.4.0",
     "prop-types": "^15.7.2",
     "query-string": "^6.12.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-dropzone": "^11.0.1",
-    "react-hotkeys": "^2.0.0",
     "react-scripts": "3.4.1",
-    "react-text-annotate": "^0.3.0",
+    "react-hotkeys-hook": "^2.2.1",
+    "react-pdf": "5.0.0-beta.4",
     "uuid": "^8.1.0"
   },
   "scripts": {
@@ -26,7 +27,8 @@
     "test": "./node_modules/.bin/react-scripts test",
     "eject": "./node_modules/.bin/react-scripts eject",
     "lint": "eslint --ext .jsx,.js src/",
-    "format": "npx prettier . --write"
+    "format": "npx prettier . --write",
+    "postinstall": "cp node_modules/pdfjs-dist/build/pdf.worker.min.js public/pdf.worker.min.js"
   },
   "eslintConfig": {
     "extends": [

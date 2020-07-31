@@ -40,6 +40,14 @@ function fetchTags() {
   return API.get("tags");
 }
 
+function compileFile(formData) {
+  return API.post("anonymize-file?return_base64=1", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+}
+
 function anonymizeFile(formData) {
   return API.post("anonymize-file", formData, {
     headers: {
@@ -63,5 +71,6 @@ export {
   fetchTags,
   anonymizeFile,
   anonymizePiis,
+  compileFile,
   fetchRecognizers,
 };

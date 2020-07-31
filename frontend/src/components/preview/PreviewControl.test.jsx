@@ -26,7 +26,7 @@ it("renders text preview", () => {
     <PreviewControl
       anonymizations={anonymizations}
       onDownload={() => false}
-      tokens={tokens}
+      paragraphs={[{ tokens }]}
     />
   );
   const element = getByText(anonymizedText);

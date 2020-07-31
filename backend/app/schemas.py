@@ -56,6 +56,7 @@ class Pii(CamelBaseModel):
 class Token(CamelBaseModel):
     text: str
     has_ws: bool
+    has_br: bool
     start_char: int
     end_char: int
 
@@ -63,6 +64,7 @@ class Token(CamelBaseModel):
 class FindPiisResponse(CamelBaseModel):
     piis: List[Pii]
     tokens: List[Token]
+    format: str
 
 
 class AnonymizedPii(CamelBaseModel):

@@ -5,6 +5,7 @@ export default {
     description2: " geförderten Projekte.",
   },
   annotation: {
+    tagsLabel: "Verfügbare Kategorien:",
     browse: "Computer durchsuchen",
     drop: "Ziehe eine %{formats} Datei hierhin.",
     fetching_tags_failed_toast:
@@ -92,6 +93,8 @@ export default {
     download: "Herunterladen",
     find_piis_failed_toast: "Die Verarbeitung der Datei ist fehlgeschlagen.",
     new_document: "Neues Dokument",
+    new_document_confirm:
+      "Neues Dokument erstellen? Alle Änderungen auf dem aktuellen Dokument gehen verloren",
   },
   nav: {
     about: "Über OpenRedact",

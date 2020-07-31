@@ -5,12 +5,18 @@ import AnnotationForm from "./AnnotationForm";
 it("shows a token", () => {
   const { getByText } = render(
     <AnnotationForm
-      tokens={[
+      paragraphs={[
         {
-          startChar: 0,
-          endChar: 7,
-          text: "MyToken",
-          hasWs: false,
+          htmlProps: {},
+          tokens: [
+            {
+              startChar: 0,
+              endChar: 7,
+              text: "MyToken",
+              hasWs: false,
+              hasBr: false,
+            },
+          ],
         },
       ]}
       annotations={[]}
@@ -25,7 +31,7 @@ it("shows a token", () => {
 it("shows a tag", () => {
   const { getByText } = render(
     <AnnotationForm
-      tokens={[]}
+      paragraphs={[]}
       annotations={[]}
       onAnnotationsChange={() => {}}
       tags={["MyTag"]}

@@ -4,8 +4,9 @@ import "./PreviewControl.sass";
 import PropTypes from "prop-types";
 import TextPreview from "./TextPreview";
 import PolyglotContext from "../../js/polyglotContext";
+import PdfPreview from "./PdfPreview";
 
-const PreviewControl = ({ tokens, anonymizations }) => {
+const PreviewControl = ({ paragraphs, anonymizations, base64pdf }) => {
   const t = useContext(PolyglotContext);
 
   const [showWarning, setShowWarning] = useState(true);
@@ -41,12 +42,18 @@ const PreviewControl = ({ tokens, anonymizations }) => {
 
     return anonymizedTokens.reduce(
       (acc, cur, idx) =>
-        acc + cur + (cur !== "" && tokens[idx].hasWhitespace ? " " : ""),
+        acc +
+        cur +
+        (cur !== "" && paragraphs[0].tokens[idx].hasWhitespace ? " " : ""),
       ""
     );
   }
 
-  const text = anonymize(tokens, anonymizations);
+  // TODO Use tokens of first paragraph only
+  const text = anonymize(
+    paragraphs.length > 0 ? paragraphs[0].tokens : [],
+    anonymizations
+  );
 
   return (
     <Card className="preview-card" elevation={Elevation.ONE}>
@@ -63,16 +70,25 @@ const PreviewControl = ({ tokens, anonymizations }) => {
               />
             </Callout>
           )}
-          <TextPreview text={text} />
+          {base64pdf ? (
+            <PdfPreview base64pdf={base64pdf} />
+          ) : (
+            <TextPreview text={text} />
+          )}
         </div>
       )}
     </Card>
   );
 };
 
+PreviewControl.defaultProps = {
+  base64pdf: null,
+};
+
 PreviewControl.propTypes = {
-  tokens: PropTypes.arrayOf(PropTypes.object).isRequired,
+  paragraphs: PropTypes.arrayOf(PropTypes.object).isRequired,
   anonymizations: PropTypes.arrayOf(PropTypes.object).isRequired,
+  base64pdf: PropTypes.string,
 };
 
 export default PreviewControl;

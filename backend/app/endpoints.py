@@ -1,8 +1,9 @@
 from dataclasses import asdict
 from typing import List
+import base64
 
 from fastapi import APIRouter, File, UploadFile, Form, HTTPException
-from starlette.responses import StreamingResponse
+from starlette.responses import StreamingResponse, JSONResponse
 import io
 import json
 import os
@@ -55,6 +56,7 @@ async def anonymize_file(
         description="A json array of objects with fields startChar, endChar and text. E.g. "
         '[{"startChar":0,"endChar":10,"text":"XXX"}].',
     ),
+    return_base64: bool = False,
 ):
     _, extension = os.path.splitext(file.filename)
     content = await file.read()
@@ -69,11 +71,19 @@ async def anonymize_file(
         wrapper.add_alter(alteration["startChar"], alteration["endChar"], alteration["text"])
     wrapper.apply_alters()
 
-    return StreamingResponse(
-        io.BytesIO(wrapper.bytes),
-        media_type="application/octet-stream",
-        headers={"Content-Disposition": f"attachment;{file.filename}"},
-    )
+    if return_base64:
+        # Send anonymized file as base64 encoding
+        base64_bytes = base64.b64encode(wrapper.bytes)
+
+        return JSONResponse({"base64": base64_bytes.decode()})
+
+    else:
+        # Regular download
+        return StreamingResponse(
+            io.BytesIO(wrapper.bytes),
+            media_type="application/octet-stream",
+            headers={"Content-Disposition": f"attachment;{file.filename}"},
+        )
 
 
 @router.post(
@@ -98,7 +108,12 @@ async def find_piis(recognizers: str = Form(...), file: UploadFile = File(...)):
 
     recognizers = json.loads(recognizers)
     res = nerwhal.find_piis(wrapper.text, recognizers=recognizers, aggregation_strategy="merge")
-    return FindPiisResponse(piis=[asdict(pii) for pii in res["piis"]], tokens=res["tokens"])
+
+    return FindPiisResponse(
+        piis=[asdict(pii) for pii in res["piis"]],
+        tokens=res["tokens"],
+        format=str(wrapper.file.__class__.__name__).lower().replace("format", ""),
+    )
 
 
 @router.post(
@@ -126,7 +141,7 @@ async def score(data: AnnotationsForEvaluation):
     response_model=List[str],
 )
 async def tags():
-    return nerwhal.supported_tags
+    return sorted(nerwhal.supported_tags)
 
 
 @router.get(

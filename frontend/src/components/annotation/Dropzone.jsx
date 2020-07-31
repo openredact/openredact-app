@@ -28,7 +28,7 @@ const Dropzone = ({ onFileDrop }) => {
     <div {...getRootProps({ className: "dropzone" })}>
       <input {...getInputProps()} />
       <p>{t("annotation.drop", { formats: computeFormatString() })}</p>
-      <Button type="button" onClick={open}>
+      <Button icon="upload" type="button" onClick={open}>
         {t("annotation.browse")}
       </Button>
     </div>

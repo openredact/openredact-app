@@ -5,6 +5,7 @@ export default {
     description2: ".",
   },
   annotation: {
+    tagsLabel: "Available tags:",
     browse: "Browse your computer",
     drop: "Drop a %{formats} document here.",
     fetching_tags_failed_toast:
@@ -88,6 +89,8 @@ export default {
     download: "Download",
     find_piis_failed_toast: "Processing of the document failed.",
     new_document: "New Document",
+    new_document_confirm:
+      "Create new document? All changes on the current document will be lost.",
   },
   nav: {
     about: "About OpenRedact",

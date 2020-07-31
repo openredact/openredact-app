@@ -5,7 +5,7 @@ import AnnotationControl from "./AnnotationControl";
 it("renders", () => {
   render(
     <AnnotationControl
-      tokens={[]}
+      paragraphs={[]}
       annotations={[]}
       onAnnotationsChange={() => {}}
       onFileDrop={() => {}}

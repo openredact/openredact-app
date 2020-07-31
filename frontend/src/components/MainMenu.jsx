@@ -9,36 +9,58 @@ const MainMenu = ({
   showDownloadButton,
   onDownload,
   onShowScores,
+  showCompileButton,
+  isCompiling,
+  onCompile,
 }) => {
   const t = useContext(PolyglotContext);
 
   return (
     <div className="main-menu">
-      <Button
-        intent="primary"
-        className="new-document-button"
-        onClick={onNewDocument}
-      >
-        {t("main.new_document")}
-      </Button>
-      {showDownloadButton && (
+      <div className="annotation-menu">
         <Button
-          intent="success"
-          className="scores-button"
-          onClick={onShowScores}
+          icon="document"
+          intent="primary"
+          className="new-document-button"
+          onClick={() => {
+            if (window.confirm(t("main.new_document_confirm"))) {
+              onNewDocument();
+            }
+          }}
         >
-          {t("annotation.scores")}
+          {t("main.new_document")}
         </Button>
-      )}
-      {showDownloadButton && (
-        <Button
-          className="download-button"
-          intent="success"
-          onClick={onDownload}
-        >
-          {t("main.download")}
-        </Button>
-      )}
+        {showDownloadButton && (
+          <Button icon="chart" className="scores-button" onClick={onShowScores}>
+            {t("annotation.scores")}
+          </Button>
+        )}
+      </div>
+      <div className="preview-menu">
+        <div>
+          {showCompileButton && (
+            <Button
+              icon="refresh"
+              className="compile-button"
+              intent="success"
+              onClick={onCompile}
+              loading={isCompiling}
+            >
+              Compile
+            </Button>
+          )}
+        </div>
+        {showDownloadButton && (
+          <Button
+            icon="download"
+            className="download-button"
+            intent="success"
+            onClick={onDownload}
+          >
+            {t("main.download")}
+          </Button>
+        )}
+      </div>
     </div>
   );
 };
@@ -48,6 +70,9 @@ MainMenu.propTypes = {
   onNewDocument: PropTypes.func.isRequired,
   onDownload: PropTypes.func.isRequired,
   onShowScores: PropTypes.func.isRequired,
+  showCompileButton: PropTypes.bool.isRequired,
+  isCompiling: PropTypes.bool.isRequired,
+  onCompile: PropTypes.func.isRequired,
 };
 
 export default MainMenu;

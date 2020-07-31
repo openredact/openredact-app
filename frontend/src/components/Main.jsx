@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import AnnotationControl from "./annotation/AnnotationControl";
 import PreviewControl from "./preview/PreviewControl";
 import "./Main.sass";
-import { anonymizeFile, findPiis } from "../api/routes";
+import { anonymizeFile, findPiis, compileFile } from "../api/routes";
 import Token from "../js/token";
 import Annotation from "../js/annotation";
 import AppToaster from "../js/toaster";
@@ -12,28 +12,37 @@ import PolyglotContext from "../js/polyglotContext";
 import MainMenu from "./MainMenu";
 import ScoresDialog from "./scores/ScoresDialog";
 import useAnonymization from "../js/useAnonymization";
+import constants from "../js/constants";
 
 const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
   const t = useContext(PolyglotContext);
 
-  const [tokens, setTokens] = useState([]);
+  const [paragraphs, setParagraphs] = useState([]);
   const [annotations, setAnnotations] = useState([]);
   const [computedAnnotations, setComputedAnnotations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showScoresDialog, setShowScoresDialog] = useState(false);
-
   const fileFormData = useRef({});
+  const [isCompilable, setIsCompilable] = useState(false);
+  const [isCompiling, setIsCompiling] = useState(false);
+  const [base64pdf, setBase64pdf] = useState(null);
+
+  let compileTimer = null;
 
   const anonymizations = useAnonymization({
-    tokens,
+    paragraphs,
     annotations,
     anonymizationConfig,
   });
-
   function onNewDocument() {
-    setTokens([]);
+    setParagraphs([]);
     setAnnotations([]);
-    document.title = "OpenRedact";
+    setIsCompilable(false);
+    setIsCompiling(false);
+    setBase64pdf(null);
+    clearTimeout(compileTimer);
+
+    document.title = constants.title;
   }
 
   function onFileDrop(files) {
@@ -46,18 +55,34 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
 
     findPiis(formData)
       .then((response) => {
-        setTokens(
-          response.data.tokens.map(
-            (token) =>
-              new Token(token.startChar, token.endChar, token.text, token.hasWs)
-          )
+        // Backend does not support paragraphs yet.
+        const tokens = response.data.tokens.map(
+          (token) =>
+            new Token(
+              token.startChar,
+              token.endChar,
+              token.text,
+              token.hasWs,
+              token.hasBr
+            )
         );
+        // Use a single paragraph instead.
+        setParagraphs([{ htmlProps: {}, tokens }]);
 
+        // Annotations are as well not on paragraph-level
         const myAnnotations = response.data.piis.map((pii) => {
           return new Annotation(pii.startTok, pii.endTok, pii.tag, pii.text);
         });
-        setAnnotations(myAnnotations);
-        setComputedAnnotations(myAnnotations);
+        //
+        setAnnotations([myAnnotations]);
+        setComputedAnnotations([myAnnotations]);
+
+        // Is this a compilable file, e.g., PDF?
+        if (response.data.format.indexOf("pdf") > -1) {
+          setIsCompilable(true);
+          // TODO find-piis should return a compiled version as well (current not efficient)
+          onCompile();
+        }
 
         setIsLoading(false);
         document.title = `OpenRedact - ${
@@ -89,13 +114,21 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
       });
   }
 
-  function onAnnotationsChange(modifiedAnnotations) {
-    const newAnnotations = modifiedAnnotations.map((item) => {
+  function onAnnotationsChange(paragraphIndex, changedParagraphAnnotations) {
+    console.log("onAnnotationsChange: paragraphIndex=", paragraphIndex);
+    console.log(
+      " - changedParagraphAnnotations: ",
+      changedParagraphAnnotations
+    );
+
+    // Convert to Annotation instances
+    const paragraphAnnotations = changedParagraphAnnotations.map((item) => {
       if (item instanceof Annotation) {
         return item;
       }
 
-      const text = tokens
+      // TODO paragraph support
+      const text = paragraphs[0].tokens
         .slice(item.start, item.end)
         .reduce(
           (acc, cur, idx) =>
@@ -106,7 +139,47 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
         );
       return new Annotation(item.start, item.end, item.tag, text);
     });
+
+    // Update annotations for current paragraph
+    const newAnnotations = [...annotations];
+    newAnnotations[paragraphIndex] = paragraphAnnotations;
     setAnnotations(newAnnotations);
+
+    // Set compile timer
+    if (isCompilable) {
+      if (compileTimer == null) {
+        compileTimer = setTimeout(() => {
+          console.log("Auto-compile...");
+          onCompile();
+        }, constants.compileTimeout);
+      }
+    }
+  }
+
+  function onCompile() {
+    console.log("Trigger compile");
+
+    // unset myTimeout
+    clearTimeout(compileTimer);
+
+    setIsCompiling(true);
+
+    const formData = fileFormData.current;
+    formData.set("anonymizations", JSON.stringify(anonymizations));
+    compileFile(formData)
+      .then((response) => {
+        console.log("Received compiled version: ", response.data.base64);
+
+        setBase64pdf(response.data.base64);
+        setIsCompiling(false);
+      })
+      .catch(() => {
+        AppToaster.show({
+          message: t("main.anonymize_file_failed_toast"),
+          intent: "danger",
+        });
+        setIsCompiling(false);
+      });
   }
 
   return (
@@ -114,25 +187,34 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
       <MainMenu
         onNewDocument={onNewDocument}
         onDownload={onDownload}
-        showDownloadButton={tokens.length > 0}
+        showDownloadButton={paragraphs.length > 0}
         onShowScores={() => setShowScoresDialog(true)}
+        showCompileButton={isCompilable}
+        isCompiling={isCompiling}
+        onCompile={onCompile}
       />
       <div className="main-view">
         <AnnotationControl
-          tokens={tokens}
+          paragraphs={paragraphs}
           annotations={annotations}
-          computedAnnotations={computedAnnotations}
+          // computedAnnotations={computedAnnotations}
           onAnnotationsChange={onAnnotationsChange}
           onFileDrop={onFileDrop}
           isLoading={isLoading}
           tags={tags}
         />
-        <PreviewControl tokens={tokens} anonymizations={anonymizations} />
+        <PreviewControl
+          paragraphs={paragraphs}
+          anonymizations={anonymizations}
+          base64pdf={base64pdf}
+        />
         <ScoresDialog
           showDialog={showScoresDialog}
           onClose={() => setShowScoresDialog(false)}
-          annotations={annotations}
-          goldAnnotations={computedAnnotations}
+          annotations={annotations.length > 0 ? annotations[0] : []}
+          goldAnnotations={
+            computedAnnotations.length > 0 ? computedAnnotations[0] : []
+          }
         />
       </div>
     </div>

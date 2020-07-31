@@ -23,3 +23,14 @@ def test_unsupported_format(client, test_data):
         "/api/find-piis", files={"file": open(test_file_path, "rb")}, data={"recognizers": '["DeCountryRecognizer"]'}
     )
     assert response.status_code == 400
+
+
+def test_finding_piis_pdf(client, test_data):
+
+    test_file_path = test_data / "test.pdf"
+    response = client.post(
+        "/api/find-piis", files={"file": open(test_file_path, "rb")}, data={"recognizers": '["DeCountryRecognizer"]'}
+    )
+    assert response.status_code == 200
+
+    assert response.json()["format"] == "pdf2html2pdf"

@@ -8,6 +8,9 @@ it("renders button", () => {
       onDownload={() => {}}
       onNewDocument={() => {}}
       showDownloadButton={false}
+      showCompileButton={false}
+      onCompile={() => {}}
+      isCompiling={false}
       onShowScores={() => {}}
     />
   );
