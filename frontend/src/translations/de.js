@@ -110,21 +110,25 @@ export default {
       description:
         "Aktiviere Erkenner um nach personenbezogene Daten für eine Kategorie zu suchen.",
       names: {
-        decountryrecognizer: "Suche nach Namen von Ländern",
-        dephonenumberrecognizer: "Suche nach Telefonnummern",
-        emailrecognizer: "Suche nach E-Mail Adressen",
-        flairstatisticalrecognizer:
-          "Nutze flair um nach Personen, Orten, Organisationen, und weiteren zu suchen",
-        spacystatisticalrecognizer:
-          "Nutze spaCy um nach Personen, Orten, Organisationen, und weiteren zu suchen",
+        cardinal_recognizer: "Suche nach Zahlen",
+        de_country_recognizer: "Suche nach Namen von Ländern",
+        de_date_recognizer: "Suche nach Datumsangaben",
+        email_recognizer: "Suche nach E-Mail Adressen",
+        phone_number_recognizer: "Suche nach Telefonnummern",
+        money_recognizer: "Suche nach Geldbeträgen",
+        statistical_recognizer:
+          "Nutze statistische Modelle um nach Personen, Orten, Organisationen, und anderen Entitäten zu suchen",
       },
       title: "Kategorien",
     },
   },
   tags: {
-    email: "E-Mail",
-    gpe: "Geopolitische Entitäten",
+    cardinal: "Zahlen",
+    country: "Länder",
+    date: "Datumsangaben",
+    email: "E-mail Adressen",
     loc: "Orte",
+    money: "Geldbeträge",
     misc: "Andere",
     org: "Organisationen",
     per: "Personen",

@@ -105,21 +105,25 @@ export default {
     recognizers: {
       description: "Enable recognizers to search personal data for a category.",
       names: {
-        decountryrecognizer: "Recognize country names",
-        dephonenumberrecognizer: "Recognize phone numbers",
-        emailrecognizer: "Recognize e-mail addresses",
-        flairstatisticalrecognizer:
-          "Use flair to recognize persons, locations, organizations and more",
-        spacystatisticalrecognizer:
-          "Use spaCy to recognize persons, locations, organizations and more",
+        cardinal_recognizer: "Recognize numbers",
+        de_country_recognizer: "Recognize country names",
+        de_date_recognizer: "Recognize dates",
+        email_recognizer: "Recognize e-mail addresses",
+        phone_number_recognizer: "Recognize phone numbers",
+        money_recognizer: "Recognize amounts of money",
+        statistical_recognizer:
+          "Nutze statistische Modelle to recognize persons, locations, organizations and miscellaneous entities",
       },
       title: "Categories",
     },
   },
   tags: {
-    email: "E-Mail",
-    gpe: "Geopolitical Entities",
+    cardinal: "Numbers",
+    country: "Countries",
+    date: "Dates",
+    email: "E-mail addresses",
     loc: "Locations",
+    money: "Amounts of money",
     misc: "Miscellaneous",
     org: "Organizations",
     per: "Persons",
