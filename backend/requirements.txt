@@ -1,5 +1,5 @@
 fastapi==0.54.1
-uvicorn==0.11.3
+uvicorn==0.11.7
 python-multipart==0.0.5
 click==7.1.1
 git+https://github.com/openredact/expose-text.git#egg=expose-text
