@@ -48,7 +48,7 @@ class Pii(CamelBaseModel):
     tag: str
     text: str
     score: float
-    model: str
+    recognizer: str
     start_tok: int
     end_tok: int
 
@@ -56,7 +56,7 @@ class Pii(CamelBaseModel):
 class Token(CamelBaseModel):
     text: str
     has_ws: bool
-    has_br: bool
+    br_count: int
     start_char: int
     end_char: int
 

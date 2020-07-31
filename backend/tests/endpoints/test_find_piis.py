@@ -1,7 +1,9 @@
 def test_finding_piis(client, test_data):
     test_file_path = test_data / "test.txt"
     response = client.post(
-        "/api/find-piis", files={"file": open(test_file_path, "rb")}, data={"recognizers": '["DeCountryRecognizer"]'}
+        "/api/find-piis",
+        files={"file": open(test_file_path, "rb")},
+        data={"config": '{"language": "de", "load_integrated_recognizers": true}'},
     )
     assert response.status_code == 200
 
@@ -9,7 +11,14 @@ def test_finding_piis(client, test_data):
     assert len(piis) == 1
     assert all(
         item in piis[0].items()
-        for item in {"startChar": 0, "endChar": 11, "tag": "GPE", "text": "Deutschland", "startTok": 0, "endTok": 1}.items()
+        for item in {
+            "startChar": 0,
+            "endChar": 11,
+            "tag": "COUNTRY",
+            "text": "Deutschland",
+            "startTok": 0,
+            "endTok": 1,
+        }.items()
     )
 
     tokens = response.json()["tokens"]
@@ -20,7 +29,9 @@ def test_finding_piis(client, test_data):
 def test_unsupported_format(client, test_data):
     test_file_path = test_data / "foo.bar"
     response = client.post(
-        "/api/find-piis", files={"file": open(test_file_path, "rb")}, data={"recognizers": '["DeCountryRecognizer"]'}
+        "/api/find-piis",
+        files={"file": open(test_file_path, "rb")},
+        data={"config": '{"language": "de", "load_integrated_recognizers": true}'},
     )
     assert response.status_code == 400
 
@@ -29,7 +40,9 @@ def test_finding_piis_pdf(client, test_data):
 
     test_file_path = test_data / "test.pdf"
     response = client.post(
-        "/api/find-piis", files={"file": open(test_file_path, "rb")}, data={"recognizers": '["DeCountryRecognizer"]'}
+        "/api/find-piis",
+        files={"file": open(test_file_path, "rb")},
+        data={"config": '{"language": "de", "load_integrated_recognizers": true}'},
     )
     assert response.status_code == 200
 

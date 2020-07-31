@@ -94,7 +94,7 @@ async def anonymize_file(
     response_model=FindPiisResponse,
     responses={400: {"model": ErrorMessage}},
 )
-async def find_piis(recognizers: str = Form(...), file: UploadFile = File(...)):
+async def find_piis(config: str = Form(...), file: UploadFile = File(...)):
     _, extension = os.path.splitext(file.filename)
     content = await file.read()
     await file.close()
@@ -106,12 +106,12 @@ async def find_piis(recognizers: str = Form(...), file: UploadFile = File(...)):
     except Exception:
         raise HTTPException(status_code=400, detail="File Handling Error")
 
-    recognizers = json.loads(recognizers)
-    res = nerwhal.find_piis(wrapper.text, recognizers=recognizers, aggregation_strategy="merge")
+    nerwhal_config = nerwhal.Config(**json.loads(config))
+    res = nerwhal.recognize(wrapper.text, config=nerwhal_config, combination_strategy="smart-fusion")
 
     return FindPiisResponse(
-        piis=[asdict(pii) for pii in res["piis"]],
-        tokens=res["tokens"],
+        piis=[asdict(pii) for pii in res["ents"]],
+        tokens=[asdict(token) for token in res["tokens"]],
         format=str(wrapper.file.__class__.__name__).lower().replace("format", ""),
     )
 
@@ -123,13 +123,13 @@ async def find_piis(recognizers: str = Form(...), file: UploadFile = File(...)):
     response_model=EvaluationResponse,
 )
 async def score(data: AnnotationsForEvaluation):
-    def _create_pii(annot: Annotation):
+    def _create_entity(annot: Annotation):
         # annotation start and end are token based indices; in the context of scoring the actual value is not
         # important though, so we can pretend they are character based
-        return nerwhal.Pii(start_char=annot.start, end_char=annot.end, tag=annot.tag)
+        return nerwhal.NamedEntity(start_char=annot.start, end_char=annot.end, tag=annot.tag)
 
-    gold = [_create_pii(annot) for annot in data.gold_annotations]
-    piis = [_create_pii(annot) for annot in data.computed_annotations]
+    gold = [_create_entity(annot) for annot in data.gold_annotations]
+    piis = [_create_entity(annot) for annot in data.computed_annotations]
     return nerwhal.evaluate(piis, gold)
 
 
@@ -141,7 +141,7 @@ async def score(data: AnnotationsForEvaluation):
     response_model=List[str],
 )
 async def tags():
-    return sorted(nerwhal.supported_tags)
+    return sorted(["PER", "LOC", "ORG", "MISC", "MONEY", "EMAIL", "PHONE", "CARDINAL", "COUNTRY", "DATE"])
 
 
 @router.get(
@@ -151,4 +151,4 @@ async def tags():
     response_model=List[str],
 )
 async def supported_recognizers():
-    return nerwhal.supported_recognizers
+    return nerwhal.list_integrated_recognizers()

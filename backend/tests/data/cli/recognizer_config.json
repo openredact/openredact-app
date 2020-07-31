@@ -2,5 +2,5 @@
   "language": "de",
   "recognizer_paths": [],
   "use_statistical_ner": false,
-  "load_example_recognizers": true
+  "load_integrated_recognizers": true
 }
