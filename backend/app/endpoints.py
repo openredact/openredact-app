@@ -25,6 +25,7 @@ from app.schemas import (
 router = APIRouter()
 
 recognizer_name_to_path_lookup = {Path(path).stem: path for path in nerwhal.list_integrated_recognizers()}
+print(recognizer_name_to_path_lookup)
 
 
 @router.post(
