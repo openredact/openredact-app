@@ -68,15 +68,17 @@ pre-commit run --all-files
 
 ### Run the full stack using Docker-Compose
 
+We have pre-built docker images available at https://hub.docker.com/u/openredact.
+
 You can simply make the backend available at port 8000 and the frontend at port 80 by running:
 
 ```bash
 docker-compose up
 ```
 
-Add the option `--build` to incorporate changes by rebuilding containers.
+To run your local code, add the option `--build` to incorporate changes by rebuilding containers.
 
-To use our docker setup for development run:
+If you want to use our docker setup for development run:
 
 ```bash
 docker-compose up -f docker-compose.dev.yml
