@@ -1,0 +1,6 @@
+{
+  "language": "de",
+  "recognizer_paths": [],
+  "use_statistical_ner": true,
+  "load_example_recognizers": true
+}

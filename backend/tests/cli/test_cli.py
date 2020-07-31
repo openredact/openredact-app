@@ -14,10 +14,10 @@ def test_redact_cli(tmp_path):
             "tests/data/cli/input",
             "--output_dir",
             tmp_path,
-            "--config_dir",
-            "tests/data/cli/config.json",
-            "--recognizers",
-            "DeCountryRecognizer,EmailRecognizer",
+            "--anonymizer_config",
+            "tests/data/cli/anonymizer_config.json",
+            "--recognizer_config",
+            "tests/data/cli/recognizer_config.json",
         ],
     )
     assert result.exit_code == 0

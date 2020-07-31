@@ -9,17 +9,13 @@ from anonymizer import Anonymizer, AnonymizerConfig, Pii
 from click import UsageError, progressbar
 from expose_text import FileWrapper, UnsupportedFormat
 
-from nerwhal.recognizers import __all__ as all_recognizers
-
-all_recognizers_arg = ",".join(all_recognizers)
-
 
 @click.command()
 @click.option("--input_dir", type=Path, help="Path to the directory that contains the files to redact.")
 @click.option("--output_dir", type=Path, help="Path to the directory that the redacted files will be stored in.")
-@click.option("--config_dir", type=Path, default="config.json", help="Path to the anonymizer config.")
-@click.option("--recognizers", type=str, default=all_recognizers_arg, help="Comma separated list of recognizers to use.")
-def redact(input_dir, output_dir, config_dir, recognizers):
+@click.option("--anonymizer_config", type=Path, default="anonymizer_config.json", help="Path to the anonymizer config.")
+@click.option("--recognizer_config", type=Path, default="recognizer_config.json", help="Path to the recognizer config.")
+def redact(input_dir, output_dir, anonymizer_config, recognizer_config):
     """Redact the documents in a directory.
 
     This script tries to redact all documents in the given directory and its subdirectories.
@@ -32,12 +28,15 @@ def redact(input_dir, output_dir, config_dir, recognizers):
 
     input_dir = Path(input_dir)
     output_dir = Path(output_dir)
-    config_dir = Path(config_dir)
-    recognizers = recognizers.split(",")
+    anonymizer_config = Path(anonymizer_config)
+    recognizer_config = Path(recognizer_config)
 
-    with open(config_dir, "r") as f:
+    with open(anonymizer_config, "r") as f:
         config = AnonymizerConfig(**json.load(f))
         anonymizer = Anonymizer(config)
+
+    with open(recognizer_config, "r") as f:
+        recognizer_config = nerwhal.Config(**json.load(f))
 
     click.echo(f'Start redacting files in "{input_dir}" ...')
 
@@ -60,8 +59,14 @@ def redact(input_dir, output_dir, config_dir, recognizers):
                 click.echo(f"Error while processing file {relative_path}! This file was skipped!", err=True)
                 continue
 
-            result = nerwhal.find_piis(wrapper.text, recognizers=recognizers, aggregation_strategy="merge")
-            id_to_piis = {str(idx): pii for idx, pii in enumerate(result["piis"])}
+            result = nerwhal.recognize(
+                wrapper.text,
+                config=recognizer_config,
+                combination_strategy="smart-fusion",
+                context_words=True,
+                return_tokens=False,
+            )
+            id_to_piis = {str(idx): pii for idx, pii in enumerate(result["ents"])}
             piis_for_anonymizer = [Pii(tag=pii.tag, text=pii.text, id=idx) for idx, pii in id_to_piis.items()]
 
             anonymized_piis = [
