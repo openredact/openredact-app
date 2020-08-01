@@ -32,6 +32,8 @@ export default {
     advanced_settings: "Set Per Category",
     do_not_anonymize: "Do not anonymize",
     default: "Default Mechanism",
+    default_tooltip:
+      "Choose the default mechanism to use for anonymizing personal data. You can hover over each mechanism to get more information.",
     use_default: "Use default",
     generalization: {
       name: "Generalization",

@@ -1,5 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Card, Collapse, H3, H6, UL } from "@blueprintjs/core";
+import {
+  Button,
+  Card,
+  Collapse,
+  H3,
+  H6,
+  Icon,
+  Tooltip,
+  UL,
+} from "@blueprintjs/core";
+import { Position } from "@blueprintjs/core/lib/cjs/common/position";
 import "./AnonymizationConfigMenu.sass";
 import PropTypes from "prop-types";
 import Item from "./Item";
@@ -91,7 +101,19 @@ const AnonymizationConfigMenu = ({ tags, config, setConfig }) => {
   return (
     <Card className="config-menu">
       <H3>{t("anonymization.anonymization")}</H3>
-      <H6 className="more-top-padding">{t("anonymization.default")}</H6>
+      <H6 id="default-mechanism-header" className="more-top-padding">
+        {t("anonymization.default")}
+        <Tooltip
+          content={
+            <div id="default-mechanism-info-tooltip-content">
+              {t("anonymization.default_tooltip")}
+            </div>
+          }
+          position={Position.BOTTOM_RIGHT}
+        >
+          <Icon id="default-mechanism-info" icon="info-sign" iconSize={14} />
+        </Tooltip>
+      </H6>
       <DefaultMechanismConfig
         mechanism={config.defaultMechanism}
         updateMechanism={updateConfig}

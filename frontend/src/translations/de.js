@@ -25,13 +25,15 @@ export default {
     scores_description:
       "Die folgenden Metriken bewerten die automatische Erkennung von personenbezogenen Daten im Vergleich zu Ihren manuellen Anpassungen.",
     scores_note:
-      "Beachten Sie, dass die Aussagekraft der Metriken von Ihren Anpassungen abhängt.",
+      "Beachte, dass die Aussagekraft der Metriken von deinen Anpassungen abhängt.",
   },
   anonymization: {
     anonymization: "Anonymisierung",
     advanced_settings: "Pro Kategorie einstellen",
     do_not_anonymize: "Nicht anonymisieren",
     default: "Default Mechanismus",
+    default_tooltip:
+      "Wähle den Default Mechanismus zur Anonymisierung der personenbezogenen Daten aus. Gehe mit dem Mauszeiger über die Mechanismen um mehr Informationen zu erhalten.",
     use_default: "Default benutzen",
     generalization: {
       name: "Generalisierung",
@@ -77,11 +79,11 @@ export default {
     item1: "Lade das Dokument hoch, dass Du anonymisieren willst.",
     item2:
       "Erweitere und korrigiere was automatisch als personenbezogene Daten erkannt wurde in der linken Dokumentenansicht.",
-    item3: "Konfiguriere die Anonymisierung nach Deinen Anforderungen.",
+    item3: "Konfiguriere die Anonymisierung nach deinen Anforderungen.",
     item4:
       "Überprüfe die Vorschau der Anonymisierung in der rechten Dokumentenansicht und lade dein anonymisiertes Dokument herunter.",
     tip:
-      "Tipp: Viele Elemente zeigen einen Hilfetext an, wenn du mit dem Mauszeiger über sie gehst.",
+      "Tipp: Viele Elemente zeigen einen Hilfetext an, wenn Du mit dem Mauszeiger über sie gehst.",
   },
   main: {
     anonymize_file_failed_toast:
