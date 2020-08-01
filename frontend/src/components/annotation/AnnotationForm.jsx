@@ -178,7 +178,6 @@ const AnnotationForm = ({
           ) {
             // Change tag
             changedAnnotations[paragraph][i].tag = newActiveTag;
-            console.log("Change to tag: ", newActiveTag);
             break;
           }
         }
