@@ -36,6 +36,16 @@ const TagMechanismConfig = ({ mechanism, updateMechanism, tag }) => {
         <option value="suppression">
           {t("anonymization.suppression.name")}
         </option>
+        {["DATE", "NUMBER", "MONEY", "PHONE"].includes(tag) && (
+          <option value="laplaceNoise">
+            {t("anonymization.laplace_noise.name")}
+          </option>
+        )}
+        {["COUNTRY"].includes(tag) && (
+          <option value="randomizedResponse">
+            {t("anonymization.randomized_response.name")}
+          </option>
+        )}
       </HTMLSelect>
       {mechanismComponent}
     </div>

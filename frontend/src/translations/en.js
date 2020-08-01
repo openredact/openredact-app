@@ -40,6 +40,13 @@ export default {
       replacement: "Replace with",
       tooltip: "Replace with a more general phrase",
     },
+    laplace_noise: {
+      epsilon: "Epsilon",
+      epsilon_hint: "Epsilon has to be larger than 0",
+      epsilon_tooltip:
+        "Epsilon controls the level of noise added. A smaller epsilon increases privacy.",
+      name: "Laplace Noise",
+    },
     options: "Options",
     pseudonymization: {
       name: "Pseudonymization",
@@ -48,6 +55,10 @@ export default {
       counter_value: "Initial value",
       counter_value_hint: "enter a number larger than 0",
       tooltip: "Replace with a pseudonym",
+    },
+    randomized_response: {
+      name: "Randomized Response",
+      no_config: "This mechanism is configured to use differential privacy",
     },
     stateful: "Stateful",
     suppression: {
@@ -85,7 +96,8 @@ export default {
   },
   main: {
     anonymize_file_failed_toast: "Creating the anonymized file failed.",
-    anonymizing_piis_failed_toast: "Anonymizing the personal data failed.",
+    anonymizing_piis_failed_toast:
+      "Anonymizing the personal data failed. Please check the annotations and anonymization config.",
     computing_scores_failed_toast:
       "Computing statistical measures for the automatic identification of personal data failed.",
     download: "Download",
@@ -107,7 +119,7 @@ export default {
     recognizers: {
       description: "Enable recognizers to search personal data for a category.",
       names: {
-        cardinal_recognizer: "Recognize numbers",
+        number_recognizer: "Recognize numbers",
         de_country_recognizer: "Recognize country names",
         de_date_recognizer: "Recognize dates",
         email_recognizer: "Recognize e-mail addresses",
@@ -120,7 +132,7 @@ export default {
     },
   },
   tags: {
-    cardinal: "Numbers",
+    number: "Numbers",
     country: "Countries",
     date: "Dates",
     email: "E-mail addresses",

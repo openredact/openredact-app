@@ -10,7 +10,7 @@ import json
 import os
 from expose_text import BinaryWrapper, UnsupportedFormat
 import nerwhal
-from anonymizer import AnonymizerConfig, Anonymizer, Pii
+from anonymizer import AnonymizerConfig, Anonymizer, Pii, ParserError
 
 from app.schemas import (
     Annotation,
@@ -36,7 +36,10 @@ recognizer_name_to_path_lookup = {Path(path).stem: path for path in nerwhal.list
 )
 async def anonymize(piis: List[Pii], config: AnonymizerConfig):
     anonymizer = Anonymizer(config)
-    anonymized_piis = [AnonymizedPii(text=pii.text, id=pii.id) for pii in anonymizer.anonymize(piis) if pii.modified]
+    try:
+        anonymized_piis = [AnonymizedPii(text=pii.text, id=pii.id) for pii in anonymizer.anonymize(piis) if pii.modified]
+    except ParserError:
+        raise HTTPException(status_code=400, detail="Error parsing a pii")
 
     if len(anonymized_piis) != len(piis):
         # one or more piis were not flagged as `modified`
@@ -151,7 +154,7 @@ async def score(data: AnnotationsForEvaluation):
     response_model=List[str],
 )
 async def tags():
-    return sorted(["PER", "LOC", "ORG", "MISC", "MONEY", "EMAIL", "PHONE", "CARDINAL", "COUNTRY", "DATE"])
+    return sorted(["PER", "LOC", "ORG", "MISC", "MONEY", "EMAIL", "PHONE", "NUMBER", "COUNTRY", "DATE"])
 
 
 @router.get(

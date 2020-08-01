@@ -37,8 +37,6 @@ export const splitTokensWithOffsets = (tokens, offsets) => {
   let lastEnd = 0;
   const splits = [];
 
-  console.log("splitTokensWithOffsets: ", tokens);
-
   for (const offset of sortBy(offsets, (o) => o.start)) {
     const { start, end } = offset;
     if (lastEnd < start) {

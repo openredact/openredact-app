@@ -91,7 +91,7 @@ const PseudonymizationMechanism = ({ mechanism, updateMechanism, tag }) => {
         <NumericInput
           id={`${tag}-counter-value-input`}
           min={1}
-          minorStepSize={1}
+          stepSize={1}
           value={mechanism.config.counter}
           onValueChange={onUpdateCounterValue}
           intent={counterValid ? "default" : "danger"}

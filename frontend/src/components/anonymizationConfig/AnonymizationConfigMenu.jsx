@@ -27,6 +27,8 @@ const AnonymizationConfigMenu = ({ tags, config, setConfig }) => {
       suppression: {},
       generalization: {},
       pseudonymization: {},
+      laplaceNoise: {},
+      randomizedResponse: {},
     }
   );
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);

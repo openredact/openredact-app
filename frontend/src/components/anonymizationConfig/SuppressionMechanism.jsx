@@ -9,6 +9,7 @@ import {
   Position,
 } from "@blueprintjs/core";
 import PolyglotContext from "../../js/polyglotContext";
+import constants from "../../js/constants";
 
 const SuppressionMechanism = ({ mechanism, updateMechanism, tag }) => {
   const t = useContext(PolyglotContext);
@@ -61,6 +62,7 @@ const SuppressionMechanism = ({ mechanism, updateMechanism, tag }) => {
     <Tooltip
       content={t("anonymization.suppression.redact")}
       position={Position.BOTTOM}
+      hoverOpenDelay={constants.tooltipHoverOpenDelay}
     >
       <Button icon="symbol-square" minimal onClick={handleRedactClick} />
     </Tooltip>
@@ -93,7 +95,7 @@ const SuppressionMechanism = ({ mechanism, updateMechanism, tag }) => {
         <NumericInput
           id={`${tag}-custom-length-input`}
           min={1}
-          minorStepSize={1}
+          stepSize={1}
           value={
             mechanism.config.customLength !== undefined
               ? mechanism.config.customLength

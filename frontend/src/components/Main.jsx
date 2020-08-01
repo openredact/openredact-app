@@ -115,12 +115,6 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
   }
 
   function onAnnotationsChange(paragraphIndex, changedParagraphAnnotations) {
-    console.log("onAnnotationsChange: paragraphIndex=", paragraphIndex);
-    console.log(
-      " - changedParagraphAnnotations: ",
-      changedParagraphAnnotations
-    );
-
     // Convert to Annotation instances
     const paragraphAnnotations = changedParagraphAnnotations.map((item) => {
       if (item instanceof Annotation) {
@@ -149,7 +143,6 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
     if (isCompilable) {
       if (compileTimer == null) {
         compileTimer = setTimeout(() => {
-          console.log("Auto-compile...");
           onCompile();
         }, constants.compileTimeout);
       }
@@ -157,8 +150,6 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
   }
 
   function onCompile() {
-    console.log("Trigger compile");
-
     // unset myTimeout
     clearTimeout(compileTimer);
 
@@ -168,8 +159,6 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
     formData.set("anonymizations", JSON.stringify(anonymizations));
     compileFile(formData)
       .then((response) => {
-        console.log("Received compiled version: ", response.data.base64);
-
         setBase64pdf(response.data.base64);
         setIsCompiling(false);
       })

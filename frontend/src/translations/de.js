@@ -40,6 +40,13 @@ export default {
       replacement: "Ersetzen mit",
       tooltip: "Ersetze mit einem allgemeineren Ausdruck",
     },
+    laplace_noise: {
+      epsilon: "Epsilon",
+      epsilon_hint: "Epsilon muss größer als 0 sein",
+      epsilon_tooltip:
+        "Das Epsilon kontrolliert wie viel der Wert verrauscht wird. Ein kleineres Epsilon erhöht die Privatsphäre.",
+      name: "Laplace Verrauschung",
+    },
     options: "Optionen",
     pseudonymization: {
       name: "Pseudonymisierung",
@@ -48,6 +55,11 @@ export default {
       counter_value: "Initialer Wert",
       counter_value_hint: "gib eine Zahl größer 0 sein",
       tooltip: "Ersetze mit einem Pseudonym",
+    },
+    randomized_response: {
+      name: "Zufällige Antwort",
+      no_config:
+        "Dieser Mechanismus ist für differentielle Privatsphäre vorkonfiguriert",
     },
     stateful: "Zustandsbehaftet",
     suppression: {
@@ -89,7 +101,7 @@ export default {
     anonymize_file_failed_toast:
       "Das Erstellen der anonymisierten Datei ist fehlgeschlagen.",
     anonymizing_piis_failed_toast:
-      "Das Anonymisieren der personenbezogenen Daten ist fehlgeschlagen.",
+      "Das Anonymisieren der personenbezogenen Daten ist fehlgeschlagen. Bitte überprüfe die Annotationen und Anonymisierungs Einstellungen.",
     computing_scores_failed_toast:
       "Die Berechnung statistischer Maße für die automatische Identifizierung persönlicher Daten ist fehlgeschlagen.",
     download: "Herunterladen",
@@ -112,7 +124,7 @@ export default {
       description:
         "Aktiviere Erkenner um nach personenbezogene Daten für eine Kategorie zu suchen.",
       names: {
-        cardinal_recognizer: "Suche nach Zahlen",
+        number_recognizer: "Suche nach Zahlen",
         de_country_recognizer: "Suche nach Namen von Ländern",
         de_date_recognizer: "Suche nach Datumsangaben",
         email_recognizer: "Suche nach E-Mail Adressen",
@@ -125,7 +137,7 @@ export default {
     },
   },
   tags: {
-    cardinal: "Zahlen",
+    number: "Zahlen",
     country: "Länder",
     date: "Datumsangaben",
     email: "E-mail Adressen",
