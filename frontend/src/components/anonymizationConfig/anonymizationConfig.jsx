@@ -2,6 +2,7 @@ import React from "react";
 import GeneralizationMechanism from "./GeneralizationMechanism";
 import PseudonymizationMechanism from "./PseudonymizationMechanism";
 import SuppressionMechanism from "./SuppressionMechanism";
+import LaplaceNoiseMechanism from "./LaplaceNoiseMechanism";
 
 export function hasProperty(object, property) {
   return Object.prototype.hasOwnProperty.call(object, property);
@@ -17,17 +18,35 @@ export function hasHistoryEntry(configHistory, tag, mechanismName) {
   );
 }
 
-export const defaultConfigs = {
+const defaultConfigs = {
   generalization: { replacement: "<>" },
+  laplaceNoise: { epsilon: 0.1 },
   pseudonymization: { stateful: true, formatString: "{}", counter: 1 },
   suppression: { suppressionChar: "X" },
+};
+
+const laplaceNoiseParameters = {
+  DATE: { sensitivity: 1000, encoder: "datetime" },
+  NUMBER: { sensitivity: 1, encoder: "delimitedNumber" },
+  MONEY: { sensitivity: 1, encoder: "delimitedNumber" },
+  PHONE: { sensitivity: 100000, encoder: "delimitedNumber" },
 };
 
 export function setFromHistoryOrDefault(configHistory, tag, mechanismName) {
   if (hasHistoryEntry(configHistory, tag, mechanismName)) {
     return { ...getConfigHistoryForTag(configHistory, tag, mechanismName) };
   }
-  return { ...defaultConfigs[mechanismName] };
+
+  let config = { ...defaultConfigs[mechanismName] };
+
+  // add tag-specific properties
+  if (
+    mechanismName === "laplaceNoise" &&
+    Object.keys(laplaceNoiseParameters).includes(tag)
+  )
+    config = { ...config, ...laplaceNoiseParameters[tag] };
+
+  return config;
 }
 
 export function getMechanismComponent(mechanism, updateMechanism, tag) {
@@ -44,6 +63,9 @@ export function getMechanismComponent(mechanism, updateMechanism, tag) {
       break;
     case "suppression":
       mechanismComponent = <SuppressionMechanism {...props} />;
+      break;
+    case "laplaceNoise":
+      mechanismComponent = <LaplaceNoiseMechanism {...props} />;
       break;
 
     default:
