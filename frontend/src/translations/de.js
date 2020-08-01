@@ -29,7 +29,7 @@ export default {
   },
   anonymization: {
     anonymization: "Anonymisierung",
-    advanced_settings: "Pro Kategorie einstellen",
+    advanced_settings: "Mechanismus pro Kategorie",
     do_not_anonymize: "Nicht anonymisieren",
     default: "Default Mechanismus",
     default_tooltip:
