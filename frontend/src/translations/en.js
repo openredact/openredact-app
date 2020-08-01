@@ -56,6 +56,10 @@ export default {
       counter_value_hint: "enter a number larger than 0",
       tooltip: "Replace with a pseudonym",
     },
+    randomized_response: {
+      name: "Randomized Response",
+      no_config: "This mechanism is configured to use differential privacy",
+    },
     stateful: "Stateful",
     suppression: {
       as_original: "as original",

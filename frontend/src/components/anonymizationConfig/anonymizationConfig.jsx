@@ -3,6 +3,8 @@ import GeneralizationMechanism from "./GeneralizationMechanism";
 import PseudonymizationMechanism from "./PseudonymizationMechanism";
 import SuppressionMechanism from "./SuppressionMechanism";
 import LaplaceNoiseMechanism from "./LaplaceNoiseMechanism";
+import RandomizedResponseMechanism from "./RandomizedResponseMechanism";
+import randomizedResponseCountryDemoValues from "./randomizedResponseCountryDemoValues";
 
 export function hasProperty(object, property) {
   return Object.prototype.hasOwnProperty.call(object, property);
@@ -22,6 +24,12 @@ const defaultConfigs = {
   generalization: { replacement: "<>" },
   laplaceNoise: { epsilon: 0.1 },
   pseudonymization: { stateful: true, formatString: "{}", counter: 1 },
+  randomizedResponse: {
+    mode: "dp",
+    epsilon: 0.1,
+    values: randomizedResponseCountryDemoValues,
+    defaultValue: "<>",
+  },
   suppression: { suppressionChar: "X" },
 };
 
@@ -66,6 +74,9 @@ export function getMechanismComponent(mechanism, updateMechanism, tag) {
       break;
     case "laplaceNoise":
       mechanismComponent = <LaplaceNoiseMechanism {...props} />;
+      break;
+    case "randomizedResponse":
+      mechanismComponent = <RandomizedResponseMechanism />;
       break;
 
     default:

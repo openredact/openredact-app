@@ -56,6 +56,11 @@ export default {
       counter_value_hint: "gib eine Zahl größer 0 sein",
       tooltip: "Ersetze mit einem Pseudonym",
     },
+    randomized_response: {
+      name: "Zufällige Antwort",
+      no_config:
+        "Dieser Mechanismus ist für differentielle Privatsphäre vorkonfiguriert",
+    },
     stateful: "Zustandsbehaftet",
     suppression: {
       as_original: "wie im Original",
