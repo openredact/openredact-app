@@ -63,7 +63,7 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
               token.endChar,
               token.text,
               token.hasWs,
-              token.hasBr
+              token.brCount
             )
         );
         // Use a single paragraph instead.

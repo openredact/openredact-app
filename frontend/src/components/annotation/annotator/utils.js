@@ -47,7 +47,7 @@ export const splitTokensWithOffsets = (tokens, offsets) => {
           i,
           text: tokens[i].text,
           hasWhitespace: tokens[i].hasWhitespace,
-          hasLinebreak: tokens[i].hasLinebreak,
+          linebreakCount: tokens[i].linebreakCount,
         });
       }
     }
@@ -59,7 +59,7 @@ export const splitTokensWithOffsets = (tokens, offsets) => {
         .map((t) => t.text)
         .join(" "),
       hasWhitespace: tokens[end - 1].hasWhitespace,
-      hasLinebreak: tokens[end - 1].hasLinebreak,
+      linebreakCount: tokens[end - 1].linebreakCount,
     });
     lastEnd = end;
   }
@@ -69,7 +69,7 @@ export const splitTokensWithOffsets = (tokens, offsets) => {
       i,
       text: tokens[i].text,
       hasWhitespace: tokens[i].hasWhitespace,
-      hasLinebreak: tokens[i].hasLinebreak,
+      linebreakCount: tokens[i].linebreakCount,
     });
   }
 

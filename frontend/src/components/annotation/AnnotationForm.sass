@@ -15,11 +15,13 @@ $tag-10-color: #7157D9
 $tag-selected-modifier: 30%
 
 .tag-colored
+
   &.tag-1
     background: $tag-1-color !important
     &.bp3-active,
     &.annotation-selected
-      background: lighten($tag-1-color, $tag-selected-modifier) !important
+      //background: lighten($tag-1-color, $tag-selected-modifier) !important
+      background: $tag-1-color !important
 
   &.tag-2
     background: $tag-2-color !important

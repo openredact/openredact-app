@@ -23,7 +23,10 @@ const MainMenu = ({
           intent="primary"
           className="new-document-button"
           onClick={() => {
-            if (window.confirm(t("main.new_document_confirm"))) {
+            if (
+              !showDownloadButton ||
+              window.confirm(t("main.new_document_confirm"))
+            ) {
               onNewDocument();
             }
           }}

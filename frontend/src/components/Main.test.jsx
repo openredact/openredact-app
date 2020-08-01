@@ -52,16 +52,16 @@ it("loads and displays the file as well as preview of the anonymization", async 
         },
       ],
       tokens: [
-        { startChar: 0, endChar: 4, text: "Made", hasWs: true, hasBr: false },
-        { startChar: 5, endChar: 7, text: "in", hasWs: true, hasBr: false },
+        { startChar: 0, endChar: 4, text: "Made", hasWs: true, brCount: 0 },
+        { startChar: 5, endChar: 7, text: "in", hasWs: true, brCount: 0 },
         {
           startChar: 8,
           endChar: 15,
           text: "Germany",
           hasWs: false,
-          hasBr: false,
+          brCount: 0,
         },
-        { startChar: 15, endChar: 16, text: ".", hasWs: false, hasBr: false },
+        { startChar: 15, endChar: 16, text: ".", hasWs: false, brCount: 0 },
       ],
     },
   });

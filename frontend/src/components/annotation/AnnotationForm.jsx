@@ -18,6 +18,7 @@ const AnnotationForm = ({
   const [activeTag, setActiveTag] = useState(tags[0]);
   const t = useContext(PolyglotContext);
   const navButtons = false;
+  const tagsLabel = false;
   const [selectedParagraph, setSelectedParagraph] = useState(-1);
   const [selectedStart, setSelectedStart] = useState(-1);
   const [selectedEnd, setSelectedEnd] = useState(-1);
@@ -231,7 +232,9 @@ const AnnotationForm = ({
   return (
     <div>
       <div className="annotation-header">
-        <span className="label">{t("annotation.tagsLabel")}</span>
+        {tagsLabel && (
+          <span className="label">{t("annotation.tagsLabel")}</span>
+        )}
         {tags.map((tag, index) => (
           <Tooltip
             content={t(`tags.${tag.toLowerCase()}`)}

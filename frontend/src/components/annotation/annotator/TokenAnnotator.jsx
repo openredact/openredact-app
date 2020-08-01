@@ -8,27 +8,31 @@ import {
   splitTokensWithOffsets,
 } from "./utils";
 
-const WrapperToken = ({ text, index, hasWhitespace, hasLinebreak }) => {
+const WrapperToken = ({ text, index, hasWhitespace, linebreakCount }) => {
   // return <span data-i={props.i}>{props.content} </span>
   return (
     <span data-i={index}>
       {text}
       {hasWhitespace ? " " : ""}
-      {hasLinebreak ? <br /> : ""}
+      <span
+        dangerouslySetInnerHTML={{
+          __html: Array(linebreakCount).fill("<br />").join(" "),
+        }}
+      />
     </span>
   );
 };
 
 WrapperToken.defaultProps = {
   hasWhitespace: true,
-  hasLinebreak: false,
+  linebreakCount: 0,
 };
 
 WrapperToken.propTypes = {
   text: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   hasWhitespace: PropTypes.bool,
-  hasLinebreak: PropTypes.bool,
+  linebreakCount: PropTypes.number,
 };
 
 // const TokenAnnotator = <T extends Span>(props: TokenAnnotatorProps<T>) => {
@@ -103,7 +107,7 @@ const TokenAnnotator = ({ renderMark, getSpan, onChange, tokens, value }) => {
           i,
           text,
           hasWhitespace,
-          hasLinebreak,
+          linebreakCount,
         } = split;
         return mark ? (
           renderMark({
@@ -116,7 +120,7 @@ const TokenAnnotator = ({ renderMark, getSpan, onChange, tokens, value }) => {
             index={i}
             text={text}
             hasWhitespace={hasWhitespace}
-            hasLinebreak={hasLinebreak}
+            linebreakCount={linebreakCount}
           />
         );
         // return split.mark ? (
