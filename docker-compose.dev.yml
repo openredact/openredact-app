@@ -12,7 +12,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
-    image: openredact/frontend-dev:{TAG:-latest}
+    image: openredact/frontend-dev:${TAG:-latest}
     command: npm run start
     ports:
       - "80:80"
