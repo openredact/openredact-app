@@ -3,7 +3,7 @@ services:
   backend:
     build:
       context: ./backend
-    image: openredact-backend
+    image: openredact/backend:${TAG:-latest}
     ports:
       - "8000:8000"
     volumes:
@@ -12,7 +12,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
-    image: openredact-frontend-dev
+    image: openredact/frontend-dev:{TAG:-latest}
     command: npm run start
     ports:
       - "80:80"
