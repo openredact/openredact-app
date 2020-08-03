@@ -20,7 +20,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Models
-RUN pip install de_core_news_sm==2.3.0
+RUN python -m spacy download de_core_news_sm-2.3.0
 RUN python -c "import stanza; stanza.download('de')"
 
 COPY ./app /app/
