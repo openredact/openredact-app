@@ -18,8 +18,9 @@ RUN apt-get purge -y poppler-utils
 # Install new poppler-utils manually
 RUN wget poppler.freedesktop.org/poppler-0.90.1.tar.xz
 RUN tar -xvf poppler-0.90.1.tar.xz
-RUN cd poppler-0.90.1 && mkdir build && cd build && cmake .. && make && ldconfig
+RUN cd poppler-0.90.1 && mkdir build && cd build && cmake .. && make install && ldconfig
 RUN ln -s /usr/local/bin/pdftohtml /usr/bin/pdftohtml
+RUN pdftohtml -v
 
 # Dev dependencies (for testing)
 COPY requirements-dev.txt .
