@@ -1,5 +1,8 @@
 FROM python:3.7
 
+# Environment
+ENV STANZA_TEST_HOME=/app/stanza_test
+
 # Install PDF depdencies (expose-text)
 RUN apt-get update
 RUN apt-get install -y poppler-utils
