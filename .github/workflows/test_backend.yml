@@ -45,7 +45,7 @@ jobs:
       - uses: actions/checkout@v1
       - name: Build docker image
         run: |
-          docker build --cache-from openredact/backend:latest -t openredact/backend:${GITHUB_SHA} backend
+          docker build --cache-from openredact/backend:latest -t openredact/backend:${GITHUB_SHA} .
       - name: Push docker image (hash)
         run: |
           docker login -u ${{ secrets.docker_user }} -p ${{ secrets.docker_password }}
