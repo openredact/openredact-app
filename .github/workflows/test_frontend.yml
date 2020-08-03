@@ -54,7 +54,7 @@ jobs:
         run: |
           TAG=${GITHUB_SHA} docker-compose -f docker-compose.dev.yml pull frontend-dev
           docker run openredact/frontend-dev:${GITHUB_SHA}  npm test  -- --watchAll=false
-      - name: Push docker images for tags
+      - name: Push docker images for tags (:latest)
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
         run: |
           export TAG=${GITHUB_REF/refs\/tags\//}
