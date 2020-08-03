@@ -1,0 +1,11 @@
+.idea
+.pytest_cache
+
+# Mac
+.DS_Store
+
+# Virtualenv
+venv/
+
+# Tests
+__pycache__

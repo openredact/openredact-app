@@ -7,7 +7,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - "./backend/app:/app"
+      - "./backend:/app"
   frontend-dev:
     build:
       context: ./frontend

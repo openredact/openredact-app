@@ -1,8 +1,17 @@
 import uvicorn
+import logging
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.endpoints import router
+
+# setup loggers
+logging.config.fileConfig(
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "logging.conf"), disable_existing_loggers=False
+)
+
+logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title="OpenRedact API", description="Anonymize German documents using automatic PII detection.", version="0.1.0",
