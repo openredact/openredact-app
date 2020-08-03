@@ -52,6 +52,7 @@ jobs:
           docker-compose --version
       - name: Run tests in docker
         run: |
+          TAG=${GITHUB_SHA} docker-compose pull frontend
           TAG=${GITHUB_SHA} docker-compose -f docker-compose.dev.yml pull frontend-dev
           docker run openredact/frontend-dev:${GITHUB_SHA}  npm test  -- --watchAll=false
       - name: Push docker images for tags (:latest)

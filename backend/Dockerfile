@@ -22,6 +22,10 @@ RUN cd poppler-0.90.1 && mkdir build && cd build && cmake .. && make install && 
 RUN ln -s /usr/local/bin/pdftohtml /usr/bin/pdftohtml
 RUN pdftohtml -v
 
+# Disable pip cache
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1
+ENV PIP_NO_CACHE_DIR=1
+
 # Dev dependencies (for testing)
 COPY requirements-dev.txt .
 RUN pip install --no-cache-dir -r requirements-dev.txt
