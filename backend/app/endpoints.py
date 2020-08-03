@@ -8,6 +8,7 @@ from starlette.responses import StreamingResponse, JSONResponse
 import io
 import json
 import os
+import logging
 from expose_text import BinaryWrapper, UnsupportedFormat
 import nerwhal
 from anonymizer import AnonymizerConfig, Anonymizer, Pii, ParserError
@@ -21,6 +22,8 @@ from app.schemas import (
     AnonymizedPiisResponse,
     AnonymizedPii,
 )
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
@@ -43,6 +46,7 @@ async def anonymize(piis: List[Pii], config: AnonymizerConfig):
 
     if len(anonymized_piis) != len(piis):
         # one or more piis were not flagged as `modified`
+        logger.error(f"Invalid config (anonymized_piis={anonymized_piis}; piis={piis}")
         raise HTTPException(status_code=400, detail="Invalid Config")
 
     return AnonymizedPiisResponse(anonymized_piis=anonymized_piis)
@@ -70,7 +74,8 @@ async def anonymize_file(
 
     try:
         wrapper = BinaryWrapper(content, extension)
-    except UnsupportedFormat:
+    except UnsupportedFormat as e:
+        logger.error(f"Unsupported File Format: {e}")
         raise HTTPException(status_code=400, detail="Unsupported File Format")
 
     for alteration in json.loads(anonymizations):
@@ -78,10 +83,14 @@ async def anonymize_file(
     wrapper.apply_alters()
 
     if return_base64:
-        # Send anonymized file as base64 encoding
-        base64_bytes = base64.b64encode(wrapper.bytes)
+        try:
+            # Send anonymized file as base64 encoding
+            base64_bytes = base64.b64encode(wrapper.bytes)
 
-        return JSONResponse({"base64": base64_bytes.decode()})
+            return JSONResponse({"base64": base64_bytes.decode()})
+        except Exception as e:
+            logger.error(f"base64 encoding failed: {e}")
+            raise HTTPException(status_code=400, detail="File Handling Error (base64 encoding failed)")
 
     else:
         # Regular download
@@ -107,9 +116,11 @@ async def find_piis(recognizers: str = Form(...), file: UploadFile = File(...)):
 
     try:
         wrapper = BinaryWrapper(content, extension)
-    except UnsupportedFormat:
+    except UnsupportedFormat as e:
+        logger.error(f"Unsupported File Format: {e}")
         raise HTTPException(status_code=400, detail="Unsupported File Format")
-    except Exception:
+    except Exception as e:
+        logger.error(f"File Handling Error: {e}")
         raise HTTPException(status_code=400, detail="File Handling Error")
 
     recognizers = json.loads(recognizers)

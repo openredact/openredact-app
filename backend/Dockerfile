@@ -8,16 +8,22 @@ RUN wget --quiet https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.
     cp wkhtmltox/bin/wk* /usr/local/bin/ && \
     rm -rf wkhtmltox
 
-# Install packages
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install gunicorn
-
 # Dev dependencies (for testing)
 COPY requirements-dev.txt .
 RUN pip install --no-cache-dir -r requirements-dev.txt
 
+# Install packages
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Models
+RUN pip install de_core_news_sm==2.3.0
+RUN python -c "import stanza; stanza.download('de')"
+
 COPY ./app /app/
+
+RUN pip install gunicorn
+
 
 CMD ["gunicorn", "-b", "0.0.0.0:8000", "-t", "600", "-w", "2", "-k", "uvicorn.workers.UvicornWorker", "app.main:app"]
 
