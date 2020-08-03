@@ -62,11 +62,10 @@ jobs:
           sudo sysctl -w vm.max_map_count=262144
           docker --version
           docker-compose --version
-      - name: Docker pull and start services
+      - name: Docker pull
         run: |
           echo "${GITHUB_REF}"
-          TAG=${GITHUB_SHA} docker-compose pull --quiet --parallel backend frontend
-          sleep 10
+          TAG=${GITHUB_SHA} docker-compose pull backend
       - name: Run tests in docker
         run: |
           TAG=${GITHUB_SHA} docker-compose run backend pytest --cov-report term --cov=app

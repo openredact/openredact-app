@@ -52,6 +52,7 @@ jobs:
           docker-compose --version
       - name: Run tests in docker
         run: |
+          TAG=${GITHUB_SHA} docker-compose -f docker-compose.dev.yml pull frontend-dev
           TAG=${GITHUB_SHA} docker-compose -f docker-compose.dev.yml run frontend-dev npm test  -- --watchAll=false
       - name: Push docker images for tags
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
