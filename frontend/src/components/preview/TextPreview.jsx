@@ -1,8 +1,7 @@
 import React from "react";
-import { Card, EditableText } from "@blueprintjs/core";
+import { Card, EditableText, Elevation } from "@blueprintjs/core";
 import PropTypes from "prop-types";
 import "./TextPreview.sass";
-import { Elevation } from "@blueprintjs/core/lib/esnext/common/elevation";
 
 const TextPreview = ({ text }) => {
   return (
