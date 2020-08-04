@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState } from "react";
-import { Spinner } from "@blueprintjs/core";
+import { Card, Spinner, Elevation } from "@blueprintjs/core";
 import PropTypes from "prop-types";
 import "./PdfPreview.sass";
 import { Document, Page, pdfjs } from "react-pdf";
@@ -27,6 +27,7 @@ const PdfPreview = ({ base64pdf }) => {
   const windowWidth = useWindowWidth();
 
   function onDocumentLoadSuccess(event) {
+    console.log("Number of pages: ", event.numPages);
     setNumPages(event.numPages);
   }
 
@@ -44,15 +45,20 @@ const PdfPreview = ({ base64pdf }) => {
       loading={<Spinner />}
     >
       {Array.from(new Array(numPages), (el, index) => (
-        <Page
+        <Card
           key={`page_${index + 1}`}
-          pageNumber={index + 1}
-          width={
-            constants.previewPdfWidth > 0
-              ? constants.previewPdfWidth
-              : Math.floor(windowWidth * 0.4) - 25
-          }
-        />
+          elevation={Elevation.TWO}
+          className="pdf-outline"
+        >
+          <Page
+            pageNumber={index + 1}
+            width={
+              constants.previewPdfWidth > 0
+                ? constants.previewPdfWidth
+                : Math.floor(windowWidth * 0.4) - 50
+            }
+          />
+        </Card>
       ))}
     </Document>
   );

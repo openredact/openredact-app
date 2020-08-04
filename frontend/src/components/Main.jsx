@@ -38,6 +38,7 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
     setParagraphs([]);
     setAnnotations([]);
     setIsCompilable(false);
+
     clearTimeout(compileTimer);
 
     document.title = constants.title;

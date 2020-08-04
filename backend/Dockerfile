@@ -38,7 +38,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 ENV STANZA_TEST_HOME=/app/stanza_test
 
 # Models
-RUN python -m spacy download de_core_news_sm
+RUN python -m spacy download de
 RUN python -c "import stanza; stanza.download('de')"
 
 COPY ./ /app/
