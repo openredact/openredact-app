@@ -35,7 +35,7 @@ const AnnotationControl = ({
 
 AnnotationControl.propTypes = {
   paragraphs: PropTypes.arrayOf(PropTypes.object).isRequired,
-  annotations: PropTypes.arrayOf(PropTypes.object).isRequired,
+  annotations: PropTypes.arrayOf(PropTypes.array).isRequired,
   onAnnotationsChange: PropTypes.func.isRequired,
   onFileDrop: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,

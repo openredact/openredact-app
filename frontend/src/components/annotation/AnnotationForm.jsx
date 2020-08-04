@@ -48,9 +48,20 @@ const AnnotationForm = ({
 
   function onAnnotationClick(paragraphIndex, mark) {
     // Select clicked annotation
-    setSelectedParagraph(paragraphIndex);
-    setSelectedStart(mark.start);
-    setSelectedEnd(mark.end);
+    if (
+      paragraphIndex === selectedParagraph &&
+      selectedStart === mark.start &&
+      selectedEnd === mark.end
+    ) {
+      // Clicked annotation is already selected => deselect
+      setSelectedParagraph(-1);
+      setSelectedStart(-1);
+      setSelectedEnd(-1);
+    } else {
+      setSelectedParagraph(paragraphIndex);
+      setSelectedStart(mark.start);
+      setSelectedEnd(mark.end);
+    }
   }
 
   const selectPreviousAnnotation = (
@@ -59,6 +70,14 @@ const AnnotationForm = ({
     start,
     end
   ) => {
+    console.log(
+      "selectPreviousAnnotation ",
+      inputAnnotations,
+      paragraph,
+      start,
+      end
+    );
+
     // Paragraph must be set
     if (paragraph >= 0) {
       if (inputAnnotations[paragraph].length < 1) {
@@ -107,6 +126,14 @@ const AnnotationForm = ({
   };
 
   const selectNextAnnotation = (inputAnnotations, paragraph, start, end) => {
+    console.log(
+      "selectNextAnnotation ",
+      inputAnnotations,
+      paragraph,
+      start,
+      end
+    );
+
     if (paragraph >= 0) {
       // sort annotations of current paragraph by "start"
       inputAnnotations[paragraph].sort((a, b) => a.start - b.start);
@@ -158,6 +185,11 @@ const AnnotationForm = ({
     start,
     end
   ) => {
+    console.log(
+      "selectTag (paragraph,start,end)",
+      JSON.stringify([paragraph, start, end])
+    );
+
     // Is the selected tag valid?
     if (!isNaN(tagIndex) && tagIndex > 0 && tagIndex <= tags.length) {
       const newActiveTag = tags[tagIndex - 1];
@@ -183,6 +215,7 @@ const AnnotationForm = ({
           }
         }
         // Send annotation change
+        console.log("Send annotation change ");
         onAnnotationsChange(paragraph, changedAnnotations[paragraph]);
       }
     }
@@ -198,7 +231,7 @@ const AnnotationForm = ({
         selectedStart,
         selectedEnd
       ),
-    {},
+    { keydown: false, keyup: true },
     [annotations, selectedParagraph, selectedStart, selectedEnd]
   );
   useHotkeys(
@@ -210,7 +243,7 @@ const AnnotationForm = ({
         selectedStart,
         selectedEnd
       ),
-    {},
+    { keydown: false, keyup: true },
     [annotations, selectedParagraph, selectedStart, selectedEnd]
   );
   useHotkeys(
@@ -224,9 +257,11 @@ const AnnotationForm = ({
         selectedStart,
         selectedEnd
       ),
-    {},
+    { keydown: false, keyup: true },
     [activeTag, annotations, selectedParagraph, selectedStart, selectedEnd]
   );
+
+  console.log("Selected: ", [selectedParagraph, selectedStart, selectedEnd]);
 
   return (
     <div>
@@ -301,15 +336,17 @@ const AnnotationForm = ({
             </Tooltip>
           </div>
         )}
-        <Divider vertical />
+        <Divider vertical="true" />
       </div>
 
       <div className="annotation-body">
         {paragraphs.map((paragraph, paragraphIndex) => (
-          <div>
+          <div key={`paragraph_${paragraphIndex + 1}`}>
             <TokenAnnotator
               tokens={paragraph.tokens}
-              value={annotations[paragraphIndex]}
+              value={
+                annotations[paragraphIndex] ? annotations[paragraphIndex] : []
+              }
               onChange={(changedParagraphAnnotations) => {
                 onAnnotationsChange(
                   paragraphIndex,
@@ -366,7 +403,7 @@ const AnnotationForm = ({
 
 AnnotationForm.propTypes = {
   paragraphs: PropTypes.arrayOf(PropTypes.object).isRequired,
-  annotations: PropTypes.arrayOf(PropTypes.object).isRequired,
+  annotations: PropTypes.arrayOf(PropTypes.array).isRequired,
   onAnnotationsChange: PropTypes.func.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
 };

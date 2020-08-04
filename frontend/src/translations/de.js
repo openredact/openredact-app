@@ -100,6 +100,8 @@ export default {
   main: {
     anonymize_file_failed_toast:
       "Das Erstellen der anonymisierten Datei ist fehlgeschlagen.",
+    compile_anonymize_file_failed_toast:
+      "Das Erstellen der anonymisierten Datei ist fehlgeschlagen.",
     anonymizing_piis_failed_toast:
       "Das Anonymisieren der personenbezogenen Daten ist fehlgeschlagen. Bitte überprüfe die Annotationen und Anonymisierungs Einstellungen.",
     computing_scores_failed_toast:

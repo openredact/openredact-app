@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import AnnotationControl from "./annotation/AnnotationControl";
 import PreviewControl from "./preview/PreviewControl";
 import "./Main.sass";
-import { anonymizeFile, findPiis, compileFile } from "../api/routes";
+import { anonymizeFile, findPiis } from "../api/routes";
 import Token from "../js/token";
 import Annotation from "../js/annotation";
 import AppToaster from "../js/toaster";
@@ -12,6 +12,7 @@ import PolyglotContext from "../js/polyglotContext";
 import MainMenu from "./MainMenu";
 import ScoresDialog from "./scores/ScoresDialog";
 import useAnonymization from "../js/useAnonymization";
+import useCompile from "../js/useCompile";
 import constants from "../js/constants";
 
 const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
@@ -24,22 +25,19 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
   const [showScoresDialog, setShowScoresDialog] = useState(false);
   const fileFormData = useRef({});
   const [isCompilable, setIsCompilable] = useState(false);
-  const [isCompiling, setIsCompiling] = useState(false);
-  const [base64pdf, setBase64pdf] = useState(null);
-
-  let compileTimer = null;
+  const [compileDate, setCompileDate] = useState(null);
+  const compileTimer = null;
 
   const anonymizations = useAnonymization({
     paragraphs,
     annotations,
     anonymizationConfig,
   });
+
   function onNewDocument() {
     setParagraphs([]);
     setAnnotations([]);
     setIsCompilable(false);
-    setIsCompiling(false);
-    setBase64pdf(null);
     clearTimeout(compileTimer);
 
     document.title = constants.title;
@@ -79,9 +77,14 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
 
         // Is this a compilable file, e.g., PDF?
         if (response.data.format.indexOf("pdf") > -1) {
-          setIsCompilable(true);
           // TODO find-piis should return a compiled version as well (current not efficient)
-          onCompile();
+          setIsCompilable(true);
+
+          // if (compileTimer == null) {
+          //   compileTimer = setTimeout(() => {
+          //     onCompile();
+          //   }, constants.compileTimeout);
+          // }
         }
 
         setIsLoading(false);
@@ -140,36 +143,22 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
     setAnnotations(newAnnotations);
 
     // Set compile timer
-    if (isCompilable) {
-      if (compileTimer == null) {
-        compileTimer = setTimeout(() => {
-          onCompile();
-        }, constants.compileTimeout);
-      }
-    }
+    // if (isCompilable) {
+    //   if (compileTimer == null) {
+    //     compileTimer = setTimeout(() => {
+    //       onCompile();
+    //     }, constants.compileTimeout);
+    //   }
+    // }
   }
 
-  function onCompile() {
-    // unset myTimeout
-    clearTimeout(compileTimer);
-
-    setIsCompiling(true);
-
-    const formData = fileFormData.current;
-    formData.set("anonymizations", JSON.stringify(anonymizations));
-    compileFile(formData)
-      .then((response) => {
-        setBase64pdf(response.data.base64);
-        setIsCompiling(false);
-      })
-      .catch(() => {
-        AppToaster.show({
-          message: t("main.anonymize_file_failed_toast"),
-          intent: "danger",
-        });
-        setIsCompiling(false);
-      });
-  }
+  const { isCompiling, base64pdf } = useCompile({
+    anonymizations,
+    fileFormData,
+    compileTimer,
+    compileDate,
+    isCompilable,
+  });
 
   return (
     <div className="main">
@@ -180,7 +169,9 @@ const Main = ({ tags, anonymizationConfig, activatedRecognizers }) => {
         onShowScores={() => setShowScoresDialog(true)}
         showCompileButton={isCompilable}
         isCompiling={isCompiling}
-        onCompile={onCompile}
+        onCompile={() => {
+          setCompileDate(new Date());
+        }}
       />
       <div className="main-view">
         <AnnotationControl

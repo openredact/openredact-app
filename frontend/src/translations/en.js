@@ -96,6 +96,8 @@ export default {
   },
   main: {
     anonymize_file_failed_toast: "Creating the anonymized file failed.",
+    compile_anonymize_file_failed_toast:
+      "Compiling the anonymized file failed.",
     anonymizing_piis_failed_toast:
       "Anonymizing the personal data failed. Please check the annotations and anonymization config.",
     computing_scores_failed_toast:

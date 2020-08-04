@@ -1,3 +1,7 @@
+/**
+ * Based on Martin Camacho's react-text-annotate
+ * https://github.com/mcamac/react-text-annotate
+ */
 import React from "react";
 
 import PropTypes from "prop-types";
@@ -117,6 +121,7 @@ const TokenAnnotator = ({ renderMark, getSpan, onChange, tokens, value }) => {
           })
         ) : (
           <WrapperToken
+            key={i}
             index={i}
             text={text}
             hasWhitespace={hasWhitespace}

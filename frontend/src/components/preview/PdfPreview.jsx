@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { Spinner } from "@blueprintjs/core";
 import PropTypes from "prop-types";
 import "./PdfPreview.sass";
@@ -8,8 +8,23 @@ import constants from "../../js/constants";
 // Set PDF worker (see https://github.com/wojtekmaj/react-pdf#enable-pdfjs-worker)
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
+function useWindowWidth() {
+  const [width, setWidth] = useState(0);
+  useLayoutEffect(() => {
+    function updateSize() {
+      setWidth(window.innerWidth);
+    }
+    window.addEventListener("resize", updateSize);
+    updateSize();
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
+  return width;
+}
+
 const PdfPreview = ({ base64pdf }) => {
-  const [numPages, setNumPages] = useState(null);
+  const [numPages, setNumPages] = useState(0);
+
+  const windowWidth = useWindowWidth();
 
   function onDocumentLoadSuccess(event) {
     setNumPages(event.numPages);
@@ -32,7 +47,11 @@ const PdfPreview = ({ base64pdf }) => {
         <Page
           key={`page_${index + 1}`}
           pageNumber={index + 1}
-          width={constants.previewPdfWidth}
+          width={
+            constants.previewPdfWidth > 0
+              ? constants.previewPdfWidth
+              : Math.floor(windowWidth * 0.4) - 25
+          }
         />
       ))}
     </Document>
