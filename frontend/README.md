@@ -11,6 +11,13 @@ cd frontend
 npm install
 ```
 
+## Run the frontend using Docker
+
+```bash
+docker build -t openredact-frontend-dev -f Dockerfile.dev .
+docker run -p 80:80 openredact-frontend-dev
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
