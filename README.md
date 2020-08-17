@@ -23,7 +23,7 @@ This repository is the home to the OpenRedact app, a webapp for semi-automatical
 [OpenRedact](https://openredact.org) is a [Prototype Fund](https://prototypefund.de) project, funded by the [Federal Ministry of Education and Research](https://www.bmbf.de).
 Please see our [blog post](https://openredact.org/prototypefund) for a detailed description of the project and prototype.
 
-![](docs/approach.png "Using OpenRedact to anonymize documents")
+![](docs/approach.png "Using OpenRedact to anonymize documents"){:height="80%" width="80%"}
 
 ## CLI
 
@@ -54,13 +54,13 @@ The modifications on the left are immediately previewed on the right.
 
 The automatically detected and proposed personal data can be corrected and extended by the user using our annotation tool.
 
-![](docs/annotation.png "Annotate personal data inside a text")
+![](docs/annotation.png "Annotate personal data inside a text"){:height="50%" width="50%"}
 
 ### OpenRedact tells you how good its automatic personal data detection is
 
 Based on the manual corrections and extensions, we can assess the mechanism for automatic detection of personal data.
 
-![](docs/scores.png "Show scores and metrics for the automatic detection of personal data")
+![](docs/scores.png "Show scores and metrics for the automatic detection of personal data"){:height="50%" width="50%"}
 
 ## Deployment
 
@@ -89,8 +89,7 @@ docker run -p 80:80 openredact-frontend
 ```
 
 This will build the frontend inside a node Docker container and deploy the result in an nginx container.
-For more details about this procedure see [React in Docker with Nginx, built with multi-stage Docker builds
-, including testing](https://medium.com/@tiangolo/react-in-docker-with-nginx-built-with-multi-stage-docker-builds-including-testing-8cc49d6ec305).
+For more details about this procedure see [React in Docker with Nginx, built with multi-stage Docker builds, including testing](https://medium.com/@tiangolo/react-in-docker-with-nginx-built-with-multi-stage-docker-builds-including-testing-8cc49d6ec305).
 
 ### Run the backend using Docker
 
