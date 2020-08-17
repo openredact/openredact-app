@@ -23,7 +23,7 @@ This repository is the home to the OpenRedact app, a webapp for semi-automatical
 [OpenRedact](https://openredact.org) is a [Prototype Fund](https://prototypefund.de) project, funded by the [Federal Ministry of Education and Research](https://www.bmbf.de).
 Please see our [blog post](https://openredact.org/prototypefund) for a detailed description of the project and prototype.
 
-![](docs/approach.png "Using OpenRedact to anonymize documents"){:height="80%" width="80%"}
+<img src="docs/approach.png" alt="Using OpenRedact to anonymize documents" width="80%">
 
 ## CLI
 
