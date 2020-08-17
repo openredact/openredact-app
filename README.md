@@ -54,13 +54,13 @@ The modifications on the left are immediately previewed on the right.
 
 The automatically detected and proposed personal data can be corrected and extended by the user using our annotation tool.
 
-<img src="docs/annotation.png" alt="Annotate personal data inside a text" width="50%">
+<img src="docs/annotation.png" alt="Annotate personal data inside a text" width="60%">
 
 ### OpenRedact tells you how good its automatic personal data detection is
 
 Based on the manual corrections and extensions, we can assess the mechanism for automatic detection of personal data.
 
-<img src="docs/scores.png" alt="Show scores and metrics for the automatic detection of personal data" width="50%">
+<img src="docs/scores.png" alt="Show scores and metrics for the automatic detection of personal data" width="80%">
 
 ## Deployment
 
