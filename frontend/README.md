@@ -1,3 +1,5 @@
+<img src="docs/logo.png" width="125" align="right" />
+
 # OpenRedact Frontend
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
