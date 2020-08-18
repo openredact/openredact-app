@@ -1,3 +1,5 @@
+<img src="docs/logo.png" width="125" align="right" />
+
 # OpenRedact
 
 **Semi-automatical data anonymization for German documents.**
