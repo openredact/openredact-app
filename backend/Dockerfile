@@ -34,6 +34,9 @@ RUN pip install --no-cache-dir -r requirements-dev.txt
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Install optional packages
+RUN pip install chardet
+
 # Environment
 ENV STANZA_TEST_HOME=/app/stanza_test
 
