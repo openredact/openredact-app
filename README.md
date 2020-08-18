@@ -21,15 +21,15 @@ _**:warning: Note :warning::**_ This tool focuses on the text content. Metadata 
 
 ## Description
 
-This repository is the home to the OpenRedact app, a webapp for semi-automatical anonymization of German documents.
+This repository is the home to the OpenRedact app, a webapp for semi-automatical anonymization of German language documents.
 [OpenRedact](https://openredact.org) is a [Prototype Fund](https://prototypefund.de) project, funded by the [Federal Ministry of Education and Research](https://www.bmbf.de).
-Please see our [blog post](https://openredact.org/prototypefund) for a detailed description of the project and prototype.
+A detailed description of the project and prototype can be seen [here](https://openredact.org/prototypefund).
 
 <img src="docs/approach.png" alt="Using OpenRedact to anonymize documents" width="80%">
 
 ## CLI
 
-You can use the CLI script `backend/cli/redact.py` to anonymize a directory of documents in an unsupervised manor.
+You can use the CLI script `backend/cli/redact.py` to anonymize a directory of documents in an unsupervised manner.
 
 ```shell script
 ./redact.py --input_dir "path/to/documents/" --output_dir "out/directory/"
@@ -109,12 +109,12 @@ The OpenAPI specification can be found [here](http://127.0.0.1:8000/openapi.json
 
 ## Development
 
-For development follow these instructions and the instructions in the development documentation of the respective
-module [backend](backend/README.md) or [frontend](frontend/README.md).
+First, follow the instructions in the [backend](backend/README.md) or [frontend](frontend/README.md) readme.
+Then, continue with the instructions below.
 
 ### Developing using Docker
 
-If you want to use our Docker setup for development run:
+If you want to use our Docker setup for development, run:
 
 ```bash
 docker-compose up -f docker-compose.dev.yml
@@ -125,7 +125,7 @@ docker-compose up -f docker-compose.dev.yml
 `pre-commit` is a Python tool to manage git pre-commit hooks.
 Running the following code requires the backend dev requirements to be set up as explained [here](backend/README.md).
 We have pre-commit hooks for formatting and linting Python and JavaScript code (black, flake8, prettier and eslint).
-Note, that the tests, being slower than formatters and linters, are run by CI.
+Note that the tests, being slower than formatters and linters, are run by CI.
 So don't forget to run them manually before committing.
 
 ```bash
