@@ -2,7 +2,7 @@
 
 # OpenRedact
 
-**Semi-automatical data anonymization for German documents.**
+**Semi-automatic data anonymization for German documents.**
 
 ---
 
@@ -21,7 +21,7 @@ _**:warning: Note :warning::**_ This tool focuses on the text content. Metadata 
 
 ## Description
 
-This repository is the home to the OpenRedact app, a webapp for semi-automatical anonymization of German language documents.
+This repository is the home to the OpenRedact app, a webapp for semi-automatic anonymization of German language documents.
 [OpenRedact](https://openredact.org) is a [Prototype Fund](https://prototypefund.de) project, funded by the [Federal Ministry of Education and Research](https://www.bmbf.de).
 A detailed description of the project and prototype can be seen [here](https://openredact.org/prototypefund).
 
