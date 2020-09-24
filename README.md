@@ -75,7 +75,11 @@ We have pre-built Docker images available at https://hub.docker.com/u/openredact
 Pull and start the containers by running:
 
 ```bash
-docker-compose pull
+# Clone the repo
+git clone https://github.com/openredact/openredact-app.git
+cd openredact-app
+
+# Start containers
 docker-compose up
 ```
 
