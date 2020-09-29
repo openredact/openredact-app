@@ -4,8 +4,8 @@ services:
     build:
       context: ./backend
     image: openredact/backend:${TAG:-latest}
-    ports:
-      - "8000:8000"
+    expose:
+      - 8000
   frontend:
     build: ./frontend
     image: openredact/frontend:${TAG:-latest}

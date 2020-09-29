@@ -9,10 +9,12 @@ RUN npm install
 
 COPY ./ /app/
 
+ENV REACT_APP_API_BASE_URL=/api
+
 RUN npm run build
 
 # serve built frontend using nginx
 FROM nginx:1.15
 
-COPY --from=build-stage /app/build/ /usr/share/nginx/html
-COPY ./nginx.conf /nginx.conf
+COPY --from=build-stage /app/build/ /assets
+COPY nginx.conf /etc/nginx/nginx.conf

@@ -79,11 +79,12 @@ Pull and start the containers by running:
 git clone https://github.com/openredact/openredact-app.git
 cd openredact-app
 
-# Start containers
+# Pull images & start containers
+docker-compose pull
 docker-compose up
 ```
 
-This will host the backend at port 8000 and the frontend at port 80.
+This will host the backend at port 8000 (and http://localhost/api) and the frontend at port 80.
 Once started, you can access the webapp at http://localhost/.
 
 ### Run the frontend using Docker
