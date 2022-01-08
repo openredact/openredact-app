@@ -13,9 +13,7 @@ logging.config.fileConfig(
 
 logger = logging.getLogger(__name__)
 
-app = FastAPI(
-    title="OpenRedact API", description="Anonymize German documents using automatic PII detection.", version="0.1.0",
-)
+app = FastAPI(title="OpenRedact API", description="Anonymize German documents using automatic PII detection.", version="0.1.0")
 
 
 origins = [
@@ -31,9 +29,7 @@ origins = [
     "http://127.0.0.1:80",
 ]
 
-app.add_middleware(
-    CORSMiddleware, allow_origins=origins, allow_credentials=True, allow_methods=["*"], allow_headers=["*"],
-)
+app.add_middleware(CORSMiddleware, allow_origins=origins, allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 
 
 app.include_router(router, prefix="/api")

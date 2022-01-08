@@ -81,8 +81,7 @@ export default {
     rendering_error_action: "Bitte versuche die Seite erneut zu laden.",
   },
   disclaimer: {
-    text:
-      "Bitte nutze diese Software nicht zur Anonymisierung von Dokumenten. Bitte benutze aus dieser Software heruntergeladene Dokumente nicht weiter.",
+    text: "Bitte nutze diese Software nicht zur Anonymisierung von Dokumenten. Bitte benutze aus dieser Software heruntergeladene Dokumente nicht weiter.",
     title: "Dies ist ein Prototyp",
   },
   help: {
@@ -94,8 +93,7 @@ export default {
     item3: "Konfiguriere die Anonymisierung nach deinen Anforderungen.",
     item4:
       "Überprüfe die Vorschau der Anonymisierung in der rechten Dokumentenansicht und lade dein anonymisiertes Dokument herunter.",
-    tip:
-      "Tipp: Viele Elemente zeigen einen Hilfetext an, wenn Du mit dem Mauszeiger über sie gehst.",
+    tip: "Tipp: Viele Elemente zeigen einen Hilfetext an, wenn Du mit dem Mauszeiger über sie gehst.",
   },
   main: {
     anonymize_file_failed_toast:

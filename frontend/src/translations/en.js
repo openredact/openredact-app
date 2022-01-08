@@ -79,8 +79,7 @@ export default {
     rendering_error_action: "Please try reloading the page.",
   },
   disclaimer: {
-    text:
-      "Do not use this software to anonymize documents. Do not further use the documents downloaded from this software.",
+    text: "Do not use this software to anonymize documents. Do not further use the documents downloaded from this software.",
     title: "This is a prototype",
   },
   help: {
@@ -91,8 +90,7 @@ export default {
     item3: "Configure the anonymization according to your needs.",
     item4:
       "Preview the document on the right document view and download your anonymized document.",
-    tip:
-      "Tip: Many elements will show you further information if you hover the mouse pointer over them.",
+    tip: "Tip: Many elements will show you further information if you hover the mouse pointer over them.",
   },
   main: {
     anonymize_file_failed_toast: "Creating the anonymized file failed.",

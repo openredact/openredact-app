@@ -104,15 +104,8 @@ const TokenAnnotator = ({ renderMark, getSpan, onChange, tokens, value }) => {
   return (
     <div role="button" tabIndex={0} onMouseUp={handleMouseUp}>
       {splits.map((split, idx) => {
-        const {
-          mark,
-          start,
-          end,
-          i,
-          text,
-          hasWhitespace,
-          linebreakCount,
-        } = split;
+        const { mark, start, end, i, text, hasWhitespace, linebreakCount } =
+          split;
         return mark ? (
           renderMark({
             key: `${start}-${end}`,

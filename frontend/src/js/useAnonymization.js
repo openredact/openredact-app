@@ -73,10 +73,8 @@ function useAnonymization({ paragraphs, annotations, anonymizationConfig }) {
       return { tag: annotation.tag, text: annotation.text, id: annotation.id };
     });
 
-    const [
-      tagsToNotAnonymize,
-      tagsAnonymizedWithDefault,
-    ] = computeSpecialTagsCallback(anonymizationConfig);
+    const [tagsToNotAnonymize, tagsAnonymizedWithDefault] =
+      computeSpecialTagsCallback(anonymizationConfig);
 
     const configForRequest = JSON.parse(JSON.stringify(anonymizationConfig)); // deep clone
     tagsToNotAnonymize.forEach(
