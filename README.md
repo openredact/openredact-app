@@ -91,8 +91,8 @@ Once started, you can access the webapp at http://localhost/.
 
 ```bash
 cd frontend
-docker build -t openredact-frontend .
-docker run -p 80:80 openredact-frontend
+docker build -t openredact/frontend .
+docker run -p 80:80 openredact/frontend
 ```
 
 This will build the frontend inside a node Docker container and deploy the result in an nginx container.
@@ -102,8 +102,8 @@ For more details about this procedure see [React in Docker with Nginx, built wit
 
 ```bash
 cd backend
-docker build -t openredact-backend
-docker run -p 8000:8000 openredact-backend
+docker build -t openredact/backend .
+docker run -p 8000:8000 openredact/backend
 ```
 
 ## API Documentation
@@ -122,7 +122,7 @@ Then, continue with the instructions below.
 If you want to use our Docker setup for development, run:
 
 ```bash
-docker-compose up -f docker-compose.dev.yml
+docker-compose -f docker-compose.dev.yml up
 ```
 
 ### Install the pre-commit hooks
