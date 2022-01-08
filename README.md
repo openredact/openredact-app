@@ -125,6 +125,8 @@ If you want to use our Docker setup for development, run:
 docker-compose -f docker-compose.dev.yml up
 ```
 
+Don't forget to add the project's directory to the list of allowed file sharing resources in the Docker Desktop preferences.
+
 ### Install the pre-commit hooks
 
 `pre-commit` is a Python tool to manage git pre-commit hooks.
