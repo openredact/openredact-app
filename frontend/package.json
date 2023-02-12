@@ -16,7 +16,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-dropzone": "^11.0.1",
-    "react-hotkeys-hook": "^2.2.1",
+    "react-hotkeys-hook": "^2.4.1",
     "react-pdf": "5.0.0-beta.4",
     "react-scripts": "3.4.1",
     "uuid": "^8.1.0"
