@@ -14,6 +14,15 @@
 ![Frontend Tests](https://github.com/openredact/openredact-app/workflows/Frontend%20Tests/badge.svg?branch=master)
 ![Backend Tests](https://github.com/openredact/openredact-app/workflows/Backend%20Tests/badge.svg?branch=master)
 ![Black & Flake8](https://github.com/openredact/openredact-app/workflows/Black%20&%20Flake8/badge.svg?branch=master)
+[![Moved](https://img.shields.io/badge/project-moved-blue)](https://gitlab.opencode.de/bmbf/datenlabor/openredact)
+
+# ⚠️ Moved
+
+This project has moved to: https://gitlab.opencode.de/bmbf/datenlabor/openredact
+
+This repository is archived and no longer maintained.
+
+---
 
 _**:warning: Disclaimer :warning::**_ This is a prototype. Do not use for anything critical.
 
